@@ -1,0 +1,36 @@
+.upload-form{
+    display: flex;
+    padding: 2px 0;
+}
+
+.cover-wrapper button{
+    margin-top: 4px !important;
+    width: calc(100% - 4px);
+}
+
+.upload-form *:nth-child(n){
+    margin: 0 2px;
+}
+.upload-form .cover{
+    width: 100px;
+    height: 100px;
+}
+
+.track-data-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.track-data-wrapper img{
+    margin: 0 auto !important;
+}
+
+.upload-form .track-data{
+    max-width: 200px;
+}
+
+.upload-form .track-data *:nth-child(n){
+    width: calc(100% - 8px);
+    margin-bottom: 5px;
+}

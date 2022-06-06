@@ -1,0 +1,32 @@
+.dragbar{
+    padding: 10%;
+    margin: 15px auto 5px;
+}
+.dragbar .line-bigger .line{
+    background: linear-gradient(90deg, var(--InfoText) var(--fill), #00FFFF00 var(--fill));
+    width: 100%;
+}
+.dragbar .line-bigger{
+    display: flex;
+    margin: -20px auto;
+    padding: 20px 0;
+}
+
+.line{
+    border: 1px solid;
+    border-color: var(--ButtonShadow) var(--ButtonHilight) var(--ButtonHilight) var(--ButtonShadow);
+    height: 2px;
+    z-index: 1;
+}
+
+.line-controller{
+    position: absolute;
+    border: 2px solid;
+    z-index: 2;
+    margin-top: -14px;
+    margin-left: -5px;
+    border-color: var(--ButtonLight) var(--ButtonShadow) var(--ButtonShadow) var(--ButtonLight);
+    height: 20px;
+    width: 10px;
+    background-color: var(--ButtonFace);
+}

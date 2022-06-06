@@ -1,0 +1,61 @@
+.desktop{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-attachment: fixed;
+    background-color: teal;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    /*background-image: url(https://gif.plaza.one/30.gif);*/
+    display: flex;
+    flex-direction: column;
+}
+
+.desktop-icon{
+    width: 75px;
+    height: 75px;
+    vertical-align: bottom;
+    text-align: center;
+}
+.desktop-icon .title{
+    font-family: "MS Sans Serif", "Segoe UI", sans-serif;
+    font-size: 8pt;
+    background: var(--Background);
+    color: white;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    border: 1px solid var(--Background);
+    cursor: default;
+    max-height: 36px;
+    overflow: hidden;
+}
+
+.icon-wrapper{
+    position: relative;
+}
+
+.selection-effect{
+    display: none;
+    position: absolute;
+    left: 22px;
+    top: 0;
+    width: 32px;
+    height: 32px;
+    mask-image: var(--mask);
+    -webkit-mask-image: var(--mask);
+    mask-size: 32px;
+    background: var(--Hilight);
+    opacity: 0.5;
+}
+
+.desktop-icon.selected .selection-effect{
+    display: block !important;
+}
+
+.desktop-icon.selected .title{
+    border: 1px dotted #ffffff;
+    background: var(--Hilight);
+}

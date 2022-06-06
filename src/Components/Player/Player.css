@@ -1,0 +1,54 @@
+.player-wrapper{
+    padding: 5px;
+}
+
+.player-wrapper .cover, .upload-form .cover{
+    background-attachment: fixed;
+    background-color: teal !important;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: var(--cover);
+}
+
+.player-wrapper .cover{
+    width: 50vw;
+    height: 50vw;
+    margin: 0 auto 10px;
+    min-width: 200px;
+    min-height: 200px;
+    max-width: 300px;
+    max-height: 300px;
+    /*filter: blur(0.05rem) saturate(0.7) contrast(1.5) brightness(1.2);*/
+}
+
+.track-data{
+    text-align: center;
+}
+
+.track-name{
+    display: flex;
+    flex-direction: column;
+}
+
+.track-controls{
+    display: flex;
+    margin-top: 10px;
+    justify-content: center;
+}
+.track-time .line-controller{
+
+}
+.track-time{
+    padding: 10%;
+    margin: 5px auto 5px;
+}
+
+.track-duration{
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    margin-left: 10%;
+    margin-top: -6%;
+    font-size: 12px;
+}

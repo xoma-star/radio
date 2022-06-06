@@ -9,5 +9,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="radio-server" />
+    <orderEntry type="library" name="jsmediatags" level="application" />
   </component>
 </module>
