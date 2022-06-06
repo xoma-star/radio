@@ -12,7 +12,7 @@ const Directory = () => {
     const [selected, setSelected] = useState<string | null | undefined>(null)
     const [tracks, setTracks] = useState<track[]>([])
     const [addToQueue, setAddToQueue] = useState(false)
-    const {UI_OpenWindow, PlayerAddQueue, PlayerSetTrack} = useActions()
+    const {UI_OpenWindow, PlayerAddQueue, PlayerSetTrack, PlayerClearQueue} = useActions()
     useEffect(() => {
         fetch(TRACK_DATA_LOCATION).then(r => r.json()).then(r => setTracks(r))
     }, [])
@@ -24,9 +24,11 @@ const Directory = () => {
     const onIconDoubleClick = (e: React.MouseEvent<HTMLElement>) => {
         let a = e.currentTarget.dataset.id as string
         UI_OpenWindow(UI_Windows.MUSIC_PLAYER)
-        console.log(addToQueue)
         if(addToQueue)PlayerAddQueue(a)
-        else PlayerSetTrack(a)
+        else {
+            PlayerClearQueue()
+            PlayerSetTrack(a)
+        }
     }
     const onFolderClick = (_:  React.MouseEvent<HTMLElement>) => setSelected(null)
 

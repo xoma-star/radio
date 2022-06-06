@@ -8,14 +8,10 @@ import Player from "./Components/Player";
 import bridge from "@vkontakte/vk-bridge";
 import {useTypedSelector} from "./Hooks/useTypedSelector";
 import FileUpload from "./Components/Uploader";
-import {useActions} from "./Hooks/useActions";
 import Directory from "./Components/Directory";
 
 const App = () => {
     useEffect(() => {
-        bridge.subscribe((e) => {
-            console.log(e)
-        })
         bridge.send('VKWebAppInit')
     }, [])
     const {opened} = useTypedSelector(s => s.ui)

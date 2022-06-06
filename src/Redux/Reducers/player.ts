@@ -57,7 +57,7 @@ export const PlayerReducer = (state: State = defaultState, action: PlayerAction)
             let c = {...action.payload,
                 path: action.payload.path.indexOf('http') < 0 ? SERVER_LOCATION + action.payload.path : action.payload.path,
                 cover: action.payload.cover.indexOf('http') < 0 ? SERVER_LOCATION + action.payload.cover : action.payload.cover}
-            return {...c, queue: [c]}
+            return {...state, ...c, queue: (state.queue.length === 0 ? [c] : state.queue)}
         case PlayerActionTypes.ADD_QUEUE: {
             let a = {...state}
             const b = {...action.payload,
