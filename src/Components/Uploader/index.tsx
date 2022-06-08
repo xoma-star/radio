@@ -2,8 +2,6 @@ import React, {ChangeEvent, useRef, useState} from "react";
 import rover from '../../Images/rover-windows-xp.gif'
 import './FileUpload.css'
 import {icon_error, icon_loading, icon_success} from "../../Images/Icons";
-import {useActions} from "../../Hooks/useActions";
-import {UI_Windows} from "../../Redux/Reducers/ui";
 import {TRACK_DATA_LOCATION} from "../../config";
 import Button from "../Common/Button";
 
@@ -13,7 +11,6 @@ const FileUpload = () => {
     const [author, setAuthor] = useState('')
     const [audio, setAudio] = useState<File>()
     const [loadStatus, setLoadStatus] = useState(0) //0 - не отправлял 1 - отправлено 2 - успешно 3 - неудачно
-    const {PlayerSetTrack, UI_OpenWindow, UI_SetActiveWindow} = useActions()
 
     const inputRef = useRef<HTMLInputElement>(null)
     const coverRef = useRef<HTMLInputElement>(null)
@@ -54,16 +51,10 @@ const FileUpload = () => {
         data.append('audio', audio as File)
         fetch(TRACK_DATA_LOCATION + 'add', {
             method: 'POST',
-            body: data,
-            headers: {
-                // 'Content-Type': 'application/json'
-            }
+            body: data
         }).then(async r => {
             const data = await r.json()
             setLoadStatus(2)
-            UI_OpenWindow(UI_Windows.MUSIC_PLAYER)
-            UI_SetActiveWindow(UI_Windows.MUSIC_PLAYER)
-            PlayerSetTrack(data.id)
         }).catch(() => {
             setLoadStatus(3)
         })

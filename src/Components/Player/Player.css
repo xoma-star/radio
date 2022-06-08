@@ -11,6 +11,19 @@
     background-image: var(--cover);
 }
 
+.player-wrapper .cover .loading-icon{
+    display: none;
+    margin: auto;
+}
+
+.player-wrapper .cover.tinted{
+    background-image: none;
+    display: flex;
+}
+.player-wrapper .cover.tinted .loading-icon{
+    display: block;
+}
+
 .player-wrapper .cover{
     width: 50vw;
     height: 50vw;

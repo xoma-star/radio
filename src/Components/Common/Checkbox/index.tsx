@@ -11,7 +11,7 @@ const Checkbox = ({checkedProp = false, label = '', onChange}: props) => {
     const [checked, setChecked] = useState<boolean>(checkedProp)
     useEffect(() => {if(onChange) onChange(checked)}, [checked])
     return <React.Fragment>
-        <input className={'box'} type={'checkbox'} checked={checked} defaultChecked={checkedProp}/>
+        <input className={'box'} type={'checkbox'} checked={checked} readOnly/>
         <label onClick={() => setChecked((c) => !c)}>{label}</label>
     </React.Fragment>
 }

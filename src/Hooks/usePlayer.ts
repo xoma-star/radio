@@ -2,8 +2,6 @@ import {useTypedSelector} from "./useTypedSelector";
 import {useActions} from "./useActions";
 import {useEffect, useRef, useState} from "react";
 
-//TODO: когда сделаешь очередь сделай автовоспроизведение следующего трека в интервале
-
 const usePlayer = () => {
     const {
         id,
@@ -20,6 +18,7 @@ const usePlayer = () => {
     const [duration, setDuration] = useState(0)
     const [played, setPlayed] = useState(0)
     const [playing, setPlaying] = useState(false)
+    const [loading, setLoading] = useState(true)
     const {PlayerSetTrack} = useActions()
     const onLoadedMetadata = () => setDuration(trackRef.current.duration)
     const i = queue.findIndex(x => x.id === id && x.ts === ts)
@@ -27,18 +26,21 @@ const usePlayer = () => {
     const canPlayPrev = i > 0
 
     useEffect(() => {
-        if(path === '') return
+        setLoading(true)
+        if(path === '' || i < 0) return
         trackRef.current.onloadedmetadata = onLoadedMetadata
         trackRef.current.pause()
         trackRef.current.load()
-        if(trackRef.current.readyState >= 2) startTrack()
+        if(trackRef.current.readyState >= 3) startTrack()
         else trackRef.current.onloadeddata = startTrack
         trackRef.current.onplay = startTrack
         trackRef.current.onpause = stopTrack
-        trackRef.current.onended = nextTrack
     },[i, path])
 
     useEffect(() => {return () => clearInterval(intervalRef.current)}, [])
+    useEffect(() => {
+        trackRef.current.onended = nextTrack
+    }, [queue])
 
     const startTimer = () => {
         clearInterval(intervalRef.current)
@@ -48,8 +50,10 @@ const usePlayer = () => {
     }
 
     const startTrack = () => {
+        setLoading(false)
         startTimer()
         setPlaying(true)
+        document.title = `${author} - ${name}`
         trackRef.current.play()
     }
 
@@ -115,7 +119,8 @@ const usePlayer = () => {
         cover,
         author,
         canPlayNext,
-        canPlayPrev
+        canPlayPrev,
+        loading
     }
 }
 
