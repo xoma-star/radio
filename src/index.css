@@ -6,6 +6,8 @@ html, body{
     width: 100vw;
     position: fixed;
     user-select: none;
+    font-family: Tahoma, Verdana, Segoe, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", メイリオ, Meiryo, sans-serif;
+    font-size: 11px;
 }
 
 .selected:not(.non-default-select) {
@@ -82,9 +84,6 @@ html, body{
 .bold{
     font-weight: bold;
 }
-input{
-    background-color: var(--ButtonHilight) !important;
-}
 
 .inset-shallow {
     border-style: solid;
@@ -95,4 +94,8 @@ input{
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+}
+
+.window.login .content{
+    padding: 7px;
 }

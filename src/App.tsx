@@ -9,6 +9,7 @@ import bridge from "@vkontakte/vk-bridge";
 import {useTypedSelector} from "./Hooks/useTypedSelector";
 import FileUpload from "./Components/Uploader";
 import Directory from "./Components/Directory";
+import Login from "./Components/Login";
 
 const App = () => {
     useEffect(() => {
@@ -20,8 +21,6 @@ const App = () => {
         <Desktop/>
         {opened.indexOf(UI_Windows.MUSIC_FOLDER) >= 0 &&<Window
             id={UI_Windows.MUSIC_FOLDER}
-            header={windows[UI_Windows.MUSIC_FOLDER].name}
-            icon={windows[UI_Windows.MUSIC_FOLDER].icon}
         ><Directory/></Window>}
         {opened.indexOf(UI_Windows.MUSIC_PLAYER) >= 0 &&<Window
             id={UI_Windows.MUSIC_PLAYER}
@@ -30,14 +29,12 @@ const App = () => {
                 `${author} - ${name}` :
                 windows[UI_Windows.MUSIC_PLAYER].name
             }
-            icon={windows[UI_Windows.MUSIC_PLAYER].icon}
             classNameAdd={'player'}
         ><Player/></Window>}
         {opened.indexOf(UI_Windows.FILE_UPLOAD) >= 0 && <Window
-            header={windows[UI_Windows.FILE_UPLOAD].name}
             id={UI_Windows.FILE_UPLOAD}
-            icon={windows[UI_Windows.FILE_UPLOAD].icon}
         ><FileUpload/></Window>}
+        <Window classNameAdd={'login'} id={UI_Windows.LOGIN}><Login/></Window>
         <Taskbar/>
     </React.Fragment>
 }

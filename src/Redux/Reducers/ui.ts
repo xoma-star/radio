@@ -8,7 +8,8 @@ export enum UI_ActionTypes{
 export enum UI_Windows{
     MUSIC_FOLDER = 'MUSIC_FOLDER',
     MUSIC_PLAYER = 'MUSIC_PLAYER',
-    FILE_UPLOAD = 'FILE_UPLOAD'
+    FILE_UPLOAD = 'FILE_UPLOAD',
+    LOGIN = 'LOGIN'
 }
 
 interface State{

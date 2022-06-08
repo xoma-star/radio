@@ -21,7 +21,7 @@ const useWindow = (id: UI_Windows) => {
     const onClick = () => UI_SetActiveWindow(id)
 
     return {
-        className: `window ${minimized[id] ? 'minimizing' : 'unminimizing'} ${isDragging ? 'dragging' : ''}`,
+        className: `window ${minimized[id] ? 'minimizing' : 'unminimizing'}${isDragging ? ' dragging' : ''}`,
         pos,
         onDrag,
         onStart,

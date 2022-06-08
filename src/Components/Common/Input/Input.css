@@ -1,0 +1,22 @@
+.input-wrap{
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.input{
+    background-color: var(--ButtonHilight) !important;
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--ButtonShadow) var(--ButtonHilight) var(--ButtonHilight) var(--ButtonShadow);
+    color: var(--ButtonText);
+    position: relative;
+    border-image: var(--inset-deep-border-image);
+    outline: none;
+}
+
+.input-label{
+    padding-right: 20px;
+}

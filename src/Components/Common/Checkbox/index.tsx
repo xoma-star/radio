@@ -12,7 +12,7 @@ const Checkbox = ({checkedProp = false, label = '', onChange}: props) => {
     useEffect(() => {if(onChange) onChange(checked)}, [checked])
     return <React.Fragment>
         <input className={'box'} type={'checkbox'} checked={checked} readOnly/>
-        <label onClick={() => setChecked((c) => !c)}>{label}</label>
+        <label className={'checkbox-label'} onClick={() => setChecked((c) => !c)}>{label}</label>
     </React.Fragment>
 }
 

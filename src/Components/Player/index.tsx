@@ -32,7 +32,7 @@ const Player = () => {
     } = usePlayer()
 
     return <div className={'player-wrapper'}>
-        <div className={`cover selected${loading ? ' tinted' : ''}`} style={{'--cover': `url(${cover})`} as React.CSSProperties}>
+        <div className={`cover selected${loading && id ? ' tinted' : ''}`} style={cover ? {'--cover': `url(${cover})`} as React.CSSProperties : {}}>
             <img alt={'Loading...'} src={icon_loading} width={32} height={32} className={'loading-icon'}/>
         </div>
         <div className={'track-data selected'}>

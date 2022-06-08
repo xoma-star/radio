@@ -9,7 +9,7 @@
     position: fixed;
 }
 
-.box+label:before {
+.box+.checkbox-label:before {
     background: #fff;
     box-shadow: inset -1px -1px #fff, inset 1px 1px grey, inset -2px -2px #dfdfdf, inset 2px 2px #0a0a0a;
     content: "";
@@ -20,7 +20,7 @@
     position: absolute;
     width: 13px;
 }
-.box:checked+label:after {
+.box:checked+.checkbox-label:after {
     background: url("data:image/svg+xml;charset=utf-8,%3Csvg width='7' height='7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M7 0H6v1H5v1H4v1H3v1H2V3H1V2H0v3h1v1h1v1h1V6h1V5h1V4h1V3h1V0z' fill='%23000'/%3E%3C/svg%3E");
     content: "";
     display: block;
@@ -30,14 +30,14 @@
     top: 3px;
     width: 7px;
 }
-.box+label {
+.box+.checkbox-label {
     margin-left: 19px;
     position: relative;
 }
-.box+label {
+.box+.checkbox-label {
     line-height: 13px;
 }
-label {
+.checkbox-label {
     align-items: center;
     display: inline-flex;
     font-size: 12px;
