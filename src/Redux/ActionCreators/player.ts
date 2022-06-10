@@ -1,12 +1,12 @@
 import {PlayerAction, PlayerActionTypes, track} from "../Reducers/player";
 import {Dispatch} from "react";
 import {TRACK_DATA_LOCATION} from "../../config";
+import axios from "axios";
 
 export const PlayerSetTrack = (id: string | track) => {
     return (dispatch: Dispatch<PlayerAction>) => {
-        if(typeof id === 'string') fetch(TRACK_DATA_LOCATION + id)
-            .then(r => r.json())
-            .then(json => dispatch({type: PlayerActionTypes.SET_TRACK, payload: {...json, ts: new Date().getTime()}}))
+        if(typeof id === 'string') axios.get(TRACK_DATA_LOCATION + id)
+            .then(r => dispatch({type: PlayerActionTypes.SET_TRACK, payload: {...r.data, ts: new Date().getTime()}}))
         else {
             dispatch({type: PlayerActionTypes.SET_TRACK, payload: id})
         }
@@ -15,9 +15,8 @@ export const PlayerSetTrack = (id: string | track) => {
 
 export const PlayerAddQueue = (id: string) => {
     return (dispatch: Dispatch<PlayerAction>) => {
-        fetch(TRACK_DATA_LOCATION + id)
-            .then(r => r.json())
-            .then(json => dispatch({type: PlayerActionTypes.ADD_QUEUE, payload: {...json, ts: new Date().getTime()}}))
+        axios.get(TRACK_DATA_LOCATION + id)
+            .then(r => dispatch({type: PlayerActionTypes.ADD_QUEUE, payload: {...r.data, ts: new Date().getTime()}}))
     }
 }
 

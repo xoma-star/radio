@@ -12,13 +12,14 @@ interface props{
     icon?: React.ReactNode,
     children?: React.ReactNode,
     id: UI_Windows,
-    classNameAdd?: string
+    classNameAdd?: string,
+    hideIcon?: boolean
 }
 
-const Window = ({header, icon, children, id, classNameAdd = ''}: props) => {
+const Window = ({header, icon, children, id, classNameAdd = '', hideIcon = false}: props) => {
     const {className, pos, onDrag, onStart, onStop, style, onClick} = useWindow(id)
-    if(typeof header === 'undefined') header = windows[id].name
-    if(typeof icon === 'undefined') icon = windows[id].icon
+    if(typeof header === 'undefined') header = windows[id]?.name
+    if(typeof icon === 'undefined' && !hideIcon) icon = windows[id]?.icon
 
     return <Draggable handle={'.draggable-wrapper'}
                       defaultPosition={pos}

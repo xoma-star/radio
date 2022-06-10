@@ -39,3 +39,25 @@
 .form .form-fields > *:last-child{
     margin-bottom: 0 !important;
 }
+
+.form-wrapper-wrapper .controls{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.form-wrapper-wrapper .controls > *:nth-child(n){
+    margin-right: 8px;
+}
+.form-wrapper-wrapper .controls > *:last-child{
+    margin-right: 0 !important;
+}
+
+.warning-window{
+    display: flex;
+    align-items: center;
+    padding: 8px;
+}
+
+.warning-window img{
+    margin-right: 8px;
+}

@@ -7,6 +7,7 @@ import {useActions} from "../../Hooks/useActions";
 import {track} from "../../Redux/Reducers/player";
 import {TRACK_DATA_LOCATION} from "../../config";
 import Checkbox from "../Common/Checkbox";
+import axios from "axios";
 
 const Directory = () => {
     const [selected, setSelected] = useState<string | null | undefined>(null)
@@ -14,7 +15,7 @@ const Directory = () => {
     const [addToQueue, setAddToQueue] = useState(false)
     const {UI_OpenWindow, PlayerAddQueue, PlayerSetTrack, PlayerClearQueue} = useActions()
     useEffect(() => {
-        fetch(TRACK_DATA_LOCATION).then(r => r.json()).then(r => setTracks(r))
+        axios.get(TRACK_DATA_LOCATION).then(r => setTracks(r.data))
     }, [])
 
     const onIconClick = (e:  React.MouseEvent<HTMLElement>) => {

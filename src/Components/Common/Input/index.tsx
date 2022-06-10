@@ -7,10 +7,11 @@ interface props{
     className?: string,
     type?: 'text' | 'password',
     label?: string,
-    disabled?: boolean
+    disabled?: boolean,
+    autocomplete?: 'username' | 'new-password' | 'email' | 'name'
 }
 
-const Input = ({defaultValue = '', onChange, className, type = 'text', label, disabled = false}: props) => {
+const Input = ({defaultValue = '', onChange, className, type = 'text', label, disabled = false, autocomplete}: props) => {
     const [value, setValue] = useState(defaultValue)
     useEffect(() => {if(onChange) onChange(value as string)}, [value])
     useEffect(() => setValue(defaultValue), [defaultValue])
@@ -22,6 +23,7 @@ const Input = ({defaultValue = '', onChange, className, type = 'text', label, di
             className={`input${className ? ` ${className}` : ''}`}
             onChange={e => setValue(e.currentTarget.value)}
             value={value}
+            autoComplete={autocomplete}
         />
     </div>
 }

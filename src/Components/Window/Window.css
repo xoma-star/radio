@@ -1,6 +1,6 @@
 .window{
     position: absolute;
-    min-width: 200px;
+    /*min-width: 200px;*/
     max-width: 90vw;
 }
 
@@ -33,7 +33,6 @@
 }
 
 .headerIcon{
-    /*border-radius: 100px;*/
     margin-right: 2px;
     margin-left: 5px;
 }
@@ -54,23 +53,25 @@
     cursor: default;
     justify-content: space-between;
 }
-.controls{
+.header .controls{
     display: flex;
     align-items: center;
 }
 
 .window.minimizing{
-    transform: translate(var(--to), 100vh) !important;
+    transition: 0.3s;
+    transform: translate(var(--to), 100vh) scaleX(0) !important;
 }
 .window.unminimizing{
-    transform: translate(var(--x), var(--y));
+    transition: 0.2s;
+    transform: translate(var(--x), var(--y)) scaleX(1);
 }
 .window.dragging{
     transition: none !important;
 }
 .window.minimizing, .window.unminimizing{
-    transition: 0.3s;
+    /*transition-timing-function: steps(7);*/
 }
-.window.minimizing .content{
+.content-hidden .content{
     display: none;
 }

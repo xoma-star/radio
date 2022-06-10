@@ -2,21 +2,24 @@ export enum UI_ActionTypes{
     OPEN_WINDOW = 'OPEN_WINDOW',
     CLOSE_WINDOW = 'CLOSE_WINDOW',
     MINIMIZE_WINDOW = 'MINIMIZE_WINDOW',
-    SET_ACTIVE_WINDOW = 'SET_ACTIVE_WINDOW'
+    SET_ACTIVE_WINDOW = 'SET_ACTIVE_WINDOW',
+    SET_WARNING = 'SET_WARNING'
 }
 
 export enum UI_Windows{
     MUSIC_FOLDER = 'MUSIC_FOLDER',
     MUSIC_PLAYER = 'MUSIC_PLAYER',
     FILE_UPLOAD = 'FILE_UPLOAD',
-    LOGIN = 'LOGIN'
+    LOGIN = 'LOGIN',
+    WARNING = 'WARNING'
 }
 
 interface State{
     opened: UI_Windows[],
     minimized: { [key in UI_Windows]?: boolean },
     layoutPos: {[key in UI_Windows]?: number}
-    activeWindow: UI_Windows | null
+    activeWindow: UI_Windows | null,
+    warning: null | string
 }
 
 interface UI_Window{
@@ -37,13 +40,19 @@ interface UI_Minimize{
     }
 }
 
-export type UI_Action = UI_Window | UI_Active | UI_Minimize
+interface UI_Warn{
+    type: UI_ActionTypes.SET_WARNING,
+    payload: string | null
+}
+
+export type UI_Action = UI_Window | UI_Active | UI_Minimize | UI_Warn
 
 const defaultState: State = {
     opened: [],
     minimized: {},
     activeWindow: null,
-    layoutPos: {}
+    layoutPos: {},
+    warning: null
 }
 
 export const UI_Reducer = (state: State = defaultState, action: UI_Action): State => {
@@ -76,6 +85,7 @@ export const UI_Reducer = (state: State = defaultState, action: UI_Action): Stat
             return {...state,
             activeWindow: action.payload,
             layoutPos: d}
+        case UI_ActionTypes.SET_WARNING: return {...state, warning: action.payload}
         default: return state
     }
 }

@@ -1,5 +1,5 @@
 import {UI_Windows} from "../Redux/Reducers/ui";
-import {icon_dir, icon_cd, icon_channel, icon_credentials} from '../Images/Icons'
+import {icon_dir, icon_cd, icon_channel, icon_credentials, icon_warn} from '../Images/Icons'
 
 const windows = {
     [UI_Windows.MUSIC_PLAYER]: {
@@ -21,6 +21,11 @@ const windows = {
         icon: icon_credentials,
         name: 'Авторизация',
         showOnDesktop: true
+    },
+    [UI_Windows.WARNING]: {
+        icon: icon_warn,
+        name: 'Ошибка!',
+        showOnDesktop: false
     }
 }
 

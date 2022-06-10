@@ -40,6 +40,6 @@
 .checkbox-label {
     align-items: center;
     display: inline-flex;
-    font-size: 12px;
+    font-size: 11px;
     user-select: none;
 }

@@ -1,6 +1,8 @@
 import {ChangeEvent, useRef, useState} from "react";
 import {TRACK_DATA_LOCATION} from "../config";
 import {getRandomCover} from "../Images/CoverSamples";
+import {useActions} from "./useActions";
+import axios from "axios";
 
 const useUploader = () => {
     const [cover, setCover] = useState(getRandomCover())
@@ -8,6 +10,8 @@ const useUploader = () => {
     const [author, setAuthor] = useState('')
     const [audio, setAudio] = useState<File>()
     const [loadStatus, setLoadStatus] = useState(0) //0 - не отправлял 1 - отправлено 2 - успешно 3 - неудачно
+
+    const {UI_Warn} = useActions()
 
     const inputRef = useRef<HTMLInputElement>(null)
     const coverRef = useRef<HTMLInputElement>(null)
@@ -28,14 +32,16 @@ const useUploader = () => {
                     onSuccess: (d) => {
                         if(typeof d.tags?.picture?.data !== 'undefined')/*@ts-ignore*/
                             setCover(`data:image/jpeg;base64,${btoa(String.fromCharCode.apply(null, new Uint8Array(d.tags.picture.data)))}`)
-                        setName(d.tags.title as string)
-                        setAuthor(d.tags.artist as string)
+                        if(typeof d.tags.title !== 'undefined') setName(d.tags.title as string)
+                        else UI_Warn('Не удалось распознать файл. Пожалуйста, введите данные вручную.')
+                        if(typeof d.tags.artist !== 'undefined') setAuthor(d.tags.artist as string)
+                        else UI_Warn('Не удалось распознать файл. Пожалуйста, введите данные вручную.')
                         setAudio(file)
                     }
                 })
             }
         }catch (e) {
-            console.log(e)
+            UI_Warn('Неизвестная ошибка')
         }
     }
 
@@ -46,15 +52,12 @@ const useUploader = () => {
         data.append('author', author)
         data.append('cover64', cover)
         data.append('audio', audio as File)
-        fetch(TRACK_DATA_LOCATION + 'add', {
-            method: 'POST',
-            body: data
-        }).then(async r => {
-            const data = await r.json()
-            setLoadStatus(2)
-        }).catch(() => {
-            setLoadStatus(3)
-        })
+        axios.post(TRACK_DATA_LOCATION + 'add', data)
+            .then(_ => setLoadStatus(2))
+            .catch(e => {
+                setLoadStatus(3)
+                UI_Warn(e.response?.data?.message)
+            })
     }
 
     return {
@@ -68,7 +71,8 @@ const useUploader = () => {
         coverRef,
         sendToServer,
         clickHandler,
-        inputRef
+        inputRef,
+        audio
     }
 }
 
