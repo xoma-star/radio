@@ -1,0 +1,41 @@
+.form-wrapper{
+    display: flex;
+    flex-direction: row;
+}
+.form-art{
+    height: 183px;
+    margin-right: 8px;
+}
+
+@media (max-width: 400px) {
+    .form-art{
+        display: none;
+    }
+}
+
+.form-art img{
+    height: 100%;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+}
+
+.form .form-header{
+    font-size: 14px!important;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.form .form-description{
+    margin-bottom: 16px;
+}
+
+.form .form-fields > *:nth-child(n){
+    margin-bottom: 8px;
+}
+
+.form .form-fields > *:last-child{
+    margin-bottom: 0 !important;
+}

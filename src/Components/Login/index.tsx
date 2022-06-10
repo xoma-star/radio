@@ -1,13 +1,15 @@
 import Input from "../Common/Input";
+import Form from "../Common/Form";
+import Button from "../Common/Button";
 
 const Login = () => {
-    return <div>
-        <Input label={'Username'}/>
-        <Input label={'Password'}/>
-        <Input label={'Repeat password'}/>
-        <Input label={'Email?'}/>
-        <Input label={'Obema?'}/>
-    </div>
+    return <Form header={'Регистрация'} description={'Заполните форму ниже. Все поля обязательны.'}>
+        <Input label={'Имя пользователя'}/>
+        <Input type={'password'} label={'Пароль'}/>
+        <Input type={'password'} label={'Повторите пароль'}/>
+        <Input label={'Почта'}/>
+        <Button>Регистрация</Button>
+    </Form>
 }
 
 export default Login

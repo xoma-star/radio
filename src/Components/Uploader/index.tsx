@@ -4,6 +4,7 @@ import {icon_error, icon_loading, icon_success} from "../../Images/Icons";
 import Button from "../Common/Button";
 import Input from "../Common/Input";
 import useUploader from "../../Hooks/useUploader";
+import Form from "../Common/Form";
 
 const FileUpload = () => {
     const {
@@ -24,7 +25,7 @@ const FileUpload = () => {
         {<div className={'cover-wrapper'}>
             <div className={'cover selected'} style={{'--cover': `url(${cover})`} as React.CSSProperties}/>
             <Button
-                disabled={name.length < 1 || loadStatus === 1}
+                disabled={name.length < 1 || loadStatus === 1 || loadStatus === 2}
                 onClick={() => coverRef.current?.click()}
             >Изменить</Button>
             <input
@@ -36,17 +37,19 @@ const FileUpload = () => {
                 accept={'image/*'}
             />
         </div>}
-        {name && <div className={'track-data-wrapper'}>
-            <div className={'track-data'}>
-                <Input onChange={setName} className={'bold'} defaultValue={name}/>
-                <Input onChange={setAuthor} defaultValue={author}/>
-            </div>
+        {<div className={'track-data-wrapper'}>
+            <Form>
+                <Input disabled={name.length < 1 || [1,2].indexOf(loadStatus) >= 0} label={'Название'} onChange={setName} className={'bold'} defaultValue={name}/>
+                <Input disabled={name.length < 1 || [1,2].indexOf(loadStatus) >= 0} label={'Автор'} onChange={setAuthor} defaultValue={author}/>
+            </Form>
             {loadStatus === 1 && <img src={icon_loading} width={32} height={32} alt={'Loading...'}/>}
             {loadStatus === 2 && <img src={icon_success} width={32} height={32} alt={'Success'}/>}
             {loadStatus === 3 && <img src={icon_error} width={32} height={32} alt={'Error'}/>}
-            <Button onClick={sendToServer} disabled={name.length < 1 || [1,2].indexOf(loadStatus) >= 0}>Загрузить</Button>
+            <div className={'track-data-controls'}>
+                <Button disabled={loadStatus === 1} onClick={clickHandler}>Выбрать файл</Button>
+                <Button onClick={sendToServer} disabled={name.length < 1 || [1,2].indexOf(loadStatus) >= 0}>Загрузить</Button>
+            </div>
         </div>}
-        <Button disabled={loadStatus === 1} onClick={clickHandler}>Выбрать файл</Button>
         <input
             ref={inputRef}
             type={'file'}

@@ -1,7 +1,6 @@
 .input-wrap{
     display: flex;
     align-items: center;
-    margin-bottom: 8px;
     width: 100%;
     justify-content: space-between;
 }
@@ -15,8 +14,14 @@
     position: relative;
     border-image: var(--inset-deep-border-image);
     outline: none;
+    min-width: 160px;
+}
+
+.input:disabled{
+    background-color: var(--ButtonFace) !important;
 }
 
 .input-label{
     padding-right: 20px;
+    width: 100%;
 }

@@ -35,7 +35,7 @@
     /*filter: blur(0.05rem) saturate(0.7) contrast(1.5) brightness(1.2);*/
 }
 
-.track-data{
+.player-wrapper .track-data{
     text-align: center;
 }
 

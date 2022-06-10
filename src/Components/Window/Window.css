@@ -44,7 +44,7 @@
 .header{
     background: linear-gradient(to right, var(--InactiveTitle) 0%, var(--GradientInactiveTitle) 100%);
     color: var(--InactiveTitleText);
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 700;
     line-height: 16px;
     margin: 1px;
@@ -58,34 +58,6 @@
     display: flex;
     align-items: center;
 }
-/*.controls button{*/
-/*    height: 16px;*/
-/*    margin: 0;*/
-/*    padding: 2px;*/
-/*    width: 16px;*/
-/*    outline: none;*/
-/*    user-select: none;*/
-/*}*/
-
-/*.controls button span{*/
-/*    background-size: cover;*/
-/*    display: block;*/
-/*    height: 100%;*/
-/*    width: 100%;*/
-/*    position: relative;*/
-/*    background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAKCAYAAADo3z3CAAAAoUlEQVRIS9VVWw7AIAib9z/0FpZgCOFRgpluf9MClhYdV++7gfDhYLxYDw+UyiHd5F8S5lr6zNa6Xpv/KwhHOahQpLB1+CwfycgYrwmE0WK8MTsIR1aOGsR+NYkkYzN5/pGwVA9xA/diq8LeHCKuQxQ+aoYt2yJWtpSNZth0edRpGVC5eGQcSg4hXLml3fdpBeHs8evWyPKX9ruXVqnYCeAHA8IyC9K2kmkAAAAASUVORK5CYII=") no-repeat 50%;*/
-/*}*/
-
-/*.controls button.minimize span{*/
-/*    background-position-x: -1px;*/
-/*}*/
-/*.controls button.close span{*/
-/*    background-position-x: -41px;*/
-/*}*/
-
-/*.controls button:nth-child(n){*/
-/*    margin-left: 2px !important;*/
-/*}*/
 
 .window.minimizing{
     transform: translate(var(--to), 100vh) !important;
