@@ -85,7 +85,7 @@ export const UI_Reducer = (state: State = defaultState, action: UI_Action): Stat
             return {...state,
             activeWindow: action.payload,
             layoutPos: d}
-        case UI_ActionTypes.SET_WARNING: return {...state, warning: action.payload}
+        case UI_ActionTypes.SET_WARNING: return {...state, warning: typeof action.payload !== 'undefined' ? action.payload : 'Неизвестная ошибка'}
         default: return state
     }
 }

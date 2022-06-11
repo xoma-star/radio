@@ -2,17 +2,18 @@ import React, {useEffect, useState} from "react"
 import './Checkbox.css'
 
 interface props{
-    checkedProp?: boolean,
+    defaultChecked?: boolean,
     label?: string,
-    onChange?: (e: boolean) => void
+    onChange?: (e: boolean) => void,
+    disabled?: boolean
 }
 
-const Checkbox = ({checkedProp = false, label = '', onChange}: props) => {
-    const [checked, setChecked] = useState<boolean>(checkedProp)
-    useEffect(() => {if(onChange) onChange(checked)}, [checked])
+const Checkbox = ({defaultChecked = false, label = '', onChange, disabled = false}: props) => {
+    const [checked, setChecked] = useState<boolean>(defaultChecked)
+    useEffect(() => {if(onChange && !disabled) onChange(checked)}, [checked])
     return <React.Fragment>
         <input className={'box'} type={'checkbox'} checked={checked} readOnly/>
-        <label className={'checkbox-label'} onClick={() => setChecked((c) => !c)}>{label}</label>
+        <label className={`checkbox-label${disabled ? ' disabled' : ''}`} onClick={() => setChecked((c) => !disabled ? !c : c)}>{label}</label>
     </React.Fragment>
 }
 

@@ -15,6 +15,7 @@ const Login = () => {
     const [passwordConfirm, setPasswordConfirm] = useState('')
     const [email, setEmail] = useState('')
     const [showPassword, setShowPassword] = useState(false)
+    const [pending, setPending] = useState(false)
 
     const submit = () => {
         if(name.length < 1 || password.length < 1 || passwordConfirm.length < 1 || email.length < 1) {
@@ -30,9 +31,13 @@ const Login = () => {
             return
         }
         const data = {name, password, email}
+        setPending(true)
         axios.post(USER_DATA_LOCATION + 'signup', data)
-            .then(r => console.log(r))
-            .catch(e => UI_Warn(e.response?.data?.message))
+            .then(r => setPending(false))
+            .catch(e => {
+                UI_Warn(e.response?.data?.message)
+                setPending(false)
+            })
     }
 
     return <Form
@@ -41,11 +46,11 @@ const Login = () => {
         onSubmit={submit}
         onCancel={() => UI_CloseWindow(UI_Windows.LOGIN)}
         showArt>
-        <Input label={'Имя пользователя'} onChange={setName} autocomplete={'username'}/>
-        <Input type={showPassword ? 'text' : 'password'} label={'Пароль'} onChange={setPassword} autocomplete={'new-password'}/>
-        <Input type={showPassword ? 'text' : 'password'} label={'Повторите пароль'} onChange={setPasswordConfirm} autocomplete={'new-password'}/>
-        <Checkbox label={'Показать пароль'} onChange={() => setShowPassword(s => !s)} checkedProp={false}/>
-        <Input label={'Почта'} onChange={setEmail} autocomplete={'email'}/>
+        <Input disabled={pending} label={'Имя пользователя'} onChange={setName} autocomplete={'username'}/>
+        <Input disabled={pending} type={showPassword ? 'text' : 'password'} label={'Пароль'} onChange={setPassword} autocomplete={'new-password'}/>
+        <Input disabled={pending} type={showPassword ? 'text' : 'password'} label={'Повторите пароль'} onChange={setPasswordConfirm} autocomplete={'new-password'}/>
+        <Checkbox disabled={pending} label={'Показать пароль'} onChange={(s) => setShowPassword(s)} defaultChecked={false}/>
+        <Input disabled={pending} label={'Почта'} onChange={setEmail} autocomplete={'email'}/>
     </Form>
 }
 

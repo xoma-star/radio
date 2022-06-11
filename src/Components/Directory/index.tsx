@@ -52,7 +52,7 @@ const Directory = () => {
             </div>
         </div>
         <div className={'status-bar selected'}>
-           <Checkbox checkedProp={false} onChange={setAddToQueue} label={'Добавить в очередь'}/>
+           <Checkbox defaultChecked={false} onChange={setAddToQueue} label={'Добавить в очередь'}/>
         </div>
     </React.Fragment>
 }
