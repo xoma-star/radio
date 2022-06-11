@@ -1,15 +1,18 @@
-import {ChangeEvent, useRef, useState} from "react";
+import {ChangeEvent, useEffect, useRef, useState} from "react";
 import {TRACK_DATA_LOCATION} from "../config";
 import {getRandomCover} from "../Images/CoverSamples";
 import {useActions} from "./useActions";
 import axios from "axios";
+import toDataUrl from "../Functions/toDataUrl";
 
 const useUploader = () => {
-    const [cover, setCover] = useState(getRandomCover())
+    const [cover, setCover] = useState<string | ArrayBuffer | null | Blob>()
     const [name, setName] = useState('')
     const [author, setAuthor] = useState('')
     const [audio, setAudio] = useState<File>()
     const [loadStatus, setLoadStatus] = useState(0) //0 - не отправлял 1 - отправлено 2 - успешно 3 - неудачно
+
+    useEffect(() => toDataUrl(getRandomCover(), (e) => setCover(e)), [])
 
     const {UI_Warn} = useActions()
 
@@ -30,8 +33,9 @@ const useUploader = () => {
                 setLoadStatus(0)
                 window.jsmediatags.read(file, {
                     onSuccess: (d) => {
-                        if(typeof d.tags?.picture?.data !== 'undefined')/*@ts-ignore*/
-                            setCover(`data:image/jpeg;base64,${btoa(String.fromCharCode.apply(null, new Uint8Array(d.tags.picture.data)))}`)
+                        if(typeof d.tags?.picture?.data !== 'undefined'){/*@ts-ignore*/
+                            setCover(`data:image/jpeg;base64,${btoa(String.fromCharCode.apply(null, new Uint8Array(d.tags.picture.data)))}`)}
+                        else toDataUrl(getRandomCover(), (e) => setCover(e))
                         if(typeof d.tags.title !== 'undefined') setName(d.tags.title as string)
                         else UI_Warn('Не удалось распознать файл. Пожалуйста, введите данные вручную.')
                         if(typeof d.tags.artist !== 'undefined') setAuthor(d.tags.artist as string)
@@ -50,7 +54,7 @@ const useUploader = () => {
         const data = new FormData()
         data.append('name', name)
         data.append('author', author)
-        data.append('cover64', cover)
+        data.append('cover64', cover as string)
         data.append('audio', audio as File)
         axios.post(TRACK_DATA_LOCATION + 'add', data)
             .then(_ => setLoadStatus(2))

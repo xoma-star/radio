@@ -37,6 +37,8 @@
 
 .player-wrapper .track-data{
     text-align: center;
+    font-size: 14px;
+    padding: 5px;
 }
 
 .track-name{
