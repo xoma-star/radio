@@ -1,10 +1,9 @@
 import React from 'react'
 import map from './map.png'
-import './Rover.css'
+import './Clippy.css'
 import {animations} from './animations'
-import {isArray} from "util";
 
-export class Rover extends React.Component<any, any>{
+export class Clippy extends React.Component<any, any>{
     constructor(props: any) {
         super(props)
         this.state = {
@@ -12,6 +11,8 @@ export class Rover extends React.Component<any, any>{
             y: 0
         }
     }
+
+    randomIdle = ['IdleHeadScratch']
 
     playAnimation(name: keyof typeof animations, i: number = 0, time: number = 0) {
         if(animations[name].frames.length - 1 > i){
@@ -25,11 +26,16 @@ export class Rover extends React.Component<any, any>{
             ) setTimeout(() => {this.setState({x: -v.images[0][0], y: -v.images[0][1]})}, time + v.duration)
             this.playAnimation(name,i + 1, time + v.duration)
         }
+        else setTimeout(() => this.setState({x: 0, y: 0}), time)
+    }
+
+    componentDidMount() {
+        setTimeout(() => this.playAnimation("GestureLeft"), 1000)
+        setInterval(() => this.playAnimation("GetAttention"), 30000)
     }
 
     render(){return <div
-        onClick={() => this.playAnimation('Thinking')}
-        className={'rover'}
+        className={'clippy'}
              style={{
                  background: `url(${map}) ${this.state.x}px ${this.state.y}px no-repeat`
              }}

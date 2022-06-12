@@ -1,5 +1,5 @@
 import {Dispatch} from "react";
-import {UI_Action, UI_ActionTypes, UI_Windows} from "../Reducers/ui";
+import {UI_Action, UI_ActionTypes, UI_Windows, warnMessage} from "../Reducers/ui";
 
 
 export const UI_OpenWindow = (p: UI_Windows) => {
@@ -23,7 +23,7 @@ export const UI_SetActiveWindow = (p: UI_Windows | null) => {
     }
 }
 
-export const UI_Warn = (p: string | null) => {
+export const UI_Warn = (p: warnMessage | null) => {
     return (dispatch: Dispatch<UI_Action>) => {
         dispatch({type: UI_ActionTypes.SET_WARNING, payload: p})
         if(p === null) dispatch({type: UI_ActionTypes.CLOSE_WINDOW, payload: UI_Windows.WARNING})

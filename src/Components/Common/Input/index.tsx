@@ -8,7 +8,7 @@ interface props{
     type?: 'text' | 'password',
     label?: string,
     disabled?: boolean,
-    autocomplete?: 'username' | 'new-password' | 'email' | 'name'
+    autocomplete?: 'username' | 'new-password' | 'email' | 'name' | 'current-password'
 }
 
 const Input = ({defaultValue = '', onChange, className, type = 'text', label, disabled = false, autocomplete}: props) => {

@@ -1,56 +1,42 @@
-import Input from "../Common/Input";
 import Form from "../Common/Form";
-import {useState} from "react";
-import {useActions} from "../../Hooks/useActions";
 import {UI_Windows} from "../../Redux/Reducers/ui";
-import isEmail from "../../Functions/isEmail";
-import Checkbox from "../Common/Checkbox";
-import {USER_DATA_LOCATION} from "../../config";
-import axios from "axios";
+import Input from "../Common/Input";
+import {useActions} from "../../Hooks/useActions";
+import {useState} from "react";
 
-const Login = () => {
-    const {UI_CloseWindow, UI_Warn} = useActions()
+
+const Login = ()  => {
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
-    const [passwordConfirm, setPasswordConfirm] = useState('')
-    const [email, setEmail] = useState('')
-    const [showPassword, setShowPassword] = useState(false)
     const [pending, setPending] = useState(false)
+    const {UI_CloseWindow, UI_Warn, Login} = useActions()
 
-    const submit = () => {
-        if(name.length < 1 || password.length < 1 || passwordConfirm.length < 1 || email.length < 1) {
-            UI_Warn('Все поля обязательны для заполнения')
+    const onSuccess = () => {
+        UI_CloseWindow(UI_Windows.LOGIN)
+        UI_Warn({type: "success", text: 'С возвращением!'})
+    }
+    const onError = (e: string) => {
+        setPending(false)
+        UI_Warn({type: "warning", text: e})
+    }
+
+    const submit = async () => {
+        if(name.length < 1 || password.length < 1) {
+            UI_Warn({type: "warning", text: 'Все поля обязательны для заполнения'})
             return
         }
-        if(password !== passwordConfirm) {
-            UI_Warn('Пароли не совпадают')
-            return
-        }
-        if(!isEmail(email)) {
-            UI_Warn('Неподдерживаемая почта. Попробуйте другую')
-            return
-        }
-        const data = {name, password, email}
         setPending(true)
-        axios.post(USER_DATA_LOCATION + 'signup', data)
-            .then(r => setPending(false))
-            .catch(e => {
-                UI_Warn(e.response?.data?.message)
-                setPending(false)
-            })
+        Login(name, password, onSuccess, onError)
+
     }
 
     return <Form
-        header={'Регистрация'}
-        description={'Заполните форму ниже. Все поля обязательны.'}
+        controlsDisabled={pending}
         onSubmit={submit}
-        onCancel={() => UI_CloseWindow(UI_Windows.LOGIN)}
-        showArt>
+        onCancel={() => UI_CloseWindow(UI_Windows.LOGIN)}>
         <Input disabled={pending} label={'Имя пользователя'} onChange={setName} autocomplete={'username'}/>
-        <Input disabled={pending} type={showPassword ? 'text' : 'password'} label={'Пароль'} onChange={setPassword} autocomplete={'new-password'}/>
-        <Input disabled={pending} type={showPassword ? 'text' : 'password'} label={'Повторите пароль'} onChange={setPasswordConfirm} autocomplete={'new-password'}/>
-        <Checkbox disabled={pending} label={'Показать пароль'} onChange={(s) => setShowPassword(s)} defaultChecked={false}/>
-        <Input disabled={pending} label={'Почта'} onChange={setEmail} autocomplete={'email'}/>
+        <Input disabled={pending} type={'password'} label={'Пароль'} onChange={setPassword} autocomplete={'current-password'}/>
+        {/*<Checkbox disabled={pending} label={'Запомнить'} defaultChecked={true} onChange={setRemember}/>*/}
     </Form>
 }
 

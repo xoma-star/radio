@@ -10,17 +10,18 @@ interface props{
     description?: string,
     showArt?: boolean,
     onSubmit?: () => void,
-    onCancel?: () => void
+    onCancel?: () => void,
+    controlsDisabled?: boolean
 }
 
-const Form = ({children, header, description, showArt = false, onCancel, onSubmit}: props) => {
+const Form = ({children, header, description, showArt = false, onCancel, onSubmit, controlsDisabled = false}: props) => {
     const submitHandler = (e: React.MouseEvent) => {
         e.stopPropagation()
-        if(onSubmit) onSubmit()
+        if(onSubmit && !controlsDisabled) onSubmit()
     }
     const declineHandler = (e: React.MouseEvent) => {
         e.stopPropagation()
-        if(onCancel) onCancel()
+        if(onCancel && !controlsDisabled) onCancel()
     }
     return <div className={'form-wrapper-wrapper'}>
         <div className={'form-wrapper'}>
@@ -35,8 +36,8 @@ const Form = ({children, header, description, showArt = false, onCancel, onSubmi
         </div>
         {(onSubmit || onCancel) && <Separator style={{marginTop: 8, marginBottom: 8}}/>}
         {(onSubmit || onCancel) && <div className={'controls'}>
-            {onSubmit && <Button onClick={submitHandler}>Отправить</Button>}
-            {onCancel && <Button onClick={declineHandler}>Отмена</Button>}
+            {onSubmit && <Button disabled={controlsDisabled} onClick={submitHandler}>Отправить</Button>}
+            {onCancel && <Button disabled={controlsDisabled} onClick={declineHandler}>Отмена</Button>}
         </div>}
     </div>
 }

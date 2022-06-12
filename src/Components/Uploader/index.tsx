@@ -5,6 +5,8 @@ import Button from "../Common/Button";
 import Input from "../Common/Input";
 import useUploader from "../../Hooks/useUploader";
 import Form from "../Common/Form";
+import {useTypedSelector} from "../../Hooks/useTypedSelector";
+import Unauthorized from "../Unauthorized";
 
 const FileUpload = () => {
     const {
@@ -22,43 +24,48 @@ const FileUpload = () => {
         audio
     } = useUploader()
 
+    const {authorized} = useTypedSelector(s => s.user)
+
     return <div className={'upload-form'}>
-        {<div className={'cover-wrapper'}>
-            <div className={'cover selected'} style={{'--cover': `url(${cover})`} as React.CSSProperties}/>
-            <Button
-                disabled={!audio || loadStatus === 1 || loadStatus === 2}
-                onClick={() => coverRef.current?.click()}
-            >Изменить</Button>
+        {authorized && <React.Fragment>
+            <div className={'cover-wrapper'}>
+                <div className={'cover selected'} style={{'--cover': `url(${cover})`} as React.CSSProperties}/>
+                <Button
+                    disabled={!audio || loadStatus === 1 || loadStatus === 2}
+                    onClick={() => coverRef.current?.click()}
+                >Изменить</Button>
+                <input
+                    onChange={(e) => changeHandler(e, true)}
+                    ref={coverRef}
+                    type={'file'}
+                    style={{display: 'none'}}
+                    multiple={false}
+                    accept={'image/*'}
+                />
+            </div>
+            <div className={'track-data-wrapper'}>
+                <Form>
+                    <Input disabled={!audio || [1,2].indexOf(loadStatus) >= 0} label={'Название'} onChange={setName} className={'bold'} defaultValue={name}/>
+                    <Input disabled={!audio || [1,2].indexOf(loadStatus) >= 0} label={'Автор'} onChange={setAuthor} defaultValue={author}/>
+                </Form>
+                {loadStatus === 1 && <img src={icon_loading} width={32} height={32} alt={'Loading...'}/>}
+                {loadStatus === 2 && <img src={icon_success} width={32} height={32} alt={'Success'}/>}
+                {loadStatus === 3 && <img src={icon_error} width={32} height={32} alt={'Error'}/>}
+                <div className={'track-data-controls'}>
+                    <Button disabled={loadStatus === 1} onClick={clickHandler}>Выбрать файл</Button>
+                    <Button onClick={sendToServer} disabled={!audio || name.length < 1 || author.length < 1 || [1,2].indexOf(loadStatus) >= 0}>Загрузить</Button>
+                </div>
+            </div>
             <input
-                onChange={(e) => changeHandler(e, true)}
-                ref={coverRef}
+                ref={inputRef}
                 type={'file'}
                 style={{display: 'none'}}
                 multiple={false}
-                accept={'image/*'}
+                accept={'audio/*'}
+                onChange={changeHandler}
             />
-        </div>}
-        {<div className={'track-data-wrapper'}>
-            <Form>
-                <Input disabled={!audio || [1,2].indexOf(loadStatus) >= 0} label={'Название'} onChange={setName} className={'bold'} defaultValue={name}/>
-                <Input disabled={!audio || [1,2].indexOf(loadStatus) >= 0} label={'Автор'} onChange={setAuthor} defaultValue={author}/>
-            </Form>
-            {loadStatus === 1 && <img src={icon_loading} width={32} height={32} alt={'Loading...'}/>}
-            {loadStatus === 2 && <img src={icon_success} width={32} height={32} alt={'Success'}/>}
-            {loadStatus === 3 && <img src={icon_error} width={32} height={32} alt={'Error'}/>}
-            <div className={'track-data-controls'}>
-                <Button disabled={loadStatus === 1} onClick={clickHandler}>Выбрать файл</Button>
-                <Button onClick={sendToServer} disabled={!audio || name.length < 1 || author.length < 1 || [1,2].indexOf(loadStatus) >= 0}>Загрузить</Button>
-            </div>
-        </div>}
-        <input
-            ref={inputRef}
-            type={'file'}
-            style={{display: 'none'}}
-            multiple={false}
-            accept={'audio/*'}
-            onChange={changeHandler}
-        />
+        </React.Fragment>}
+        {!authorized && <Unauthorized/>}
     </div>
 }
 

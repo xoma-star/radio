@@ -1,9 +1,8 @@
 import {ChangeEvent, useEffect, useRef, useState} from "react";
-import {TRACK_DATA_LOCATION} from "../config";
 import {getRandomCover} from "../Images/CoverSamples";
 import {useActions} from "./useActions";
-import axios from "axios";
 import toDataUrl from "../Functions/toDataUrl";
+import TrackService from "../http/Services/TrackService";
 
 const useUploader = () => {
     const [cover, setCover] = useState<string | ArrayBuffer | null | Blob>()
@@ -37,31 +36,28 @@ const useUploader = () => {
                             setCover(`data:image/jpeg;base64,${btoa(String.fromCharCode.apply(null, new Uint8Array(d.tags.picture.data)))}`)}
                         else toDataUrl(getRandomCover(), (e) => setCover(e))
                         if(typeof d.tags.title !== 'undefined') setName(d.tags.title as string)
-                        else UI_Warn('Не удалось распознать файл. Пожалуйста, введите данные вручную.')
+                        else UI_Warn({type: 'warning', text: 'Не удалось распознать файл. Пожалуйста, введите данные вручную.'})
                         if(typeof d.tags.artist !== 'undefined') setAuthor(d.tags.artist as string)
-                        else UI_Warn('Не удалось распознать файл. Пожалуйста, введите данные вручную.')
+                        else UI_Warn({type: 'warning', text: 'Не удалось распознать файл. Пожалуйста, введите данные вручную.'})
                         setAudio(file)
                     }
                 })
             }
         }catch (e) {
-            UI_Warn('Неизвестная ошибка')
+            UI_Warn({type: "warning", text: 'Неизвестная ошибка'})
         }
     }
 
     const sendToServer = () => {
         setLoadStatus(1)
-        const data = new FormData()
-        data.append('name', name)
-        data.append('author', author)
-        data.append('cover64', cover as string)
-        data.append('audio', audio as File)
-        axios.post(TRACK_DATA_LOCATION + 'add', data)
-            .then(_ => setLoadStatus(2))
-            .catch(e => {
-                setLoadStatus(3)
-                UI_Warn(e.response?.data?.message)
-            })
+        const onSuccess = () => setLoadStatus(2)
+        const onError = (e: string) => {
+            setLoadStatus(3)
+            UI_Warn({type: "warning", text: e})
+        }
+        TrackService.uploadTrack(name, author, cover as string, audio as File)
+            .then(_ => onSuccess())
+            .catch(r => onError(r?.response?.data?.message))
     }
 
     return {

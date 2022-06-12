@@ -6,6 +6,8 @@ export enum UI_ActionTypes{
     SET_WARNING = 'SET_WARNING'
 }
 
+export type warnMessage = null | {text: string, type: 'success' | 'warning' | 'error'}
+
 export enum UI_Windows{
     MUSIC_FOLDER = 'MUSIC_FOLDER',
     MUSIC_PLAYER = 'MUSIC_PLAYER',
@@ -19,7 +21,7 @@ interface State{
     minimized: { [key in UI_Windows]?: boolean },
     layoutPos: {[key in UI_Windows]?: number}
     activeWindow: UI_Windows | null,
-    warning: null | string
+    warning: warnMessage
 }
 
 interface UI_Window{
@@ -42,7 +44,7 @@ interface UI_Minimize{
 
 interface UI_Warn{
     type: UI_ActionTypes.SET_WARNING,
-    payload: string | null
+    payload: warnMessage
 }
 
 export type UI_Action = UI_Window | UI_Active | UI_Minimize | UI_Warn
@@ -85,7 +87,12 @@ export const UI_Reducer = (state: State = defaultState, action: UI_Action): Stat
             return {...state,
             activeWindow: action.payload,
             layoutPos: d}
-        case UI_ActionTypes.SET_WARNING: return {...state, warning: typeof action.payload !== 'undefined' ? action.payload : 'Неизвестная ошибка'}
+        case UI_ActionTypes.SET_WARNING:
+            if(action.payload === null) return {...state, warning: null}
+            const g = {...action.payload}
+            if(!g.type) g.type = 'warning'
+            if(!g.text) g.text = 'Неизвестная ошибка'
+            return {...state, warning: g}
         default: return state
     }
 }

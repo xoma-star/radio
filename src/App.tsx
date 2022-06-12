@@ -4,17 +4,18 @@ import Desktop from "./Components/Desktop";
 import {UI_Windows} from "./Redux/Reducers/ui";
 import windows from "./Constants/windows";
 import Player from "./Components/Player";
-import bridge from "@vkontakte/vk-bridge";
 import {useTypedSelector} from "./Hooks/useTypedSelector";
 import FileUpload from "./Components/Uploader";
 import Directory from "./Components/Directory";
-import Login from "./Components/Login";
 import Taskbar from "./Components/Taskbar";
 import WarningWindow from "./Components/Window/Warning";
+import {useActions} from "./Hooks/useActions";
+import Auth from "./Components/Auth";
 
 const App = () => {
+    const {CheckAuth} = useActions()
     useEffect(() => {
-        bridge.send('VKWebAppInit')
+        if(localStorage.getItem('accessToken')) CheckAuth()
     }, [])
     const {opened} = useTypedSelector(s => s.ui)
     const {name, author} = useTypedSelector(s => s.player)
@@ -35,7 +36,9 @@ const App = () => {
         {opened.indexOf(UI_Windows.FILE_UPLOAD) >= 0 && <Window
             id={UI_Windows.FILE_UPLOAD}
         ><FileUpload/></Window>}
-        {opened.indexOf(UI_Windows.LOGIN) >= 0 && <Window classNameAdd={'login'} id={UI_Windows.LOGIN}><Login/></Window>}
+        {opened.indexOf(UI_Windows.LOGIN) >= 0 && <Window classNameAdd={'login'} id={UI_Windows.LOGIN}>
+            <Auth/>
+        </Window>}
         {opened.indexOf(UI_Windows.WARNING) >= 0 && <Window id={UI_Windows.WARNING} hideIcon>
             <WarningWindow/>
         </Window>}

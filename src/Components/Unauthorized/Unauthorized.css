@@ -1,0 +1,12 @@
+.unauthorized-wrapper{
+    padding: 10px;
+    display: flex;
+    background-color: var(--ButtonFace);
+    font-size: 14px;
+}
+.unauthorized-wrapper > .unauthorized{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 200px;
+}

@@ -19,12 +19,12 @@ const windows = {
     },
     [UI_Windows.LOGIN]: {
         icon: icon_credentials,
-        name: 'Авторизация',
+        name: 'Аккаунт',
         showOnDesktop: true
     },
     [UI_Windows.WARNING]: {
         icon: icon_warn,
-        name: 'Ошибка!',
+        name: 'Информация',
         showOnDesktop: false
     }
 }
