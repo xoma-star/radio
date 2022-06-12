@@ -11,11 +11,13 @@ import Taskbar from "./Components/Taskbar";
 import WarningWindow from "./Components/Window/Warning";
 import {useActions} from "./Hooks/useActions";
 import Auth from "./Components/Auth";
+import bridge from "@vkontakte/vk-bridge";
 
 const App = () => {
     const {CheckAuth} = useActions()
     useEffect(() => {
         if(localStorage.getItem('accessToken')) CheckAuth()
+        bridge.send('VKWebAppInit')
     }, [])
     const {opened} = useTypedSelector(s => s.ui)
     const {name, author} = useTypedSelector(s => s.player)
