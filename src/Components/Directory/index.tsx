@@ -1,6 +1,6 @@
 import './Directory.css'
 import DesktopIcon from "../Desktop/Icon";
-import {icon_cd} from "../../Images/Icons";
+import {icon_cd, icon_dir_open, icon_share} from "../../Images/Icons";
 import React, {useEffect, useState} from "react";
 import {UI_Windows} from "../../Redux/Reducers/ui";
 import {useActions} from "../../Hooks/useActions";
@@ -33,6 +33,24 @@ const Directory = () => {
     return <div className={'folder'} onClick={onFolderClick}>
             <div className={'panel'}></div>
             <div className={'folder-view'}>
+                <DesktopIcon
+                    label={`Новый плейлист`}
+                    icon={icon_share}
+                    isOnDesktop={false}
+                    onClick={onIconClick}
+                    id={'share'}
+                    selected={selected === 'share'}
+                    onDoubleClick={onIconDoubleClick}
+                />
+                <DesktopIcon
+                    label={`Абоба`}
+                    icon={icon_dir_open}
+                    isOnDesktop={false}
+                    onClick={onIconClick}
+                    id={'dir'}
+                    selected={selected === 'dir'}
+                    onDoubleClick={onIconDoubleClick}
+                />
                 {authorized && tracks.map(v =>
                     <DesktopIcon
                         key={v.id}

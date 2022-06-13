@@ -12,6 +12,7 @@ import WarningWindow from "./Components/Window/Warning";
 import {useActions} from "./Hooks/useActions";
 import Auth from "./Components/Auth";
 import bridge from "@vkontakte/vk-bridge";
+import Navigator from "./Components/Navigator";
 
 const App = () => {
     const {CheckAuth} = useActions()
@@ -43,6 +44,9 @@ const App = () => {
         </Window>}
         {opened.indexOf(UI_Windows.WARNING) >= 0 && <Window id={UI_Windows.WARNING} hideIcon>
             <WarningWindow/>
+        </Window>}
+        {opened.indexOf(UI_Windows.NAVIGATOR) >= 0 && <Window id={UI_Windows.NAVIGATOR}>
+            <Navigator/>
         </Window>}
         <Taskbar/>
     </React.Fragment>

@@ -13,7 +13,8 @@ export enum UI_Windows{
     MUSIC_PLAYER = 'MUSIC_PLAYER',
     FILE_UPLOAD = 'FILE_UPLOAD',
     LOGIN = 'LOGIN',
-    WARNING = 'WARNING'
+    WARNING = 'WARNING',
+    NAVIGATOR = 'NAVIGATOR'
 }
 
 interface State{

@@ -3,6 +3,7 @@ import React, {ReactNode} from "react";
 import {win_install} from "../../../Images/Arts";
 import Separator from "../Separator";
 import Button from "../Button";
+import Title from "../Title";
 
 interface props{
     children?: ReactNode,
@@ -29,7 +30,7 @@ const Form = ({children, header, description, showArt = false, onCancel, onSubmi
                 <img alt={'art'} src={win_install}/>
             </div>}
             <div className={'form'}>
-                {header && <div className={'form-header'}>{header}</div>}
+                {header && <Title className={'form-header'}>{header}</Title>}
                 {description && <div className={'form-description'}>{description}</div>}
                 <div className={'form-fields'}>{children}</div>
             </div>
