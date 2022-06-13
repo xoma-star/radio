@@ -62,6 +62,10 @@ const Player = () => {
             <Button disabled={playing || typeof id === 'undefined'} onClick={startTrack}>Start</Button>
             <Button disabled={!canPlayNext} onClick={nextTrack}>Next</Button>
         </div>
+        <div className={'track-controls'}>
+            <Button>Добавить в плейлист</Button>
+            <Button>Пожаловаться</Button>
+        </div>
     </div>
 }
 

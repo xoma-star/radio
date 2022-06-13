@@ -7,7 +7,7 @@
     background-position: 50%;
     background-repeat: no-repeat;
     background-size: cover;
-    /*background-image: url(https://gif.plaza.one/30.gif);*/
+    /*background-image: url(https://gif.plaza.one/36.gif);*/
     display: flex;
     flex-direction: column;
 }
@@ -19,6 +19,7 @@
     min-height: 75px;
     vertical-align: bottom;
     text-align: center;
+    transform: translate(0, 0);
 }
 .desktop-icon .title{
     font-family: "MS Sans Serif", "Segoe UI", sans-serif;

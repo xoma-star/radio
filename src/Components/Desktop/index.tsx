@@ -25,6 +25,7 @@ const Desktop = () => {
     return <div className={'desktop'} onClick={onDesktopClick}>
         {(Object.keys(windows) as (keyof typeof windows)[]).map(v => {
             if(windows[v].showOnDesktop) return <DesktopIcon
+                type={'desktop'}
                 key={v}
                 label={windows[v].name}
                 icon={windows[v].icon}
