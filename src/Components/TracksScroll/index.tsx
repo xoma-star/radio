@@ -1,9 +1,9 @@
 import {track} from "../../Redux/Reducers/player";
 import Title from "../Common/Title";
 import HorizontalScroll from "../Common/HorizontalScroll";
-import {SERVER_LOCATION} from "../../config";
+import {FILES_LOCATION} from "../../config";
 import DesktopIcon from "../Desktop/Icon";
-import React, {useState} from "react";
+import React from "react";
 import {UI_Windows} from "../../Redux/Reducers/ui";
 import {useActions} from "../../Hooks/useActions";
 import {icon_loading} from "../../Images/Icons";
@@ -36,7 +36,7 @@ const TracksScroll = ({header, tracks}: props) => {
                 label={`${v.author} - ${v.name}`}
                 onDoubleClick={onIconDoubleClick}
                 id={v.id}
-                icon={SERVER_LOCATION + v.cover}
+                icon={FILES_LOCATION + v.cover}
                 onDragStart={onDragStart(v.id)}
             />)
             }

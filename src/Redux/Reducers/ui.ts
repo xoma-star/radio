@@ -14,7 +14,8 @@ export enum UI_Windows{
     FILE_UPLOAD = 'FILE_UPLOAD',
     LOGIN = 'LOGIN',
     WARNING = 'WARNING',
-    NAVIGATOR = 'NAVIGATOR'
+    NAVIGATOR = 'NAVIGATOR',
+    PLAYLIST = 'PLAYLIST'
 }
 
 interface State{

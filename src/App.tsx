@@ -13,6 +13,7 @@ import {useActions} from "./Hooks/useActions";
 import Auth from "./Components/Auth";
 import bridge from "@vkontakte/vk-bridge";
 import Navigator from "./Components/Navigator";
+import Playlist from "./Components/Playlist";
 
 const App = () => {
     const {CheckAuth} = useActions()
@@ -47,6 +48,9 @@ const App = () => {
         </Window>}
         {opened.indexOf(UI_Windows.NAVIGATOR) >= 0 && <Window id={UI_Windows.NAVIGATOR}>
             <Navigator/>
+        </Window>}
+        {opened.indexOf(UI_Windows.PLAYLIST) >= 0 && <Window id={UI_Windows.PLAYLIST}>
+            <Playlist/>
         </Window>}
         <Taskbar/>
     </React.Fragment>
