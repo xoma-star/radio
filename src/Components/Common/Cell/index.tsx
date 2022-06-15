@@ -6,18 +6,21 @@ interface props{
     before?: React.ReactNode,
     className?: string,
     style?: React.CSSProperties,
-    onClick?: (e: React.MouseEvent) => void
+    onClick?: (e: React.MouseEvent) => void,
+    onDoubleClick?: (e: React.MouseEvent) => void
+    selected?: boolean
 }
 
-const Cell = ({before, style, className, children, onClick}: props) => {
+const Cell = ({before, style, className, children, onClick, selected, onDoubleClick}: props) => {
     const clickHandler = (e: React.MouseEvent) => {
         e.stopPropagation()
         if(onClick) onClick(e)
     }
     return <div
         onClick={clickHandler}
+        onDoubleClick={onDoubleClick}
         style={style}
-        className={`cell${className ? ` ${className}` : ''}`}>
+        className={`cell ${className || ""}${selected && ' selected'}`}>
         {before}
         {children}
     </div>

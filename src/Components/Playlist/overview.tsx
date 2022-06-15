@@ -1,8 +1,7 @@
 import PlaylistSchema from "../../Schemas/playlist.schema";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import PlaylistService from "../../http/Services/PlaylistService";
 import {useActions} from "../../Hooks/useActions";
-import React from "react";
 import Title from "../Common/Title";
 import Button from "../Common/Button";
 import Cell from "../Common/Cell";
@@ -12,6 +11,7 @@ import IconSmall from "../Icons/IconSmall";
 import List from "../Common/List";
 import {UI_Windows} from "../../Redux/Reducers/ui";
 import {FILES_LOCATION} from "../../config";
+import {useTypedSelector} from "../../Hooks/useTypedSelector";
 
 interface props{
     overview: string
@@ -20,7 +20,8 @@ interface props{
 const PlaylistOverview = ({overview}: props) => {
     const [playlistData, setPlaylistData] = useState<PlaylistSchema>()
     const [tracks, setTracks] = useState<TrackSchema[]>()
-    const {UI_Warn, UI_OpenWindow, PlayerClearQueue, PlayerSetTrack} = useActions()
+    const {UI_Warn, UI_OpenWindow, PlayerClearQueue, PlayerSetTrack, PlayerAddQueue} = useActions()
+    const {id} = useTypedSelector(s => s.player)
     useEffect(() => {
         PlaylistService.getOne(overview)
             .then(async r => {
@@ -30,21 +31,27 @@ const PlaylistOverview = ({overview}: props) => {
             .catch(e => UI_Warn({type: 'warning', text: e?.data?.message}))
     }, [overview])
 
+    const addToQueue = () => {
+        tracks?.forEach(r => PlayerAddQueue(r))
+        UI_OpenWindow(UI_Windows.MUSIC_PLAYER)
+    }
+
     return  <React.Fragment>
         <Title>{playlistData?.name}</Title>
         <List style={{margin: '8px 0'}}>
-            {tracks?.map(r =>
-                <Cell onClick={() => {
+            {tracks?.map(r => <Cell
+                onDoubleClick={() => {
                     UI_OpenWindow(UI_Windows.MUSIC_PLAYER)
                     PlayerClearQueue()
                     PlayerSetTrack(r)
                 }}
-                      before={<IconSmall
-                          src={FILES_LOCATION + r.cover}/>} key={'playlist' + r.id}>{r.author} - {r.name}</Cell>)}
+                selected={r.id === id}
+                before={<IconSmall src={FILES_LOCATION + r.cover}/>}
+                key={'playlist' + r.id}>{r.author} - {r.name}</Cell>)}
         </List>
         <div style={{display: 'flex'}}>
-            <Button>Перемешать</Button>
-            <Button>В очередь</Button>
+            <Button disabled>Перемешать</Button>
+            <Button onClick={addToQueue}>В очередь</Button>
             <Button disabled>Удалить</Button>
         </div>
     </React.Fragment>

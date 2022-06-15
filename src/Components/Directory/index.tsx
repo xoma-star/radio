@@ -24,6 +24,7 @@ const Directory = () => {
         setSelected(e.currentTarget.dataset.id)
     }
     const onIconDoubleClick = (e: React.MouseEvent<HTMLElement>) => {
+        setSelected(null)
         let a = e.currentTarget.dataset.id as string
         UI_OpenWindow(UI_Windows.PLAYLIST)
         PlaylistSetOverview(a)

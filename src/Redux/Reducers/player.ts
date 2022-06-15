@@ -52,6 +52,7 @@ export const PlayerReducer = (state: State = defaultState, action: PlayerAction)
             return {...state, ...c, queue: (state.queue.length === 0 ? [c] : state.queue)}
         case PlayerActionTypes.ADD_QUEUE: {
             let a = {...state}
+            if(state.queue.findIndex(x => x.id ===action.payload.id) >= 0) return state
             const b = {...action.payload,
                 path: FILES_LOCATION + action.payload.path,
                 cover: FILES_LOCATION + action.payload.cover}

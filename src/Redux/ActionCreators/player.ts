@@ -14,10 +14,11 @@ export const PlayerSetTrack = (id: string | TrackSchema) => {
     }
 }
 
-export const PlayerAddQueue = (id: string) => {
+export const PlayerAddQueue = (id: string | TrackSchema) => {
     return (dispatch: Dispatch<PlayerAction>) => {
-        $api.get(TRACK_DATA_LOCATION + id)
+        if(typeof id === 'string') $api.get(TRACK_DATA_LOCATION + id)
             .then(r => dispatch({type: PlayerActionTypes.ADD_QUEUE, payload: {...r.data, ts: new Date().getTime()}}))
+        else dispatch({type: PlayerActionTypes.ADD_QUEUE, payload: id})
     }
 }
 
