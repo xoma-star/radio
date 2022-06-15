@@ -7,6 +7,7 @@ interface props{
 
 const IconSmall = ({width = 16, height = 16, className, src}: props) => {
     return <img
+        draggable={false}
         alt={'icon'}
         className={className}
         width={width}

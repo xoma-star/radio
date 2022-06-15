@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
-import {track} from "../../Redux/Reducers/player";
 import TrackService from "../../http/Services/TrackService";
 import './Navigator.css'
 import TracksScroll from "../TracksScroll";
+import TrackSchema from "../../Schemas/track.schema";
 const Navigator = () => {
-    const [newTracks, setNewTracks] = useState<track[]>([])
+    const [newTracks, setNewTracks] = useState<TrackSchema[]>([])
     useEffect(() => {
         TrackService.getTracks().then(r => setNewTracks(r.data))
     }, [])

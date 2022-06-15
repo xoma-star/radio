@@ -1,5 +1,5 @@
-// export const SERVER_LOCATION = process.env.NODE_ENV === 'development' ? 'https://xoma-star.space/' : process.env.REACT_APP_HOST_URL
-export const SERVER_LOCATION = 'https://xoma-star.space/'
+export const SERVER_LOCATION = process.env.NODE_ENV === 'development' ? 'http://localhost:5000/' : 'https://xoma-star.space/'
+// export const SERVER_LOCATION = 'https://xoma-star.space/'
 export const FILES_LOCATION = SERVER_LOCATION + 'media/'
 export const TRACK_DATA_LOCATION = SERVER_LOCATION + 'tracks/'
 export const PLAYLIST_DATA_LOCATION = SERVER_LOCATION + 'playlist/'

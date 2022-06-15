@@ -1,14 +1,6 @@
 import {Ref} from "react";
 import {FILES_LOCATION} from "../../config";
-
-export interface track{
-    id: string,
-    path: string,
-    name: string,
-    author: string,
-    cover: string,
-    ts: number
-}
+import TrackSchema from "../../Schemas/track.schema";
 
 interface State{
     interval?: typeof setInterval,
@@ -19,7 +11,7 @@ interface State{
     id?: string,
     ts?: number,
     audioRef?: Ref<HTMLAudioElement>,
-    queue: track[]
+    queue: TrackSchema[]
 }
 
 export enum PlayerActionTypes{
@@ -42,7 +34,7 @@ interface SetAudioAction{
 
 interface SetTrackAction{
     type: PlayerActionTypes.SET_TRACK | PlayerActionTypes.ADD_QUEUE,
-    payload: track
+    payload: TrackSchema
 }
 
 interface ClearQueue{

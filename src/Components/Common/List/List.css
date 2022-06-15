@@ -1,0 +1,11 @@
+.list{
+
+}
+
+.list > *:nth-child(n){
+    margin-bottom: 4px;
+}
+
+.list > *:last-child{
+    margin-bottom: 0 !important;
+}

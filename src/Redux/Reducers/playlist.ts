@@ -1,3 +1,5 @@
+import PlaylistSchema from "../../Schemas/playlist.schema";
+
 interface State{
     name?: string,
     id?: string,
@@ -16,7 +18,7 @@ interface PlaylistStringAction{
 }
 interface PlaylistOverviewAction{
     type: PlaylistActionTypes.SET_OVERVIEW,
-    payload: string | 'create' | null
+    payload: 'create' | null | string
 }
 
 export type PlaylistAction = PlaylistStringAction | PlaylistOverviewAction

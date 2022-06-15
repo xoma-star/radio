@@ -1,4 +1,3 @@
-import {track} from "../../Redux/Reducers/player";
 import Title from "../Common/Title";
 import HorizontalScroll from "../Common/HorizontalScroll";
 import {FILES_LOCATION} from "../../config";
@@ -7,10 +6,11 @@ import React from "react";
 import {UI_Windows} from "../../Redux/Reducers/ui";
 import {useActions} from "../../Hooks/useActions";
 import {icon_loading} from "../../Images/Icons";
+import TrackSchema from "../../Schemas/track.schema";
 
 interface props{
     header?: string,
-    tracks?: track[]
+    tracks?: TrackSchema[]
 }
 
 const TracksScroll = ({header, tracks}: props) => {
@@ -30,6 +30,7 @@ const TracksScroll = ({header, tracks}: props) => {
         <Title style={{marginBottom: 8}}>{header}</Title>
         <HorizontalScroll>
             {tracks?.map(v => <DesktopIcon
+                key={'navigator' + v.id}
                 draggable
                 type={'track'}
                 isOnDesktop={false}

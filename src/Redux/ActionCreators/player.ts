@@ -1,9 +1,10 @@
-import {PlayerAction, PlayerActionTypes, track} from "../Reducers/player";
+import {PlayerAction, PlayerActionTypes} from "../Reducers/player";
 import {Dispatch} from "react";
 import {TRACK_DATA_LOCATION} from "../../config";
 import $api from "../../http";
+import TrackSchema from "../../Schemas/track.schema";
 
-export const PlayerSetTrack = (id: string | track) => {
+export const PlayerSetTrack = (id: string | TrackSchema) => {
     return (dispatch: Dispatch<PlayerAction>) => {
         if(typeof id === 'string') $api.get(TRACK_DATA_LOCATION + id)
             .then(r => dispatch({type: PlayerActionTypes.SET_TRACK, payload: {...r.data, ts: new Date().getTime()}}))

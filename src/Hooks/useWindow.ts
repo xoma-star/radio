@@ -8,9 +8,9 @@ const useWindow = (id: UI_Windows) => {
     const [contentHidden, setContentHidden] = useState(false)
     let display = opened.indexOf(id) < 0 ? {display: 'none'} : {}
     const {UI_SetActiveWindow} = useActions()
-    const [pos, setPos] = useState({x: 100 + 30 * opened.length, y: 300 + 30 * opened.length})
+    const [pos, setPos] = useState({x: window.screen.width > 400 ? 100 + 30 * opened.length : 2, y: 200 + 30 * opened.length})
     const [isDragging, setIsDragging] = useState(false)
-    const style = {...display, '--x': `${pos.x}px`, '--y': `${pos.y}px`, '--to': `${opened.indexOf(id) * window.screen.width / 10 + 56}px`} as unknown as React.CSSProperties
+    const style = {...display, '--to': `${opened.indexOf(id) * window.screen.width / 10 + 56}px`} as unknown as React.CSSProperties
     style.zIndex = layoutPos[id]
 
     useEffect(() => {

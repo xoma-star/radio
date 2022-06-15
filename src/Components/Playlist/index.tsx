@@ -7,7 +7,7 @@ const Playlist = () => {
     const {overview} = useTypedSelector(s => s.playlist)
     return <div className={'playlist-wrap'}>
         {overview === 'create' && <CreatePlaylist/>}
-        {overview && overview !== 'create' && <PlaylistOverview/>}
+        {overview && overview !== 'create' && <PlaylistOverview overview={overview}/>}
     </div>
 }
 
