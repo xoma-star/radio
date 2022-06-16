@@ -12,7 +12,7 @@ import PlaylistSchema from "../../Schemas/playlist.schema";
 
 const Directory = () => {
     const [selected, setSelected] = useState<string | null | undefined>(null)
-    const [toDisplay, setToDisplay] = useState<any[]>([])
+    const [toDisplay, setToDisplay] = useState<PlaylistSchema[]>([])
     const {authorized} = useTypedSelector(s => s.user)
     const {UI_OpenWindow, PlaylistSetOverview, UI_Warn} = useActions()
 
@@ -24,7 +24,7 @@ const Directory = () => {
         e.stopPropagation()
         setSelected(e.currentTarget.dataset.id)
     }
-    const onIconDoubleClick = (e: PlaylistSchema | 'create') => {
+    const onIconDoubleClick = (e: string | 'create') => {
         setSelected(null)
         UI_OpenWindow(UI_Windows.PLAYLIST)
         PlaylistSetOverview(e)
@@ -68,7 +68,7 @@ const Directory = () => {
                         onClick={onIconClick}
                         id={v.id}
                         selected={selected === v.id}
-                        onDoubleClick={() => onIconDoubleClick(v)}
+                        onDoubleClick={() => onIconDoubleClick(v.id)}
                     />)}
                 </React.Fragment>}
                 {!authorized && <Unauthorized/>}

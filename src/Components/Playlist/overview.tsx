@@ -12,7 +12,6 @@ import List from "../Common/List";
 import {UI_Windows} from "../../Redux/Reducers/ui";
 import {FILES_LOCATION} from "../../config";
 import {useTypedSelector} from "../../Hooks/useTypedSelector";
-import {PlaylistSetOverview} from "../../Redux/ActionCreators/playlist";
 
 interface props{
     overview: PlaylistSchema
@@ -20,13 +19,13 @@ interface props{
 
 const PlaylistOverview = ({overview}: props) => {
     const [tracks, setTracks] = useState<TrackSchema[]>()
-    const {UI_Warn, UI_OpenWindow, PlayerClearQueue, PlayerSetTrack, PlayerAddQueue} = useActions()
+    const {UI_Warn, UI_OpenWindow, PlayerClearQueue, PlayerSetTrack, PlayerAddQueue, PlaylistSetOverview} = useActions()
     const {id} = useTypedSelector(s => s.player)
     useEffect(() => {
         TrackService.getMultiple(overview.tracks)
             .then(r => setTracks(r.data))
             .catch(e => UI_Warn(e?.data?.message))
-    }, [overview])
+    }, [overview.tracks])
 
     const addToQueue = (e: React.MouseEvent) => {
         e.stopPropagation()
