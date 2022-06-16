@@ -8,12 +8,13 @@ import {useTypedSelector} from "../../Hooks/useTypedSelector";
 import Unauthorized from "../Unauthorized";
 import UserService from "../../http/Services/UserService";
 import PlaylistService from "../../http/Services/PlaylistService";
+import PlaylistSchema from "../../Schemas/playlist.schema";
 
 const Directory = () => {
     const [selected, setSelected] = useState<string | null | undefined>(null)
     const [toDisplay, setToDisplay] = useState<any[]>([])
     const {authorized} = useTypedSelector(s => s.user)
-    const {UI_OpenWindow, PlaylistSetOverview} = useActions()
+    const {UI_OpenWindow, PlaylistSetOverview, UI_Warn} = useActions()
 
     useEffect(() => {
         UserService.getUserPlaylists().then(r => setToDisplay(r.data)).catch(r => console.log(r))
@@ -23,16 +24,17 @@ const Directory = () => {
         e.stopPropagation()
         setSelected(e.currentTarget.dataset.id)
     }
-    const onIconDoubleClick = (e: React.MouseEvent<HTMLElement>) => {
+    const onIconDoubleClick = (e: PlaylistSchema | 'create') => {
         setSelected(null)
-        let a = e.currentTarget.dataset.id as string
         UI_OpenWindow(UI_Windows.PLAYLIST)
-        PlaylistSetOverview(a)
+        PlaylistSetOverview(e)
     }
     const onFolderClick = (_:  React.MouseEvent<HTMLElement>) => setSelected(null)
     const onDrop = (playlistId: string) => (e: React.DragEvent) => {
         const trackId = e.dataTransfer.getData('text/plain')
-        PlaylistService.add(trackId, playlistId).then(r => console.log(r)).catch(r => console.log(r))
+        PlaylistService.add(trackId, playlistId)
+            .then(r => UI_Warn({type: 'success', text: 'Добавлено в плейлист'}))
+            .catch(r => UI_Warn({type: 'error', text: r?.data?.message}))
     }
 
     return <div className={'folder'} onClick={onFolderClick}>
@@ -47,7 +49,7 @@ const Directory = () => {
                         onClick={onIconClick}
                         id={'create'}
                         selected={selected === 'create'}
-                        onDoubleClick={onIconDoubleClick}
+                        onDoubleClick={() => onIconDoubleClick('create')}
                     />
                     {toDisplay.map(v => <DesktopIcon
                         onDragOver={e => {
@@ -62,7 +64,7 @@ const Directory = () => {
                         onClick={onIconClick}
                         id={v.id}
                         selected={selected === v.id}
-                        onDoubleClick={onIconDoubleClick}
+                        onDoubleClick={() => onIconDoubleClick(v)}
                     />)}
                 </React.Fragment>}
                 {!authorized && <Unauthorized/>}

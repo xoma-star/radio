@@ -14,21 +14,17 @@ import {FILES_LOCATION} from "../../config";
 import {useTypedSelector} from "../../Hooks/useTypedSelector";
 
 interface props{
-    overview: string
+    overview: PlaylistSchema
 }
 
 const PlaylistOverview = ({overview}: props) => {
-    const [playlistData, setPlaylistData] = useState<PlaylistSchema>()
     const [tracks, setTracks] = useState<TrackSchema[]>()
     const {UI_Warn, UI_OpenWindow, PlayerClearQueue, PlayerSetTrack, PlayerAddQueue} = useActions()
     const {id} = useTypedSelector(s => s.player)
     useEffect(() => {
-        PlaylistService.getOne(overview)
-            .then(async r => {
-                setPlaylistData(r.data)
-                setTracks((await TrackService.getMultiple(r.data.tracks)).data)
-            })
-            .catch(e => UI_Warn({type: 'warning', text: e?.data?.message}))
+        TrackService.getMultiple(overview.tracks)
+            .then(r => setTracks(r.data))
+            .catch(e => UI_Warn(e?.data?.message))
     }, [overview])
 
     const addToQueue = () => {
@@ -37,7 +33,7 @@ const PlaylistOverview = ({overview}: props) => {
     }
 
     return  <React.Fragment>
-        <Title>{playlistData?.name}</Title>
+        <Title>{overview?.name}</Title>
         <List style={{margin: '8px 0'}}>
             {tracks?.map(r => <Cell
                 onDoubleClick={() => {

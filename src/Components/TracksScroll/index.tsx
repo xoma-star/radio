@@ -15,11 +15,10 @@ interface props{
 
 const TracksScroll = ({header, tracks}: props) => {
     const {UI_OpenWindow, PlayerSetTrack, PlayerClearQueue} = useActions()
-    const onIconDoubleClick = (e: React.MouseEvent<HTMLElement>) => {
-        let a = e.currentTarget.dataset.id as string
+    const onIconDoubleClick = (e: TrackSchema) => {
         UI_OpenWindow(UI_Windows.MUSIC_PLAYER)
         PlayerClearQueue()
-        PlayerSetTrack(a)
+        PlayerSetTrack(e)
     }
 
     const onDragStart = (id: string) => (e: React.DragEvent) => {
@@ -35,7 +34,7 @@ const TracksScroll = ({header, tracks}: props) => {
                 type={'track'}
                 isOnDesktop={false}
                 label={`${v.author} - ${v.name}`}
-                onDoubleClick={onIconDoubleClick}
+                onDoubleClick={() => onIconDoubleClick(v)}
                 id={v.id}
                 icon={FILES_LOCATION + v.cover}
                 onDragStart={onDragStart(v.id)}

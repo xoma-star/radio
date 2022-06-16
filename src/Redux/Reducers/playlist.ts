@@ -3,7 +3,7 @@ import PlaylistSchema from "../../Schemas/playlist.schema";
 interface State{
     name?: string,
     id?: string,
-    overview?: string | 'create' | null
+    overview?: PlaylistSchema | 'create' | null
 }
 
 export enum PlaylistActionTypes{
@@ -18,7 +18,7 @@ interface PlaylistStringAction{
 }
 interface PlaylistOverviewAction{
     type: PlaylistActionTypes.SET_OVERVIEW,
-    payload: 'create' | null | string
+    payload: 'create' | null | PlaylistSchema
 }
 
 export type PlaylistAction = PlaylistStringAction | PlaylistOverviewAction
