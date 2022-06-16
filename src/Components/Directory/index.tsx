@@ -33,7 +33,10 @@ const Directory = () => {
     const onDrop = (playlistId: string) => (e: React.DragEvent) => {
         const trackId = e.dataTransfer.getData('text/plain')
         PlaylistService.add(trackId, playlistId)
-            .then(r => UI_Warn({type: 'success', text: 'Добавлено в плейлист'}))
+            .then(r => {
+                UI_OpenWindow(UI_Windows.PLAYLIST)
+                PlaylistSetOverview(r.data)
+            })
             .catch(r => UI_Warn({type: 'error', text: r?.data?.message}))
     }
 
@@ -52,6 +55,7 @@ const Directory = () => {
                         onDoubleClick={() => onIconDoubleClick('create')}
                     />
                     {toDisplay.map(v => <DesktopIcon
+                        key={v.id}
                         onDragOver={e => {
                             e.preventDefault()
                             e.dataTransfer.dropEffect = "copy"

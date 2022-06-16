@@ -21,7 +21,7 @@ const usePlayer = () => {
     const [loading, setLoading] = useState(true)
     const {PlayerSetTrack} = useActions()
     const onLoadedMetadata = () => setDuration(trackRef.current.duration)
-    const i = queue.findIndex(x => x.id === id && x.ts === ts)
+    const i = queue.findIndex(x => x.id === id)
     const canPlayNext = i < queue.length - 1
     const canPlayPrev = i > 0
 
@@ -31,8 +31,7 @@ const usePlayer = () => {
         trackRef.current.onloadedmetadata = onLoadedMetadata
         trackRef.current.pause()
         trackRef.current.load()
-        if(trackRef.current.readyState >= 3) startTrack()
-        else trackRef.current.onloadeddata = startTrack
+        trackRef.current.onloadeddata = startTrack
         trackRef.current.onplay = startTrack
         trackRef.current.onpause = stopTrack
     },[i, path])
@@ -40,7 +39,7 @@ const usePlayer = () => {
     useEffect(() => {return () => clearInterval(intervalRef.current)}, [])
     useEffect(() => {
         trackRef.current.onended = nextTrack
-    }, [queue])
+    }, [canPlayNext])
 
     const startTimer = () => {
         clearInterval(intervalRef.current)
@@ -82,7 +81,7 @@ const usePlayer = () => {
     }
 
     const nextTrack = () => {
-        if(i < 0 || i >= queue.length - 1 || queue.length < 1){
+        if(!canPlayNext){
             trackRef.current.currentTime = 0
             setPlaying(false)
             setPlayed(0.01)
@@ -93,7 +92,7 @@ const usePlayer = () => {
         setPlaying(true)
     }
     const prevTrack = () => {
-        if(i <= 0) return
+        if(!canPlayPrev) return
         trackRef.current.currentTime = 0
         PlayerSetTrack(queue[i - 1])
         setPlaying(true)

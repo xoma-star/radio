@@ -12,6 +12,7 @@ import List from "../Common/List";
 import {UI_Windows} from "../../Redux/Reducers/ui";
 import {FILES_LOCATION} from "../../config";
 import {useTypedSelector} from "../../Hooks/useTypedSelector";
+import {PlaylistSetOverview} from "../../Redux/ActionCreators/playlist";
 
 interface props{
     overview: PlaylistSchema
@@ -27,9 +28,27 @@ const PlaylistOverview = ({overview}: props) => {
             .catch(e => UI_Warn(e?.data?.message))
     }, [overview])
 
-    const addToQueue = () => {
+    const addToQueue = (e: React.MouseEvent) => {
+        e.stopPropagation()
         tracks?.forEach(r => PlayerAddQueue(r))
         UI_OpenWindow(UI_Windows.MUSIC_PLAYER)
+    }
+
+    const shuffle = (e: React.MouseEvent) => {
+        e.stopPropagation()
+        if(typeof tracks === 'undefined') return
+        PlayerClearQueue()
+        const a = [...tracks]
+        a.sort(_ => Math.random() > 0.5 ? 1 : -1)
+        a.forEach(r => PlayerAddQueue(r))
+        UI_OpenWindow(UI_Windows.MUSIC_PLAYER)
+    }
+
+    const removeFromPlaylist = (trackId: string) => (e: React.MouseEvent) => {
+        e.stopPropagation()
+        PlaylistService.removeTrack(trackId, overview.id)
+            .then(r => PlaylistSetOverview(r.data))
+            .catch(e => UI_Warn(e?.data?.message))
     }
 
     return  <React.Fragment>
@@ -41,12 +60,13 @@ const PlaylistOverview = ({overview}: props) => {
                     PlayerClearQueue()
                     PlayerSetTrack(r)
                 }}
+                after={<Button onClick={removeFromPlaylist(r.id)} className={'button-control close'}/>}
                 selected={r.id === id}
                 before={<IconSmall src={FILES_LOCATION + r.cover}/>}
                 key={'playlist' + r.id}>{r.author} - {r.name}</Cell>)}
         </List>
         <div style={{display: 'flex'}}>
-            <Button disabled>Перемешать</Button>
+            <Button onClick={shuffle}>Перемешать</Button>
             <Button onClick={addToQueue}>В очередь</Button>
             <Button disabled>Удалить</Button>
         </div>

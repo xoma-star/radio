@@ -8,10 +8,11 @@ interface props{
     style?: React.CSSProperties,
     onClick?: (e: React.MouseEvent) => void,
     onDoubleClick?: (e: React.MouseEvent) => void
-    selected?: boolean
+    selected?: boolean,
+    after?: React.ReactNode
 }
 
-const Cell = ({before, style, className, children, onClick, selected, onDoubleClick}: props) => {
+const Cell = ({before, style, className, children, onClick, selected, onDoubleClick, after}: props) => {
     const clickHandler = (e: React.MouseEvent) => {
         e.stopPropagation()
         if(onClick) onClick(e)
@@ -20,9 +21,10 @@ const Cell = ({before, style, className, children, onClick, selected, onDoubleCl
         onClick={clickHandler}
         onDoubleClick={onDoubleClick}
         style={style}
-        className={`cell ${className || ""}${selected && ' selected'}`}>
-        {before}
-        {children}
+        className={`cell${className || ""}${selected ? ' selected' : ''}`}>
+        <div className={'before'}>{before}</div>
+        <div className={'body'}>{children}</div>
+        <div className={'after'}>{after}</div>
     </div>
 }
 

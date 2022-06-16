@@ -3,6 +3,7 @@ import {getRandomCover} from "../Images/CoverSamples";
 import {useActions} from "./useActions";
 import toDataUrl from "../Functions/toDataUrl";
 import TrackService from "../http/Services/TrackService";
+import {Buffer} from 'buffer'
 
 const useUploader = () => {
     const [cover, setCover] = useState<string | ArrayBuffer | null | Blob>()
@@ -32,8 +33,10 @@ const useUploader = () => {
                 setLoadStatus(0)
                 window.jsmediatags.read(file, {
                     onSuccess: (d) => {
-                        if(typeof d.tags?.picture?.data !== 'undefined'){/*@ts-ignore*/
-                            setCover(`data:image/jpeg;base64,${btoa(String.fromCharCode.apply(null, new Uint8Array(d.tags.picture.data)))}`)}
+                        if(typeof d.tags?.picture?.data !== 'undefined'){
+                            const u8 = new Uint8Array(d.tags?.picture?.data)
+                            setCover(`data:image/jpeg;base64,${Buffer.from(u8).toString('base64')}`)
+                        }
                         else toDataUrl(getRandomCover(), (e) => setCover(e))
                         if(typeof d.tags.title !== 'undefined') setName(d.tags.title as string)
                         else UI_Warn({type: 'warning', text: 'Не удалось распознать файл. Пожалуйста, введите данные вручную.'})

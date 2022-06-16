@@ -5,6 +5,7 @@ import {UI_Windows} from "../../Redux/Reducers/ui";
 import windows from "../../Constants/windows";
 import Button from "../Common/Button";
 
+
 const Taskbar = () => {
     const {opened, minimized, activeWindow} = useTypedSelector(s => s.ui)
     const {UI_SetActiveWindow, UI_MinimizeWindow} = useActions()
@@ -19,6 +20,7 @@ const Taskbar = () => {
         }
         if(v !== activeWindow) UI_SetActiveWindow(v)
     }
+
     return <div className={'taskbar'}>
         <Button className="start-button toggle">
             <img alt={'start'} src="https://98.js.org/images/start.png"/><b>Пуск</b>

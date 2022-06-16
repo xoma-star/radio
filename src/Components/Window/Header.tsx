@@ -24,16 +24,12 @@ const WindowHeader = ({icon, header, id}: props) => {
                 e.stopPropagation()
                 UI_MinimizeWindow(id)
                 UI_SetActiveWindow(null)
-            }} className={'button-control minimize'}>
-                <span className={'noselect'}/>
-            </Button>
+            }} className={'button-control minimize'}/>
             <Button onClick={(e) => {
                 e.stopPropagation()
                 UI_CloseWindow(id)
                 UI_SetActiveWindow(null)
-            }} className={'button-control close'}>
-                <span className={'noselect'}/>
-            </Button>
+            }} className={'button-control close'}/>
         </div>
     </div>
 }

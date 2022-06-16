@@ -3,3 +3,15 @@
     align-items: center;
     padding: 2px;
 }
+
+.cell > .before{
+    padding-right: 4px;
+}
+
+.cell > .body{
+    width: 100%;
+}
+
+.cell > .after{
+    padding-left: 4px;
+}
