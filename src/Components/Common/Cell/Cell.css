@@ -1,6 +1,6 @@
 .cell{
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     padding: 2px;
 }
 

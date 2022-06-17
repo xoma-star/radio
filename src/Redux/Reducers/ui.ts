@@ -80,9 +80,11 @@ export const UI_Reducer = (state: State = defaultState, action: UI_Action): Stat
             if(i < 0) return state
             let b = [...state.opened]
             let c = {...state.minimized}
+            let h = {...state.layoutPos}
             delete c[action.payload]
+            delete h[action.payload]
             b.splice(i,1)
-            return {...state, opened: b}
+            return {...state, opened: b, minimized: c, layoutPos: h, activeWindow: null}
         case UI_ActionTypes.SET_ACTIVE_WINDOW:
             let d = {...state.layoutPos}
             if(action.payload !== null) d[action.payload] = Math.max(...Object.values(state.layoutPos)) + 1

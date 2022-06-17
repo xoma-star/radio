@@ -17,8 +17,8 @@ const Directory = () => {
     const {UI_OpenWindow, PlaylistSetOverview, UI_Warn} = useActions()
 
     useEffect(() => {
-        UserService.getUserPlaylists().then(r => setToDisplay(r.data)).catch(r => console.log(r))
-    }, [])
+        UserService.getUserPlaylists().then(r => setToDisplay(r.data)).catch(_ => {})
+    }, [authorized])
 
     const onIconClick = (e:  React.MouseEvent<HTMLElement>) => {
         e.stopPropagation()

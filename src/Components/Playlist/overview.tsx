@@ -24,7 +24,7 @@ const PlaylistOverview = ({overview}: props) => {
     useEffect(() => {
         TrackService.getMultiple(overview.tracks)
             .then(r => setTracks(r.data))
-            .catch(e => UI_Warn(e?.data?.message))
+            .catch(e => UI_Warn(e?.message))
     }, [overview.tracks])
 
     const addToQueue = (e: React.MouseEvent) => {
@@ -47,7 +47,7 @@ const PlaylistOverview = ({overview}: props) => {
         e.stopPropagation()
         PlaylistService.removeTrack(trackId, overview.id)
             .then(r => PlaylistSetOverview(r.data))
-            .catch(e => UI_Warn(e?.data?.message))
+            .catch(e => UI_Warn(e?.message))
     }
 
     return  <React.Fragment>
