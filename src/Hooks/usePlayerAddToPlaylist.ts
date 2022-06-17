@@ -17,6 +17,7 @@ const usePlayerAddToPlaylist = () => {
     useEffect(() => {
         setShowPlaylists(false)
     }, [id])
+    //
     const addToPlaylistButtonClickHandler = (e: React.MouseEvent) => {
         e.stopPropagation()
         if(!authorized){
