@@ -1,16 +1,12 @@
-import {Ref} from "react";
 import {FILES_LOCATION} from "../../config";
 import TrackSchema from "../../Schemas/track.schema";
 
 interface State{
-    interval?: typeof setInterval,
     path?: string,
     cover?: string,
     author?: string,
     name?: string,
     id?: string,
-    ts?: number,
-    audioRef?: Ref<HTMLAudioElement>,
     queue: TrackSchema[]
 }
 
@@ -63,7 +59,7 @@ export const PlayerReducer = (state: State = defaultState, action: PlayerAction)
             a.queue = [...a.queue, b]
             return a
         }
-        case PlayerActionTypes.CLEAR_QUEUE: return {...state, queue: []}
+        case PlayerActionTypes.CLEAR_QUEUE: return {...state, queue: [], path: undefined, id: undefined, cover: undefined, name: undefined, author: undefined}
         default: return state
     }
 }

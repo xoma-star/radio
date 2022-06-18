@@ -13,6 +13,9 @@ interface props {
     onDragOver?: (e: React.DragEvent) => void,
     onDrop?: (e: React.DragEvent) => void,
     onDragStart?: (e: React.DragEvent) => void,
+    onDragEnd?: (e: React.DragEvent) => void,
+    onDragLeave?: (e: React.DragEvent) => void,
+    onDragEnter?: (e: React.DragEvent) => void,
     draggable?: boolean
 }
 
@@ -20,17 +23,22 @@ const DesktopIcon = ({label, draggable = false,
                          selected = false, onClick,
                          id, onDoubleClick,
                          icon, isOnDesktop = true,
-                         onDrop, onDragOver, onDragStart}: props) => {
+                         onDrop, onDragOver,
+                         onDragStart, onDragEnd,
+                         onDragEnter, onDragLeave}: props) => {
     let m = {'--mask': `url(${icon})`} as React.CSSProperties
     return <div
         onDrop={onDrop}
         onDragOver={onDragOver}
         onDragStart={onDragStart}
+        onDragEnd={onDragEnd}
+        onDragEnter={onDragEnter}
+        onDragLeave={onDragLeave}
         draggable={draggable}
         data-id={id}
         className={`desktop-icon non-default-select${selected ? ' selected' : ''}${!isOnDesktop ? ' inDir' : ''}`}
-        onClick={onClick ? (e:  React.MouseEvent<HTMLElement>) => onClick(e) : () => {}}
-        onDoubleClick={onDoubleClick ? (e:  React.MouseEvent<HTMLElement>) => onDoubleClick(e) : () => {}}
+        onClick={onClick}
+        onDoubleClick={onDoubleClick}
     >
         <div className={'icon-wrapper'}>
             <img draggable={false} alt={'posh'} src={icon}

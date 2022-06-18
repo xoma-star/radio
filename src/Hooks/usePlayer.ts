@@ -27,10 +27,10 @@ const usePlayer = () => {
     const startTimer = () => {
         clearInterval(intervalRef.current)
         intervalRef.current = setInterval(() => {
-            navigator.mediaSession.setPositionState({
-                duration: trackRef.current.duration,
-                playbackRate: trackRef.current.playbackRate,
-                position: trackRef.current.currentTime
+            if('mediaSession' in navigator) navigator.mediaSession.setPositionState({
+                duration: trackRef.current.duration || 0,
+                playbackRate: trackRef.current.playbackRate || 1,
+                position: trackRef.current.currentTime || 0
             })
             setPlayed(trackRef.current.currentTime)
         }, 100)
@@ -98,8 +98,8 @@ const usePlayer = () => {
         trackRef.current.onloadeddata = startTrack
         trackRef.current.onplay = startTrack
         trackRef.current.onpause = stopTrack
-        navigator.mediaSession.setActionHandler('previoustrack', prevTrack);
-        navigator.mediaSession.setActionHandler('nexttrack', nextTrack);
+        if ('mediaSession' in navigator) navigator.mediaSession.setActionHandler('previoustrack', prevTrack);
+        if ('mediaSession' in navigator) navigator.mediaSession.setActionHandler('nexttrack', nextTrack);
     },[i, path])
 
     useEffect(() => {
@@ -115,7 +115,13 @@ const usePlayer = () => {
         }
     }, [name, author, cover])
 
-    useEffect(() => {return () => clearInterval(intervalRef.current)}, [])
+    useEffect(() => {return () => {
+        clearInterval(intervalRef.current)
+        if('mediaSession' in navigator) {
+            navigator.mediaSession.metadata = new MediaMetadata(undefined)
+            navigator.mediaSession.setPositionState({})
+        }
+    }}, [])
     useEffect(() => {
         trackRef.current.onended = nextTrack
     }, [canPlayNext])

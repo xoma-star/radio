@@ -11,7 +11,7 @@ interface props{
 
 const Button = ({children, disabled = false, onClick, className = '', style = {}}: props) => {
     const clickHandler = (e: React.MouseEvent) => {
-        window.navigator.vibrate(30)
+        if('vibrate' in navigator) navigator.vibrate(30)
         if(onClick) onClick(e)
     }
     return <button

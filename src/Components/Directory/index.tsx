@@ -1,6 +1,6 @@
 import './Directory.css'
 import DesktopIcon from "../Desktop/Icon";
-import {icon_dir_open, icon_share} from "../../Images/Icons";
+import {icon_dir, icon_dir_open, icon_share} from "../../Images/Icons";
 import React, {useEffect, useState} from "react";
 import {UI_Windows} from "../../Redux/Reducers/ui";
 import {useActions} from "../../Hooks/useActions";
@@ -14,6 +14,7 @@ const Directory = () => {
     const [selected, setSelected] = useState<string | null | undefined>(null)
     const [toDisplay, setToDisplay] = useState<PlaylistSchema[]>([])
     const {authorized} = useTypedSelector(s => s.user)
+    const {overview} = useTypedSelector(s => s.playlist)
     const {UI_OpenWindow, PlaylistSetOverview, UI_Warn} = useActions()
 
     useEffect(() => {
@@ -37,7 +38,7 @@ const Directory = () => {
                 UI_OpenWindow(UI_Windows.PLAYLIST)
                 PlaylistSetOverview(r.data)
             })
-            .catch(r => UI_Warn({type: 'error', text: r?.data?.message}))
+            .catch(r => UI_Warn({type: 'error', text: r?.response?.data?.message}))
     }
 
     return <div className={'folder'} onClick={onFolderClick}>
@@ -63,7 +64,7 @@ const Directory = () => {
                         type={'playlist'}
                         onDrop={onDrop(v.id)}
                         label={v.name}
-                        icon={icon_dir_open}
+                        icon={overview !== 'create' && overview?.id === v.id ? icon_dir_open : icon_dir}
                         isOnDesktop={false}
                         onClick={onIconClick}
                         id={v.id}

@@ -50,9 +50,23 @@ const PlaylistOverview = ({overview}: props) => {
             .catch(e => UI_Warn(e?.message))
     }
 
+    const onDrop = (e: React.DragEvent) => {
+        if(!overview.id) return
+        const trackId = e.dataTransfer.getData('text/plain')
+        PlaylistService.add(trackId, overview.id)
+            .then(r => {
+                UI_OpenWindow(UI_Windows.PLAYLIST)
+                PlaylistSetOverview(r.data)
+            })
+            .catch(r => UI_Warn({type: 'error', text: r?.response?.data?.message}))
+    }
+
     return  <React.Fragment>
         <Title>{overview?.name}</Title>
-        <List style={{margin: '8px 0'}}>
+        <List onDrop={onDrop} onDragOver={e => {
+            e.preventDefault()
+            e.dataTransfer.dropEffect = "copy"
+        }} style={{margin: '8px 0'}}>
             {tracks?.map(r => <Cell
                 onDoubleClick={() => {
                     UI_OpenWindow(UI_Windows.MUSIC_PLAYER)
