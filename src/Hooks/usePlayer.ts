@@ -10,7 +10,6 @@ const usePlayer = () => {
         cover,
         name,
         queue,
-        ts
     } = useTypedSelector(s => s.player)
     const trackRef = useRef<HTMLAudioElement>(new Audio())
     const intervalRef = useRef<any>()
@@ -25,25 +24,14 @@ const usePlayer = () => {
     const canPlayNext = i < queue.length - 1
     const canPlayPrev = i > 0
 
-    useEffect(() => {
-        setLoading(true)
-        if(path === '' || i < 0) return
-        trackRef.current.onloadedmetadata = onLoadedMetadata
-        trackRef.current.pause()
-        trackRef.current.load()
-        trackRef.current.onloadeddata = startTrack
-        trackRef.current.onplay = startTrack
-        trackRef.current.onpause = stopTrack
-    },[i, path])
-
-    useEffect(() => {return () => clearInterval(intervalRef.current)}, [])
-    useEffect(() => {
-        trackRef.current.onended = nextTrack
-    }, [canPlayNext])
-
     const startTimer = () => {
         clearInterval(intervalRef.current)
         intervalRef.current = setInterval(() => {
+            navigator.mediaSession.setPositionState({
+                duration: trackRef.current.duration,
+                playbackRate: trackRef.current.playbackRate,
+                position: trackRef.current.currentTime
+            })
             setPlayed(trackRef.current.currentTime)
         }, 100)
     }
@@ -52,6 +40,7 @@ const usePlayer = () => {
         setLoading(false)
         startTimer()
         setPlaying(true)
+        if ('mediaSession' in navigator) navigator.mediaSession.playbackState = "playing"
         document.title = `${author} - ${name}`
         trackRef.current.play()
     }
@@ -59,6 +48,8 @@ const usePlayer = () => {
     const stopTrack = () => {
         setPlaying(false)
         trackRef.current.pause()
+        document.title = `Serenity`
+        if ('mediaSession' in navigator) navigator.mediaSession.playbackState = "paused"
         clearInterval(intervalRef.current)
     }
 
@@ -97,6 +88,37 @@ const usePlayer = () => {
         PlayerSetTrack(queue[i - 1])
         setPlaying(true)
     }
+
+    useEffect(() => {
+        setLoading(true)
+        if(path === '' || i < 0) return
+        trackRef.current.onloadedmetadata = onLoadedMetadata
+        trackRef.current.pause()
+        trackRef.current.load()
+        trackRef.current.onloadeddata = startTrack
+        trackRef.current.onplay = startTrack
+        trackRef.current.onpause = stopTrack
+        navigator.mediaSession.setActionHandler('previoustrack', prevTrack);
+        navigator.mediaSession.setActionHandler('nexttrack', nextTrack);
+    },[i, path])
+
+    useEffect(() => {
+        if ('mediaSession' in navigator) {
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title: name,
+                artist: author,
+                artwork: [
+                    { src: cover as string, sizes: '256x256', type: 'image/png' },
+                    { src: cover as string, sizes: '512x512', type: 'image/png' }
+                ]
+            });
+        }
+    }, [name, author, cover])
+
+    useEffect(() => {return () => clearInterval(intervalRef.current)}, [])
+    useEffect(() => {
+        trackRef.current.onended = nextTrack
+    }, [canPlayNext])
 
     return {
         trackRef,
