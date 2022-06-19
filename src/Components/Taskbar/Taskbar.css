@@ -72,3 +72,19 @@
 .task.selected {
     font-weight: bold;
 }
+
+.tray{
+    display: flex;
+    flex-direction: row !important;
+    align-items: center !important;
+    align-content: center !important;
+    justify-content: center !important;
+    line-height: 22px;
+    box-sizing: border-box;
+    vertical-align: middle !important;
+}
+
+.tray .taskbar-icons{
+    padding-left: 4px;
+    display: flex;
+}

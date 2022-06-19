@@ -30,3 +30,7 @@ export const UI_Warn = (p: warnMessage | null) => {
         else dispatch({type: UI_ActionTypes.OPEN_WINDOW, payload: UI_Windows.WARNING})
     }
 }
+
+export const UI_SetConnectionStatus = (p: 'online' | 'offline') => {
+    return (dispatch: Dispatch<UI_Action>) => dispatch({type: UI_ActionTypes.SET_CONNECTION_STATUS, payload: p})
+}

@@ -3,7 +3,8 @@ export enum UI_ActionTypes{
     CLOSE_WINDOW = 'CLOSE_WINDOW',
     MINIMIZE_WINDOW = 'MINIMIZE_WINDOW',
     SET_ACTIVE_WINDOW = 'SET_ACTIVE_WINDOW',
-    SET_WARNING = 'SET_WARNING'
+    SET_WARNING = 'SET_WARNING',
+    SET_CONNECTION_STATUS = 'SET_CONNECTION_STATUS'
 }
 
 export type warnMessage = null | {text: string, type: 'success' | 'warning' | 'error'}
@@ -23,7 +24,8 @@ interface State{
     minimized: { [key in UI_Windows]?: boolean },
     layoutPos: {[key in UI_Windows]?: number}
     activeWindow: UI_Windows | null,
-    warning: warnMessage
+    warning: warnMessage,
+    connectionStatus: 'online' | 'offline'
 }
 
 interface UI_Window{
@@ -49,14 +51,20 @@ interface UI_Warn{
     payload: warnMessage
 }
 
-export type UI_Action = UI_Window | UI_Active | UI_Minimize | UI_Warn
+interface UI_Connection{
+    type: UI_ActionTypes.SET_CONNECTION_STATUS,
+    payload: 'online' | 'offline'
+}
+
+export type UI_Action = UI_Window | UI_Active | UI_Minimize | UI_Warn | UI_Connection
 
 const defaultState: State = {
     opened: [],
     minimized: {},
     activeWindow: null,
     layoutPos: {},
-    warning: null
+    warning: null,
+    connectionStatus: 'online'
 }
 
 export const UI_Reducer = (state: State = defaultState, action: UI_Action): State => {
@@ -97,6 +105,7 @@ export const UI_Reducer = (state: State = defaultState, action: UI_Action): Stat
             if(!g.type) g.type = 'warning'
             if(!g.text) g.text = 'Неизвестная ошибка'
             return {...state, warning: g}
+        case UI_ActionTypes.SET_CONNECTION_STATUS: return {...state, connectionStatus: action.payload}
         default: return state
     }
 }

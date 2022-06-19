@@ -4,10 +4,14 @@ import {useActions} from "../../Hooks/useActions";
 import {UI_Windows} from "../../Redux/Reducers/ui";
 import windows from "../../Constants/windows";
 import Button from "../Common/Button";
+import {useEffect, useState} from "react";
+import IconSmall from "../Icons/IconSmall";
+import {icon_dir, icon_offline, icon_online} from "../../Images/Icons";
 
 
 const Taskbar = () => {
-    const {opened, minimized, activeWindow} = useTypedSelector(s => s.ui)
+    const [time, setTime] = useState<string>()
+    const {opened, minimized, activeWindow, connectionStatus} = useTypedSelector(s => s.ui)
     const {UI_SetActiveWindow, UI_MinimizeWindow} = useActions()
     const handler = (v: UI_Windows) => {
         if(v === activeWindow) {
@@ -21,6 +25,20 @@ const Taskbar = () => {
         if(v !== activeWindow) UI_SetActiveWindow(v)
     }
 
+    const getTime = () => {
+        const date = new Date()
+        let h = date.getHours().toString()
+        let m = date.getMinutes().toString()
+        if(h.length < 2) h = `0${h}`
+        if(m.length < 2) m = `0${m}`
+        return `${h}:${m}`
+    }
+
+    useEffect(() => {
+        const id = setInterval(() => setTime(getTime()), 3000)
+        return () => clearInterval(id)
+    }, [])
+
     return <div className={'taskbar'}>
         <Button className="start-button toggle">
             <img alt={'start'} src="https://98.js.org/images/start.png"/><b>Пуск</b>
@@ -33,8 +51,11 @@ const Taskbar = () => {
             </Button>)}
         </div>
         <div className={'taskbar-divider'}/>
-        <div className="tray inset-shallow">
-            <div className="taskbar-time">21:49</div>
+        <div className={'tray inset-shallow'}>
+            <div className={'taskbar-icons'}>
+                <IconSmall src={connectionStatus === 'online' ? icon_online : icon_offline}/>
+            </div>
+            <div className="taskbar-time">{getTime()}</div>
         </div>
     </div>
 }

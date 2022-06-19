@@ -9,8 +9,10 @@ import icon_credentials from './keys-5.png'
 import icon_warn from './msg_warning-0.png'
 import icon_share from './overlay_share_cool-3.png'
 import icon_globe_click from './internet_connection_wiz-4.png'
+import icon_online from './conn_pcs_on_on.png'
+import icon_offline from './conn_pcs_no_network.png'
 
 export {
     icon_dir, icon_loading, icon_channel, icon_cd, icon_success, icon_error, icon_credentials, icon_warn, icon_share, icon_dir_open,
-    icon_globe_click
+    icon_globe_click, icon_offline, icon_online
 }

@@ -16,9 +16,17 @@ import Navigator from "./Components/Navigator";
 import Playlist from "./Components/Playlist";
 
 const App = () => {
-    const {CheckAuth} = useActions()
+    const {CheckAuth, UI_SetConnectionStatus, UI_Warn} = useActions()
     useEffect(() => {
         if(localStorage.getItem('accessToken')) CheckAuth()
+        window.onoffline = () => {
+            UI_SetConnectionStatus('offline')
+            UI_Warn({type: 'warning', text: 'Потеряно соединение. Некоторые действия недоступны.'})
+        }
+        window.ononline = () => {
+            UI_SetConnectionStatus('online')
+            UI_Warn({type: 'success', text: 'Соединение с сетью восстановлено.'})
+        }
         bridge.send('VKWebAppInit')
     }, [])
     const {opened} = useTypedSelector(s => s.ui)
