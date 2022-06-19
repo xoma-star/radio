@@ -1,6 +1,7 @@
 import {useTypedSelector} from "./useTypedSelector";
 import {useActions} from "./useActions";
 import {useEffect, useRef, useState} from "react";
+import * as workerTimers from 'worker-timers'
 
 const usePlayer = () => {
     const {
@@ -24,16 +25,24 @@ const usePlayer = () => {
     const canPlayNext = i < queue.length - 1
     const canPlayPrev = i > 0
 
+    const clearTimer = () => {
+        if (intervalRef.current){
+            workerTimers.clearInterval(intervalRef.current)
+            intervalRef.current = null
+        }
+    }
+
     const startTimer = () => {
-        clearInterval(intervalRef.current)
-        intervalRef.current = setInterval(() => {
+        clearTimer()
+        intervalRef.current = workerTimers.setInterval(() => {
             if('mediaSession' in navigator) navigator.mediaSession.setPositionState({
                 duration: trackRef.current.duration || 0,
                 playbackRate: trackRef.current.playbackRate || 1,
                 position: trackRef.current.currentTime || 0
             })
+            trackRef.current.onended = nextTrack
             setPlayed(trackRef.current.currentTime)
-        }, 100)
+        }, 300)
     }
 
     const startTrack = () => {
@@ -50,7 +59,7 @@ const usePlayer = () => {
         trackRef.current.pause()
         document.title = `Serenity`
         if ('mediaSession' in navigator) navigator.mediaSession.playbackState = "paused"
-        clearInterval(intervalRef.current)
+        clearTimer()
     }
 
     const onBarClick = (e: number) => {
@@ -62,7 +71,7 @@ const usePlayer = () => {
 
     const onDragStart = () => {
         setDragging(true)
-        clearInterval(intervalRef.current)
+        clearTimer()
     }
     const onDragEnd = (e: number) => {
         setDragging(false)
@@ -105,26 +114,23 @@ const usePlayer = () => {
     useEffect(() => {
         if ('mediaSession' in navigator) {
             navigator.mediaSession.metadata = new MediaMetadata({
-                title: name,
-                artist: author,
+                title: name || 'Unknown',
+                artist: author || 'Unknown',
                 artwork: [
-                    { src: cover as string, sizes: '256x256', type: 'image/png' },
-                    { src: cover as string, sizes: '512x512', type: 'image/png' }
+                    { src: cover as string || '', sizes: '256x256', type: 'image/png' },
+                    { src: cover as string || '', sizes: '512x512', type: 'image/png' }
                 ]
             });
         }
     }, [name, author, cover])
 
     useEffect(() => {return () => {
-        clearInterval(intervalRef.current)
+        clearTimer()
         if('mediaSession' in navigator) {
             navigator.mediaSession.metadata = new MediaMetadata(undefined)
             navigator.mediaSession.setPositionState({})
         }
     }}, [])
-    useEffect(() => {
-        trackRef.current.onended = nextTrack
-    }, [canPlayNext])
 
     return {
         trackRef,
