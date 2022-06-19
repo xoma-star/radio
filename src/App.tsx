@@ -19,12 +19,12 @@ const App = () => {
     const {CheckAuth, UI_SetConnectionStatus, UI_Warn} = useActions()
     useEffect(() => {
         if(localStorage.getItem('accessToken')) CheckAuth()
-        const online = navigator.onLine
-        if(online) UI_SetConnectionStatus('online')
-        else{
-            UI_SetConnectionStatus('offline')
-            UI_Warn({type: 'warning', text: 'Нет соединения с сетью. Некоторые действия недоступны.'})
-        }
+        fetch('https://xoma-star.space')
+            .then(() => UI_SetConnectionStatus('online'))
+            .catch(() => {
+                UI_SetConnectionStatus('offline')
+                UI_Warn({type: 'warning', text: 'Нет соединения с сетью. Некоторые действия недоступны.'})
+            })
         window.onoffline = () => {
             UI_SetConnectionStatus('offline')
             UI_Warn({type: 'warning', text: 'Потеряно соединение. Некоторые действия недоступны.'})
