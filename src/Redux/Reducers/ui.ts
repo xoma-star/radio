@@ -64,7 +64,7 @@ const defaultState: State = {
     activeWindow: null,
     layoutPos: {},
     warning: null,
-    connectionStatus: 'online'
+    connectionStatus: 'offline'
 }
 
 export const UI_Reducer = (state: State = defaultState, action: UI_Action): State => {
