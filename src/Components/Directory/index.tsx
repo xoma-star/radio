@@ -16,10 +16,10 @@ const Directory = () => {
     const {authorized} = useTypedSelector(s => s.user)
     const {overview} = useTypedSelector(s => s.playlist)
     const {minimized} = useTypedSelector(s => s.ui)
-    const {UI_OpenWindow, PlaylistSetOverview, UI_Warn} = useActions()
+    const {UI_OpenWindow, PlaylistSetOverview} = useActions()
 
     useEffect(() => {
-        UserService.getUserPlaylists().then(r => setToDisplay(r.data)).catch(_ => {})
+        if(authorized) UserService.getUserPlaylists().then(r => setToDisplay(r.data))
     }, [authorized])
 
     const onIconClick = (e:  React.MouseEvent<HTMLElement>) => {
@@ -39,7 +39,6 @@ const Directory = () => {
                 UI_OpenWindow(UI_Windows.PLAYLIST)
                 PlaylistSetOverview(r.data)
             })
-            .catch(r => UI_Warn({type: 'error', text: r?.response?.data?.message}))
     }
 
     return <div className={'folder'} onClick={onFolderClick}>

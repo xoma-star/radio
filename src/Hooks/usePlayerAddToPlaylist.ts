@@ -22,7 +22,7 @@ const usePlayerAddToPlaylist = () => {
         e.stopPropagation()
         if(!authorized){
             UI_OpenWindow(UI_Windows.LOGIN)
-            UI_Warn({type: "warning", text: 'Войдите в аккаунт, чтобы продолжить'})
+            UI_Warn('Войдите в аккаунт, чтобы продолжить')
             return
         }
         setShowPlaylists(true)
@@ -30,17 +30,14 @@ const usePlayerAddToPlaylist = () => {
             .then(r => {
                 setPlaylists(r.data)
             })
-            .catch(r => {
-                UI_Warn({type: 'warning', text: r?.message})
-                setShowPlaylists(false)
-            })
+            .catch(() => setShowPlaylists(false))
     }
 
     const closeButtonClickHandler = () => setShowPlaylists(false)
 
     const onCellDoubleClick = (playlistId: string) => () => {
         if(typeof id === 'undefined' || typeof playlistId === 'undefined'){
-            UI_Warn({type: "warning", text: 'Неизвестная ошибка'})
+            UI_Warn('Неизвестная ошибка')
             return
         }
         PlaylistService.add(id, playlistId)
@@ -50,7 +47,6 @@ const usePlayerAddToPlaylist = () => {
                 UI_Warn({type: 'success', text: `Добавлено в плейлист ${r.data.name}`})
                 setShowPlaylists(false)
             })
-            .catch(r => UI_Warn({type: 'warning', text: r?.response?.data?.message}))
     }
 
     return {

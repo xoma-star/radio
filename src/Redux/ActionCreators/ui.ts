@@ -23,7 +23,7 @@ export const UI_SetActiveWindow = (p: UI_Windows | null) => {
     }
 }
 
-export const UI_Warn = (p: warnMessage | null) => {
+export const UI_Warn = (p: warnMessage | null | string) => {
     return (dispatch: Dispatch<UI_Action>) => {
         dispatch({type: UI_ActionTypes.SET_WARNING, payload: p})
         if(p === null) dispatch({type: UI_ActionTypes.CLOSE_WINDOW, payload: UI_Windows.WARNING})

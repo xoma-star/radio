@@ -39,28 +39,25 @@ const useUploader = () => {
                         }
                         else toDataUrl(getRandomCover(), (e) => setCover(e))
                         if(typeof d.tags.title !== 'undefined') setName(d.tags.title as string)
-                        else UI_Warn({type: 'warning', text: 'Не удалось распознать файл. Пожалуйста, введите данные вручную.'})
+                        else UI_Warn('Не удалось распознать файл. Пожалуйста, введите название вручную.')
                         if(typeof d.tags.artist !== 'undefined') setAuthor(d.tags.artist as string)
-                        else UI_Warn({type: 'warning', text: 'Не удалось распознать файл. Пожалуйста, введите данные вручную.'})
+                        else UI_Warn('Не удалось распознать файл. Пожалуйста, введите автора вручную.')
                         setAudio(file)
                     }
                 })
             }
         }catch (e) {
-            UI_Warn({type: "warning", text: 'Неизвестная ошибка'})
+            UI_Warn('Ошибка при обработке файла')
         }
     }
 
     const sendToServer = () => {
         setLoadStatus(1)
         const onSuccess = () => setLoadStatus(2)
-        const onError = (e: string) => {
-            setLoadStatus(3)
-            UI_Warn({type: "warning", text: e})
-        }
+        const onError = () => setLoadStatus(3)
         TrackService.uploadTrack(name, author, cover as string, audio as File)
-            .then(_ => onSuccess())
-            .catch(r => onError(r?.response?.data?.message))
+            .then(() => onSuccess())
+            .catch(() => onError() )
     }
 
     return {

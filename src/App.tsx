@@ -23,11 +23,11 @@ const App = () => {
             .then(() => UI_SetConnectionStatus('online'))
             .catch(() => {
                 UI_SetConnectionStatus('offline')
-                UI_Warn({type: 'warning', text: 'Нет соединения с сетью. Некоторые действия недоступны.'})
+                UI_Warn('Нет соединения с сетью. Некоторые действия недоступны.')
             })
         window.onoffline = () => {
             UI_SetConnectionStatus('offline')
-            UI_Warn({type: 'warning', text: 'Потеряно соединение. Некоторые действия недоступны.'})
+            UI_Warn('Потеряно соединение. Некоторые действия недоступны.')
         }
         window.ononline = () => {
             UI_SetConnectionStatus('online')

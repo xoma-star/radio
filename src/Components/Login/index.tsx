@@ -15,14 +15,13 @@ const Login = ()  => {
         UI_CloseWindow(UI_Windows.LOGIN)
         UI_Warn({type: "success", text: 'С возвращением!'})
     }
-    const onError = (e: string) => {
+    const onError = () => {
         setPending(false)
-        UI_Warn({type: "warning", text: e})
     }
 
     const submit = async () => {
         if(name.length < 1 || password.length < 1) {
-            UI_Warn({type: "warning", text: 'Все поля обязательны для заполнения'})
+            UI_Warn('Все поля обязательны для заполнения')
             return
         }
         setPending(true)

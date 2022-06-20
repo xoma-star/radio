@@ -19,12 +19,11 @@ interface props{
 
 const PlaylistOverview = ({overview}: props) => {
     const [tracks, setTracks] = useState<TrackSchema[]>()
-    const {UI_Warn, UI_OpenWindow, PlayerClearQueue, PlayerSetTrack, PlayerAddQueue, PlaylistSetOverview} = useActions()
+    const {UI_OpenWindow, PlayerClearQueue, PlayerSetTrack, PlayerAddQueue, PlaylistSetOverview} = useActions()
     const {id} = useTypedSelector(s => s.player)
     useEffect(() => {
         TrackService.getMultiple(overview.tracks)
             .then(r => setTracks(r.data))
-            .catch(e => UI_Warn(e?.message))
     }, [overview.tracks])
 
     const addToQueue = (e: React.MouseEvent) => {
@@ -47,7 +46,6 @@ const PlaylistOverview = ({overview}: props) => {
         e.stopPropagation()
         PlaylistService.removeTrack(trackId, overview.id)
             .then(r => PlaylistSetOverview(r.data))
-            .catch(e => UI_Warn(e?.message))
     }
 
     const onDrop = (e: React.DragEvent) => {
@@ -58,7 +56,6 @@ const PlaylistOverview = ({overview}: props) => {
                 UI_OpenWindow(UI_Windows.PLAYLIST)
                 PlaylistSetOverview(r.data)
             })
-            .catch(r => UI_Warn({type: 'error', text: r?.response?.data?.message}))
     }
 
     return  <React.Fragment>

@@ -9,7 +9,7 @@ import {useActions} from "../../Hooks/useActions";
 
 const CreatePlaylist = () => {
     const {authorized} = useTypedSelector(s => s.user)
-    const {PlaylistSetOverview, UI_Warn} = useActions()
+    const {PlaylistSetOverview} = useActions()
     const [name, setName] = useState('')
     const [isPublic, setIsPublic] = useState(true)
 
@@ -18,7 +18,6 @@ const CreatePlaylist = () => {
             .then(r => {
                 PlaylistSetOverview(r.data.id)
             })
-            .catch(e => UI_Warn({type: 'warning', text: e.data.message}))
     }
 
     return authorized ? <Form header={'Новый плейлист'} onSubmit={onSubmit}>

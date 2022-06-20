@@ -16,15 +16,15 @@ const Signup = () => {
 
     const submit = () => {
         if(name.length < 1 || password.length < 1 || passwordConfirm.length < 1 || email.length < 1) {
-            UI_Warn({type: 'warning', text: 'Все поля обязательны для заполнения'})
+            UI_Warn('Все поля обязательны для заполнения')
             return
         }
         if(password !== passwordConfirm) {
-            UI_Warn({type: 'warning', text: 'Пароли не совпадают'})
+            UI_Warn('Пароли не совпадают')
             return
         }
         if(!isEmail(email)) {
-            UI_Warn({type: "warning", text: 'Неподдерживаемая почта. Попробуйте другую'})
+            UI_Warn('Неподдерживаемая почта. Попробуйте другую')
             return
         }
 
@@ -32,9 +32,8 @@ const Signup = () => {
             UI_CloseWindow(UI_Windows.LOGIN)
             UI_Warn({type: "success", text: 'Успешная регистрация! Теперь вам доступно больше функций.'})
         }
-        const onError = (e: string) => {
+        const onError = () => {
             setPending(false)
-            UI_Warn({type: "warning", text: e})
         }
         setPending(true)
         Signup(name, password, email, onSuccess, onError)

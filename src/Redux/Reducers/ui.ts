@@ -48,7 +48,7 @@ interface UI_Minimize{
 
 interface UI_Warn{
     type: UI_ActionTypes.SET_WARNING,
-    payload: warnMessage
+    payload: warnMessage | string
 }
 
 interface UI_Connection{
@@ -101,6 +101,7 @@ export const UI_Reducer = (state: State = defaultState, action: UI_Action): Stat
             layoutPos: d}
         case UI_ActionTypes.SET_WARNING:
             if(action.payload === null) return {...state, warning: null}
+            if(typeof action.payload === 'string') return {...state, warning: {type: "warning", text: action.payload}}
             const g = {...action.payload}
             if(!g.type) g.type = 'warning'
             if(!g.text) g.text = 'Неизвестная ошибка'

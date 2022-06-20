@@ -6,12 +6,14 @@ import windows from "../../Constants/windows";
 import Button from "../Common/Button";
 import {useEffect, useState} from "react";
 import IconSmall from "../Icons/IconSmall";
-import {icon_dir, icon_offline, icon_online} from "../../Images/Icons";
+import {icon_offline, icon_online} from "../../Images/Icons";
 
 
 const Taskbar = () => {
     const [time, setTime] = useState<string>()
     const {opened, minimized, activeWindow, connectionStatus} = useTypedSelector(s => s.ui)
+    const {name} = useTypedSelector(s => s.player)
+    const {overview} = useTypedSelector(s => s.playlist)
     const {UI_SetActiveWindow, UI_MinimizeWindow} = useActions()
     const handler = (v: UI_Windows) => {
         if(v === activeWindow) {
@@ -47,7 +49,15 @@ const Taskbar = () => {
         <div className="tasks">
             {opened.map(v => <Button onClick={() => handler(v)} key={v} className={`task${activeWindow === v ? ' selected' : ''}`}>
                 <img src={windows[v].icon} width="16" height="16" alt={windows[v].name}/>
-                {window.screen.width > 400 && <span className="title">{windows[v].name}</span>}
+                {window.screen.width > 400 && <span className="title">
+                    {v === UI_Windows.PLAYLIST && overview !== 'create' && overview && (overview.name || windows[v].name)}
+                    {v === UI_Windows.MUSIC_PLAYER && (name || windows[v].name)}
+                    {
+                        v !== UI_Windows.PLAYLIST &&
+                        v !== UI_Windows.MUSIC_PLAYER &&
+                        windows[v].name
+                    }
+                </span>}
             </Button>)}
         </div>
         <div className={'taskbar-divider'}/>
@@ -55,7 +65,7 @@ const Taskbar = () => {
             <div className={'taskbar-icons'}>
                 <IconSmall src={connectionStatus === 'online' ? icon_online : icon_offline}/>
             </div>
-            <div className="taskbar-time">{getTime()}</div>
+            <div className="taskbar-time">{time}</div>
         </div>
     </div>
 }
