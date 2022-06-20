@@ -9,8 +9,8 @@ const useWindow = (id: UI_Windows) => {
     let display = opened.indexOf(id) < 0 ? {display: 'none'} : {}
     const {UI_SetActiveWindow} = useActions()
     const [pos, setPos] = useState({
-        x: window.screen.width > 400 ? window.screen.width / 3 + 30 * opened.length : 2,
-        y: window.screen.width > 400 ? window.screen.height / 4 + 30 * opened.length : 2
+        x: window.innerWidth > 400 ? window.innerWidth / 4 + 30 * opened.length : 2,
+        y: window.innerHeight / 4 + 30 * opened.length
     })
     const [isDragging, setIsDragging] = useState(false)
     const style = {...display, '--to': `${opened.indexOf(id) * window.screen.width / 10 + 56}px`} as unknown as React.CSSProperties
