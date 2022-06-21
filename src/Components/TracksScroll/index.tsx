@@ -5,20 +5,27 @@ import DesktopIcon from "../Desktop/Icon";
 import React from "react";
 import {UI_Windows} from "../../Redux/Reducers/ui";
 import {useActions} from "../../Hooks/useActions";
-import {icon_loading} from "../../Images/Icons";
+import {icon_dir, icon_loading} from "../../Images/Icons";
 import TrackSchema from "../../Schemas/track.schema";
+import PlaylistSchema from "../../Schemas/playlist.schema";
 
 interface props{
     header?: string,
-    tracks?: TrackSchema[]
+    tracks?: TrackSchema[] | PlaylistSchema[]
 }
 
 const TracksScroll = ({header, tracks}: props) => {
-    const {UI_OpenWindow, PlayerSetTrack, PlayerClearQueue} = useActions()
-    const onIconDoubleClick = (e: TrackSchema) => {
-        UI_OpenWindow(UI_Windows.MUSIC_PLAYER)
-        PlayerClearQueue()
-        PlayerSetTrack(e)
+    const {UI_OpenWindow, PlayerSetTrack, PlayerClearQueue, PlaylistSetOverview} = useActions()
+    const onIconDoubleClick = (e: TrackSchema | PlaylistSchema) => {
+        if('cover' in e){
+            UI_OpenWindow(UI_Windows.MUSIC_PLAYER)
+            PlayerClearQueue()
+            PlayerSetTrack(e)
+        }
+        else{
+            UI_OpenWindow(UI_Windows.PLAYLIST)
+            PlaylistSetOverview(e)
+        }
     }
 
     const onDragStart = (id: string) => (e: React.DragEvent) => {
@@ -33,10 +40,10 @@ const TracksScroll = ({header, tracks}: props) => {
                 draggable
                 type={'track'}
                 isOnDesktop={false}
-                label={`${v.author} - ${v.name}`}
+                label={'author' in v ? `${v.author} - ${v.name}` : v.name}
                 onDoubleClick={() => onIconDoubleClick(v)}
                 id={v.id}
-                icon={FILES_LOCATION + v.cover}
+                icon={'cover' in v ? (FILES_LOCATION + v.cover) : icon_dir}
                 onDragStart={onDragStart(v.id)}
             />)
             }

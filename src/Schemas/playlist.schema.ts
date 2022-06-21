@@ -5,4 +5,5 @@ export default interface PlaylistSchema{
     readonly listens: number
     readonly tracks: string[]
     readonly owner: string
+    readonly willExpire?: number
 }

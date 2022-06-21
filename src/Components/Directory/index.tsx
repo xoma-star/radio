@@ -15,7 +15,7 @@ const Directory = () => {
     const [toDisplay, setToDisplay] = useState<PlaylistSchema[]>([])
     const {authorized} = useTypedSelector(s => s.user)
     const {overview} = useTypedSelector(s => s.playlist)
-    const {minimized} = useTypedSelector(s => s.ui)
+    const {minimized, opened} = useTypedSelector(s => s.ui)
     const {UI_OpenWindow, PlaylistSetOverview} = useActions()
 
     useEffect(() => {
@@ -64,7 +64,10 @@ const Directory = () => {
                         type={'playlist'}
                         onDrop={onDrop(v.id)}
                         label={v.name}
-                        icon={overview !== 'create' && overview?.id === v.id && !minimized[UI_Windows.PLAYLIST] ? icon_dir_open : icon_dir}
+                        icon={  overview !== 'create' &&
+                                overview?.id === v.id &&
+                                !minimized[UI_Windows.PLAYLIST] &&
+                                opened.indexOf(UI_Windows.PLAYLIST) >= 0 ? icon_dir_open : icon_dir}
                         isOnDesktop={false}
                         onClick={onIconClick}
                         id={v.id}

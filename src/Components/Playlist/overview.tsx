@@ -19,7 +19,7 @@ interface props{
 
 const PlaylistOverview = ({overview}: props) => {
     const [tracks, setTracks] = useState<TrackSchema[]>()
-    const {UI_OpenWindow, PlayerClearQueue, PlayerSetTrack, PlayerAddQueue, PlaylistSetOverview} = useActions()
+    const {UI_OpenWindow, PlayerClearQueue, PlayerSetTrack, PlayerAddQueue, PlaylistSetOverview, UI_Warn, UI_CloseWindow} = useActions()
     const {id} = useTypedSelector(s => s.player)
     useEffect(() => {
         TrackService.getMultiple(overview.tracks)
@@ -59,6 +59,17 @@ const PlaylistOverview = ({overview}: props) => {
             })
     }
 
+    const deletePlaylist = () => {
+        if(!overview.id) return
+        PlaylistService.delete(overview.id)
+            .then(r => {
+                UI_CloseWindow(UI_Windows.PLAYLIST)
+                UI_CloseWindow(UI_Windows.MUSIC_FOLDER)
+                PlaylistSetOverview(null)
+                UI_Warn({type: 'success', text: 'Плейлист был удален из вашей библиотеки, но пока остается у других пользователей. Вы сможете восстановить его в течение 7 дней, после он будет удален полностью. Для восстановления используйте id: ' + r.data})
+            })
+    }
+
     return  <React.Fragment>
         <Title>{overview?.name}</Title>
         <List onDrop={onDrop} onDragOver={e => {
@@ -79,7 +90,8 @@ const PlaylistOverview = ({overview}: props) => {
         <div style={{display: 'flex'}}>
             <Button onClick={shuffle}>Перемешать</Button>
             <Button onClick={addToQueue}>В очередь</Button>
-            <Button disabled>Удалить</Button>
+            <Button onClick={deletePlaylist}>Удалить</Button>
+            <Button disabled>Сохранить</Button>
         </div>
     </React.Fragment>
 }

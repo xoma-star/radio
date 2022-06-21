@@ -16,6 +16,7 @@ const TracksQueue = () => {
         <Title>Очередь</Title>
         <List
             onDrop={(e) => {
+                if(!(e.target instanceof HTMLElement)) return
                 if(!e?.dataTransfer?.getData('text/plain')) return
                 if(typeof e?.dataTransfer?.getData('text/plain') !== "string") return
                 PlayerAddQueue(e.dataTransfer.getData('text/plain'))

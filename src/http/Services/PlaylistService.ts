@@ -19,4 +19,12 @@ export default class PlaylistService{
     static async removeTrack(trackId: string, playlistId: string): Promise<AxiosResponse<PlaylistSchema>>{
         return $api.post(PLAYLIST_DATA_LOCATION + 'removeTrack', {trackId, playlistId})
     }
+
+    static async delete(playlistId: string): Promise<AxiosResponse<string>>{
+        return $api.post(PLAYLIST_DATA_LOCATION + 'delete', {playlistId})
+    }
+
+    static async getCurated(): Promise<AxiosResponse<PlaylistSchema[]>>{
+        return $api.get(PLAYLIST_DATA_LOCATION + 'curated')
+    }
 }

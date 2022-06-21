@@ -1,7 +1,6 @@
 import Draggable from "react-draggable";
 import React, {useEffect, useRef, useState} from "react";
 import './DragBar.css'
-import {useTypedSelector} from "../../Hooks/useTypedSelector";
 
 interface props{
     onBarClick?: (e: number) => void,
@@ -13,14 +12,14 @@ interface props{
 
 const DragBar = ({onBarClick, pos, onDragEnd, onDragStart, onRatioUpdate}: props) => {
     const ref = useRef<any>(null)
-    const {activeWindow} = useTypedSelector(s => s.ui)
     const [width, setWidth] = useState(0)
     const [pointer, setPointer] = useState(pos ? pos : 0)
     const ratio = pointer / width * 100
-    useEffect(() => {if(pos) setPointer(pos / 100 * width)}, [pos])
+    useEffect(() => {if(pos) setPointer(pos / 100 * width <= width ? pos / 100 * width : 0)}, [pos])
     useEffect(() => {
         setWidth(ref.current?.clientWidth)
-    }, [activeWindow])
+    }, [ref.current?.clientWidth])
+
     return <div className={'dragbar'}>
         <div
             className={'line-bigger'}
