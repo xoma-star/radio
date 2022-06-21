@@ -16,7 +16,8 @@ export enum UI_Windows{
     LOGIN = 'LOGIN',
     WARNING = 'WARNING',
     NAVIGATOR = 'NAVIGATOR',
-    PLAYLIST = 'PLAYLIST'
+    PLAYLIST = 'PLAYLIST',
+    QUEUE = 'QUEUE'
 }
 
 interface State{

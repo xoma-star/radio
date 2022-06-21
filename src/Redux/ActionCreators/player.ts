@@ -27,3 +27,9 @@ export const PlayerClearQueue = () => {
         dispatch({type: PlayerActionTypes.CLEAR_QUEUE})
     }
 }
+
+export const PlayerRemoveFromQueue = (p: string) => {
+    return (dispatch: Dispatch<PlayerAction>) => {
+        dispatch({type: PlayerActionTypes.REMOVE_FROM_QUEUE, payload: p})
+    }
+}

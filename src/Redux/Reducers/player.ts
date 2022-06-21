@@ -33,11 +33,16 @@ interface SetTrackAction{
     payload: TrackSchema
 }
 
+interface RemoveFromQueueAction{
+    type: PlayerActionTypes.REMOVE_FROM_QUEUE,
+    payload: string
+}
+
 interface ClearQueue{
     type: PlayerActionTypes.CLEAR_QUEUE
 }
 
-export type PlayerAction = SetAudioAction | SetTrackAction | ClearQueue
+export type PlayerAction = SetAudioAction | SetTrackAction | ClearQueue | RemoveFromQueueAction
 
 export const PlayerReducer = (state: State = defaultState, action: PlayerAction): State => {
     switch (action.type){
@@ -60,6 +65,11 @@ export const PlayerReducer = (state: State = defaultState, action: PlayerAction)
             return a
         }
         case PlayerActionTypes.CLEAR_QUEUE: return {...state, queue: [], path: undefined, id: undefined, cover: undefined, name: undefined, author: undefined}
+        case PlayerActionTypes.REMOVE_FROM_QUEUE:
+            let d = [...state.queue]
+            const i = d.findIndex(x => x.id === action.payload)
+            d.splice(i, 1)
+            return {...state, queue: d}
         default: return state
     }
 }

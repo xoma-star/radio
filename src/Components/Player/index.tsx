@@ -33,7 +33,8 @@ const Player = () => {
         cover,
         canPlayNext,
         canPlayPrev,
-        loading
+        loading,
+        openQueue
     } = usePlayer()
 
     const {
@@ -78,7 +79,8 @@ const Player = () => {
             </div>
             <div className={'track-controls'}>
                 <Button disabled={!id} onClick={addToPlaylistButtonClickHandler}>Добавить в плейлист</Button>
-                <Button>Пожаловаться</Button>
+                <Button disabled>Пожаловаться</Button>
+                <Button disabled={!id} onClick={openQueue}>Очередь</Button>
             </div>
         </React.Fragment>}
         {showPlaylists && <React.Fragment>

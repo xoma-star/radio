@@ -6,7 +6,7 @@ import {
     icon_credentials,
     icon_warn,
     icon_globe_click,
-    icon_dir_open
+    icon_dir_open, icon_files
 } from '../Images/Icons'
 
 const windows = {
@@ -43,6 +43,11 @@ const windows = {
     [UI_Windows.PLAYLIST]: {
         icon: icon_dir_open,
         name: 'Плейлист',
+        showOnDesktop: false
+    },
+    [UI_Windows.QUEUE]: {
+        icon: icon_files,
+        name: 'Очередь',
         showOnDesktop: false
     }
 }

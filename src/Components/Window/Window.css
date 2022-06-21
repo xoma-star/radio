@@ -13,10 +13,6 @@
     border-style: solid;
 }
 
-.window.player{
-    max-width: 315px;
-}
-
 .draggable-wrapper{
     display: flex;
     width: calc(100% - 60px);

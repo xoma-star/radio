@@ -14,6 +14,7 @@ import Auth from "./Components/Auth";
 import bridge from "@vkontakte/vk-bridge";
 import Navigator from "./Components/Navigator";
 import Playlist from "./Components/Playlist";
+import TracksQueue from "./Components/Queue";
 
 const App = () => {
     const {CheckAuth, UI_SetConnectionStatus, UI_Warn} = useActions()
@@ -65,6 +66,9 @@ const App = () => {
         </Window>}
         {opened.indexOf(UI_Windows.PLAYLIST) >= 0 && <Window id={UI_Windows.PLAYLIST}>
             <Playlist/>
+        </Window>}
+        {opened.indexOf(UI_Windows.QUEUE) >= 0 && <Window id={UI_Windows.QUEUE}>
+            <TracksQueue/>
         </Window>}
         <Taskbar/>
     </React.Fragment>

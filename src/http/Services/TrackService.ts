@@ -7,6 +7,9 @@ export default class TrackService{
     static async getTracks(): Promise<AxiosResponse<TrackSchema[]>>{
         return $api.get(TRACK_DATA_LOCATION)
     }
+    static async getLatest(): Promise<AxiosResponse<TrackSchema[]>>{
+        return $api.get(TRACK_DATA_LOCATION + 'latest')
+    }
     static async uploadTrack(name: string, author: string, cover: string, audio: File){
         const data = new FormData()
         data.append('name', name)

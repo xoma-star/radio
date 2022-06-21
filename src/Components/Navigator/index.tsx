@@ -6,7 +6,7 @@ import TrackSchema from "../../Schemas/track.schema";
 const Navigator = () => {
     const [newTracks, setNewTracks] = useState<TrackSchema[]>([])
     useEffect(() => {
-        TrackService.getTracks().then(r => setNewTracks(r.data))
+        TrackService.getLatest().then(r => setNewTracks(r.data))
     }, [])
     return <div className={'navigator'}>
         <TracksScroll header={'Последние загрузки'} tracks={newTracks}/>

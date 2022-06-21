@@ -1,7 +1,8 @@
 import {useTypedSelector} from "./useTypedSelector";
 import {useActions} from "./useActions";
-import {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import * as workerTimers from 'worker-timers'
+import {UI_Windows} from "../Redux/Reducers/ui";
 
 const usePlayer = () => {
     const {
@@ -19,7 +20,7 @@ const usePlayer = () => {
     const [played, setPlayed] = useState(0)
     const [playing, setPlaying] = useState(false)
     const [loading, setLoading] = useState(true)
-    const {PlayerSetTrack} = useActions()
+    const {PlayerSetTrack, UI_OpenWindow} = useActions()
     const onLoadedMetadata = () => setDuration(trackRef.current.duration)
     const i = queue.findIndex(x => x.id === id)
     const canPlayNext = i < queue.length - 1
@@ -153,7 +154,11 @@ const usePlayer = () => {
         author,
         canPlayNext,
         canPlayPrev,
-        loading
+        loading,
+        openQueue: (e: React.MouseEvent) => {
+            e.stopPropagation()
+            UI_OpenWindow(UI_Windows.QUEUE)
+        }
     }
 }
 
