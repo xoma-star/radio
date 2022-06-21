@@ -45,7 +45,8 @@ const Player = () => {
     } = usePlayerAddToPlaylist()
 
     return <div className={'player-wrapper'}>
-        <div className={`cover selected${loading && id ? ' tinted' : ''}`} style={cover ? {'--cover': `url(${cover})`} as React.CSSProperties : {}}>
+        <div className={`cover selected${loading && id ? ' tinted' : ''}`}>
+            <img src={cover} crossOrigin={'use-credentials'}/>
             <img alt={'Loading...'} src={icon_loading} width={32} height={32} className={'loading-icon'}/>
         </div>
         <div className={'track-data selected'}>
@@ -54,7 +55,7 @@ const Player = () => {
                 <span>{name}</span>
             </div>
         </div>
-        {path && <audio ref={trackRef}>
+        {path && <audio ref={trackRef} crossOrigin={'use-credentials'}>
             <source src={path}/>
         </audio>}
         {!showPlaylists && <React.Fragment>

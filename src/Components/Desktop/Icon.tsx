@@ -41,7 +41,7 @@ const DesktopIcon = ({label, draggable = false,
         onDoubleClick={onDoubleClick}
     >
         <div className={'icon-wrapper'}>
-            <img draggable={false} alt={'posh'} src={icon}
+            <img crossOrigin={'use-credentials'} draggable={false} alt={'posh'} src={icon}
                  width="32" height="32"/>
             <div className="selection-effect" style={m}/>
         </div>

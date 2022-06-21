@@ -3,12 +3,12 @@
 }
 
 .player-wrapper .cover, .upload-form .cover{
-    background-attachment: fixed;
+    /*background-attachment: fixed;*/
     background-color: teal !important;
-    background-position: 50%;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-image: var(--cover);
+    /*background-position: 50%;*/
+    /*background-repeat: no-repeat;*/
+    /*background-size: cover;*/
+    /*background-image: var(--cover);*/
 }
 
 .player-wrapper .cover .loading-icon{
@@ -16,8 +16,16 @@
     margin: auto;
 }
 
+.player-wrapper .cover > img:not(.loading-icon){
+    width: 100%;
+    height: 100%;
+}
+
+.player-wrapper .cover.tinted > img:not(.loading-icon){
+    display: none;
+}
+
 .player-wrapper .cover.tinted{
-    background-image: none;
     display: flex;
 }
 .player-wrapper .cover.tinted .loading-icon{
