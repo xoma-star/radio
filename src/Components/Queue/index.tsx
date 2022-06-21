@@ -15,7 +15,11 @@ const TracksQueue = () => {
     return <div style={{padding: 8}}>
         <Title>Очередь</Title>
         <List
-            onDrop={(e) => PlayerAddQueue(e.dataTransfer.getData('text/plain'))}
+            onDrop={(e) => {
+                if(!e?.dataTransfer?.getData('text/plain')) return
+                if(typeof e?.dataTransfer?.getData('text/plain') !== "string") return
+                PlayerAddQueue(e.dataTransfer.getData('text/plain'))
+            }}
             onDragOver={e => {
                 e.preventDefault()
                 e.dataTransfer.dropEffect = "copy"
