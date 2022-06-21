@@ -51,6 +51,7 @@ const PlaylistOverview = ({overview}: props) => {
     const onDrop = (e: React.DragEvent) => {
         if(!overview.id) return
         const trackId = e.dataTransfer.getData('text/plain')
+        if(!trackId) return
         PlaylistService.add(trackId, overview.id)
             .then(r => {
                 UI_OpenWindow(UI_Windows.PLAYLIST)

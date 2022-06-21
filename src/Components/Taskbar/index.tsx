@@ -48,7 +48,7 @@ const Taskbar = () => {
         <div className={'taskbar-divider'}/>
         <div className="tasks">
             {opened.map(v => <Button onClick={() => handler(v)} key={v} className={`task${activeWindow === v ? ' selected' : ''}`}>
-                <img src={windows[v].icon} width="16" height="16" alt={windows[v].name}/>
+                <IconSmall src={windows[v].icon}/>
                 {window.screen.width > 400 && <span className="title">
                     {v === UI_Windows.PLAYLIST && overview !== 'create' && overview && (overview.name || windows[v].name)}
                     {v === UI_Windows.MUSIC_PLAYER && (name || windows[v].name)}
