@@ -1,3 +1,9 @@
+@media (min-width: 400px) {
+    .window.player{
+        max-width: 380px;
+    }
+}
+
 .player-wrapper{
     padding: 5px;
 }
