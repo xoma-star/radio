@@ -6,20 +6,22 @@ import {UI_Windows} from "../../Redux/Reducers/ui";
 import {useActions} from "../../Hooks/useActions";
 import {useTypedSelector} from "../../Hooks/useTypedSelector";
 import Unauthorized from "../Unauthorized";
-import UserService from "../../http/Services/UserService";
 import PlaylistService from "../../http/Services/PlaylistService";
 import PlaylistSchema from "../../Schemas/playlist.schema";
 
 const Directory = () => {
     const [selected, setSelected] = useState<string | null | undefined>(null)
     const [toDisplay, setToDisplay] = useState<PlaylistSchema[]>([])
-    const {authorized} = useTypedSelector(s => s.user)
+    const {authorized, playlists} = useTypedSelector(s => s.user)
     const {overview} = useTypedSelector(s => s.playlist)
     const {minimized, opened} = useTypedSelector(s => s.ui)
-    const {UI_OpenWindow, PlaylistSetOverview} = useActions()
+    const {UI_OpenWindow, PlaylistSetOverview, UserGetPlaylists} = useActions()
 
     useEffect(() => {
-        if(authorized) UserService.getUserPlaylists().then(r => setToDisplay(r.data))
+        setToDisplay(playlists)
+    }, [playlists])
+    useEffect(() => {
+        UserGetPlaylists()
     }, [authorized])
 
     const onIconClick = (e:  React.MouseEvent<HTMLElement>) => {

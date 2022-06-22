@@ -1,5 +1,5 @@
 .list{
-
+    overflow: auto;
 }
 
 .list > *:nth-child(n){

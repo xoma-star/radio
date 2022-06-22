@@ -12,6 +12,7 @@ import List from "../Common/List";
 import {UI_Windows} from "../../Redux/Reducers/ui";
 import {FILES_LOCATION} from "../../config";
 import {useTypedSelector} from "../../Hooks/useTypedSelector";
+import UserService from "../../http/Services/UserService";
 
 interface props{
     overview: PlaylistSchema
@@ -19,8 +20,9 @@ interface props{
 
 const PlaylistOverview = ({overview}: props) => {
     const [tracks, setTracks] = useState<TrackSchema[]>()
-    const {UI_OpenWindow, PlayerClearQueue, PlayerSetTrack, PlayerAddQueue, PlaylistSetOverview, UI_Warn, UI_CloseWindow} = useActions()
+    const {UI_OpenWindow, PlayerClearQueue, PlayerSetTrack, PlayerAddQueue, PlaylistSetOverview, UI_Warn, UI_CloseWindow, UserGetPlaylists} = useActions()
     const {id} = useTypedSelector(s => s.player)
+    const user = useTypedSelector(s => s.user)
     useEffect(() => {
         TrackService.getMultiple(overview.tracks)
             .then(r => setTracks(r.data))
@@ -44,6 +46,7 @@ const PlaylistOverview = ({overview}: props) => {
 
     const removeFromPlaylist = (trackId: string) => (e: React.MouseEvent) => {
         e.stopPropagation()
+        if(user.id !== overview.owner ) return
         PlaylistService.removeTrack(trackId, overview.id)
             .then(r => PlaylistSetOverview(r.data))
     }
@@ -66,8 +69,15 @@ const PlaylistOverview = ({overview}: props) => {
                 UI_CloseWindow(UI_Windows.PLAYLIST)
                 UI_CloseWindow(UI_Windows.MUSIC_FOLDER)
                 PlaylistSetOverview(null)
+                UserGetPlaylists()
                 UI_Warn({type: 'success', text: 'Плейлист был удален из вашей библиотеки, но пока остается у других пользователей. Вы сможете восстановить его в течение 7 дней, после он будет удален полностью. Для восстановления используйте id: ' + r.data})
             })
+    }
+
+    const savePlaylist = () => {
+        if(!overview.id) return
+        UserService.savePlaylist(overview.id)
+            .then(() => UserGetPlaylists())
     }
 
     return  <React.Fragment>
@@ -75,14 +85,14 @@ const PlaylistOverview = ({overview}: props) => {
         <List onDrop={onDrop} onDragOver={e => {
             e.preventDefault()
             e.dataTransfer.dropEffect = "copy"
-        }} style={{margin: '8px 0'}}>
+        }} style={{margin: '8px 0', maxHeight: '50vh'}}>
             {tracks?.map(r => <Cell
                 onDoubleClick={() => {
                     UI_OpenWindow(UI_Windows.MUSIC_PLAYER)
                     PlayerClearQueue()
                     PlayerSetTrack(r)
                 }}
-                after={<Button onClick={removeFromPlaylist(r.id)} className={'button-control close'}/>}
+                after={user.id === overview.owner && <Button onClick={removeFromPlaylist(r.id)} className={'button-control close'}/>}
                 selected={r.id === id}
                 before={<IconSmall src={FILES_LOCATION + r.cover}/>}
                 key={'playlist' + r.id}>{r.author} - {r.name}</Cell>)}
@@ -90,8 +100,8 @@ const PlaylistOverview = ({overview}: props) => {
         <div style={{display: 'flex'}}>
             <Button onClick={shuffle}>Перемешать</Button>
             <Button onClick={addToQueue}>В очередь</Button>
-            <Button onClick={deletePlaylist}>Удалить</Button>
-            <Button disabled>Сохранить</Button>
+            {(user.id === overview.owner || user.playlists.findIndex(s => s.id === overview.id) >= 0) && <Button onClick={deletePlaylist}>Удалить</Button>}
+            {user.playlists.findIndex(s => s.id === overview.id) < 0 && <Button onClick={savePlaylist}>Сохранить</Button>}
         </div>
     </React.Fragment>
 }

@@ -25,6 +25,7 @@ const TracksQueue = () => {
                 e.preventDefault()
                 e.dataTransfer.dropEffect = "copy"
             }}
+            style={{margin: '8px 0', maxHeight: '50vh'}}
         >
             {queue.map(track => <Cell
                 onDoubleClick={() => {

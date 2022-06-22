@@ -4,6 +4,7 @@ import AuthService from "../../http/Services/AuthService";
 import axios from "axios";
 import {AUTH_LOCATION} from "../../config";
 import {AuthResponse} from "../../http/Response/AuthResponse";
+import UserService from "../../http/Services/UserService";
 
 export const Login = (name: string, password: string, onSuccess: () => void, onError: (e: string) => void) => {
     return async (dispatch: Dispatch<UserAction>) => {
@@ -11,6 +12,7 @@ export const Login = (name: string, password: string, onSuccess: () => void, onE
             const res = await AuthService.login(name, password)
             localStorage.setItem('accessToken', res?.data?.accessToken)
             dispatch({type: UserActionTypes.SET_AUTHORIZED, payload: true})
+            dispatch({type: UserActionTypes.SET_ID, payload: res.data.id})
             onSuccess()
         }catch (e: any) {
             onError(e?.response?.data?.message)
@@ -24,6 +26,7 @@ export const Signup = (name: string, password: string, email: string, onSuccess:
             const res = await AuthService.signup(name, password, email)
             localStorage.setItem('accessToken', res.data.accessToken)
             dispatch({type: UserActionTypes.SET_AUTHORIZED, payload: true})
+            dispatch({type: UserActionTypes.SET_ID, payload: res.data.id})
             onSuccess()
         }catch (e: any) {
             onError(e?.response?.data?.message)
@@ -37,6 +40,7 @@ export const Logout = () => {
             await AuthService.logout()
             localStorage.removeItem('accessToken')
             dispatch({type: UserActionTypes.SET_AUTHORIZED, payload: false})
+            dispatch({type: UserActionTypes.SET_ID, payload: null})
         }catch (e) {
 
         }
@@ -49,8 +53,19 @@ export const CheckAuth = () => {
             const res = await axios.get<AuthResponse>(AUTH_LOCATION + 'refresh', {withCredentials: true})
             localStorage.setItem('accessToken', res.data.accessToken)
             dispatch({type: UserActionTypes.SET_AUTHORIZED, payload: true})
+            dispatch({type: UserActionTypes.SET_ID, payload: res.data.id})
         }catch (e) {
-
+            dispatch({type: UserActionTypes.SET_AUTHORIZED, payload: false})
+            dispatch({type: UserActionTypes.SET_ID, payload: null})
         }
+    }
+}
+
+export const UserGetPlaylists = () => {
+    return async (dispatch: Dispatch<UserAction>) => {
+        try {
+            const res = await UserService.getUserPlaylists()
+            dispatch({type: UserActionTypes.SET_PLAYLISTS, payload: res.data})
+        }catch (e) {}
     }
 }

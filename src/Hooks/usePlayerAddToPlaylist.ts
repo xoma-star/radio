@@ -42,7 +42,6 @@ const usePlayerAddToPlaylist = () => {
         }
         PlaylistService.add(id, playlistId)
             .then(r => {
-                console.log(overview, playlistId, overview !== 'create' && overview?.id === playlistId)
                 if(overview !== 'create' && overview?.id === playlistId) PlaylistSetOverview(r.data)
                 UI_Warn({type: 'success', text: `Добавлено в плейлист ${r.data.name}`})
                 setShowPlaylists(false)
