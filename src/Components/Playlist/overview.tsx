@@ -67,10 +67,9 @@ const PlaylistOverview = ({overview}: props) => {
         PlaylistService.delete(overview.id)
             .then(r => {
                 UI_CloseWindow(UI_Windows.PLAYLIST)
-                UI_CloseWindow(UI_Windows.MUSIC_FOLDER)
                 PlaylistSetOverview(null)
                 UserGetPlaylists()
-                UI_Warn({type: 'success', text: 'Плейлист был удален из вашей библиотеки, но пока остается у других пользователей. Вы сможете восстановить его в течение 7 дней, после он будет удален полностью. Для восстановления используйте id: ' + r.data})
+                if(typeof r.data === "string")UI_Warn({type: 'success', text: 'Плейлист был удален из вашей библиотеки, но пока остается у других пользователей. Вы сможете восстановить его в течение 7 дней, после он будет удален полностью. Для восстановления используйте id: ' + r.data})
             })
     }
 

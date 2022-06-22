@@ -20,7 +20,7 @@ export default class PlaylistService{
         return $api.post(PLAYLIST_DATA_LOCATION + 'removeTrack', {trackId, playlistId})
     }
 
-    static async delete(playlistId: string): Promise<AxiosResponse<string>>{
+    static async delete(playlistId: string): Promise<AxiosResponse<string | {statusCode: number, message: string}>>{
         return $api.post(PLAYLIST_DATA_LOCATION + 'delete', {playlistId})
     }
 
