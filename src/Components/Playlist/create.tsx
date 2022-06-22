@@ -6,18 +6,17 @@ import {useTypedSelector} from "../../Hooks/useTypedSelector";
 import Unauthorized from "../Unauthorized";
 import PlaylistService from "../../http/Services/PlaylistService";
 import {useActions} from "../../Hooks/useActions";
-import {UI_Windows} from "../../Redux/Reducers/ui";
 
 const CreatePlaylist = () => {
     const {authorized} = useTypedSelector(s => s.user)
-    const {PlaylistSetOverview, UI_CloseWindow} = useActions()
+    const {PlaylistSetOverview, UserGetPlaylists} = useActions()
     const [name, setName] = useState('')
     const [isPublic, setIsPublic] = useState(true)
 
     const onSubmit = () => {
         PlaylistService.create(name, isPublic)
             .then(r => {
-                UI_CloseWindow(UI_Windows.MUSIC_FOLDER)
+                UserGetPlaylists()
                 PlaylistSetOverview(r.data.id)
             })
     }

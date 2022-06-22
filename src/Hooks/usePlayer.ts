@@ -110,7 +110,7 @@ const usePlayer = () => {
         trackRef.current.onpause = stopTrack
         if ('mediaSession' in navigator) navigator.mediaSession.setActionHandler('previoustrack', prevTrack);
         if ('mediaSession' in navigator) navigator.mediaSession.setActionHandler('nexttrack', nextTrack);
-    },[i, path])
+    },[path])
 
     useEffect(() => {
         if ('mediaSession' in navigator) {
