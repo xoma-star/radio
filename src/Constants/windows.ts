@@ -6,7 +6,7 @@ import {
     icon_credentials,
     icon_warn,
     icon_globe_click,
-    icon_dir_open, icon_files
+    icon_dir_open, icon_files, icon_color
 } from '../Images/Icons'
 
 const windows = {
@@ -49,6 +49,11 @@ const windows = {
         icon: icon_files,
         name: 'Очередь',
         showOnDesktop: false
+    },
+    [UI_Windows.APPEARANCE]: {
+        icon: icon_color,
+        name: 'Внешний вид',
+        showOnDesktop: true
     }
 }
 

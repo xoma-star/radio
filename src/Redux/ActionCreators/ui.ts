@@ -34,3 +34,7 @@ export const UI_Warn = (p: warnMessage | null | string) => {
 export const UI_SetConnectionStatus = (p: 'online' | 'offline') => {
     return (dispatch: Dispatch<UI_Action>) => dispatch({type: UI_ActionTypes.SET_CONNECTION_STATUS, payload: p})
 }
+
+export const UI_SetBackground = (p: string) => {
+    return (dispatch: Dispatch<UI_Action>) => dispatch({type: UI_ActionTypes.SET_BACKGROUND, payload: p})
+}

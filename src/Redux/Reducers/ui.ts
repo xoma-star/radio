@@ -4,7 +4,8 @@ export enum UI_ActionTypes{
     MINIMIZE_WINDOW = 'MINIMIZE_WINDOW',
     SET_ACTIVE_WINDOW = 'SET_ACTIVE_WINDOW',
     SET_WARNING = 'SET_WARNING',
-    SET_CONNECTION_STATUS = 'SET_CONNECTION_STATUS'
+    SET_CONNECTION_STATUS = 'SET_CONNECTION_STATUS',
+    SET_BACKGROUND = 'SET_BACKGROUND'
 }
 
 export type warnMessage = null | {text: string, type: 'success' | 'warning' | 'error'}
@@ -17,7 +18,8 @@ export enum UI_Windows{
     WARNING = 'WARNING',
     NAVIGATOR = 'NAVIGATOR',
     PLAYLIST = 'PLAYLIST',
-    QUEUE = 'QUEUE'
+    QUEUE = 'QUEUE',
+    APPEARANCE = 'APPEARANCE'
 }
 
 interface State{
@@ -26,7 +28,8 @@ interface State{
     layoutPos: {[key in UI_Windows]?: number}
     activeWindow: UI_Windows | null,
     warning: warnMessage,
-    connectionStatus: 'online' | 'offline'
+    connectionStatus: 'online' | 'offline',
+    background: string
 }
 
 interface UI_Window{
@@ -57,7 +60,12 @@ interface UI_Connection{
     payload: 'online' | 'offline'
 }
 
-export type UI_Action = UI_Window | UI_Active | UI_Minimize | UI_Warn | UI_Connection
+interface UI_Background{
+    type: UI_ActionTypes.SET_BACKGROUND,
+    payload: string
+}
+
+export type UI_Action = UI_Window | UI_Active | UI_Minimize | UI_Warn | UI_Connection | UI_Background
 
 const defaultState: State = {
     opened: [],
@@ -65,7 +73,8 @@ const defaultState: State = {
     activeWindow: null,
     layoutPos: {},
     warning: null,
-    connectionStatus: 'offline'
+    connectionStatus: 'offline',
+    background: '#008080'
 }
 
 export const UI_Reducer = (state: State = defaultState, action: UI_Action): State => {
@@ -108,6 +117,7 @@ export const UI_Reducer = (state: State = defaultState, action: UI_Action): Stat
             if(!g.text) g.text = 'Неизвестная ошибка'
             return {...state, warning: g}
         case UI_ActionTypes.SET_CONNECTION_STATUS: return {...state, connectionStatus: action.payload}
+        case UI_ActionTypes.SET_BACKGROUND: return {...state, background: action.payload}
         default: return state
     }
 }

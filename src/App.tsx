@@ -7,7 +7,6 @@ import Player from "./Components/Player";
 import {useTypedSelector} from "./Hooks/useTypedSelector";
 import FileUpload from "./Components/Uploader";
 import Directory from "./Components/Directory";
-import Taskbar from "./Components/Taskbar";
 import WarningWindow from "./Components/Window/Warning";
 import {useActions} from "./Hooks/useActions";
 import Auth from "./Components/Auth";
@@ -15,6 +14,8 @@ import bridge from "@vkontakte/vk-bridge";
 import Navigator from "./Components/Navigator";
 import Playlist from "./Components/Playlist";
 import TracksQueue from "./Components/Queue";
+import Taskbar from "./Components/Taskbar";
+import Appearance from "./Components/Appearance";
 
 const App = () => {
     const {CheckAuth, UI_SetConnectionStatus, UI_Warn} = useActions()
@@ -69,6 +70,9 @@ const App = () => {
         </Window>}
         {opened.indexOf(UI_Windows.QUEUE) >= 0 && <Window id={UI_Windows.QUEUE}>
             <TracksQueue/>
+        </Window>}
+        {opened.indexOf(UI_Windows.APPEARANCE) >= 0 && <Window id={UI_Windows.APPEARANCE}>
+            <Appearance/>
         </Window>}
         <Taskbar/>
     </React.Fragment>

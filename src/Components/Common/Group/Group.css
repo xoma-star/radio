@@ -1,0 +1,18 @@
+.group {
+    box-shadow: inset -1px 0 0 0 grey, inset -1px 1px 0 0 #fff, inset -1px -1px 0 0 grey, inset 0 0 0 1px #fff;
+    border: 1px solid grey;
+    border-right-color: #fff;
+    border-bottom-color: #fff;
+    margin-top: 12px;
+    padding: 8px;
+    padding-top: 12px!important;
+    position: relative;
+}
+
+.group .group-header{
+    left: 5px;
+    padding: 0 2px;
+    position: absolute;
+    top: -8px;
+    background-color: var(--ButtonFace);
+}

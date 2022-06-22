@@ -4,10 +4,12 @@ import React, {useState} from "react";
 import {UI_Windows} from "../../Redux/Reducers/ui";
 import {useActions} from "../../Hooks/useActions";
 import windows from "../../Constants/windows";
+import {useTypedSelector} from "../../Hooks/useTypedSelector";
 
 const Desktop = () => {
     const [selected, setSelected] = useState<string | null | undefined>(null)
     const {UI_OpenWindow, UI_SetActiveWindow} = useActions()
+    const {background} = useTypedSelector(s => s.ui)
     const onDesktopClick = (_:  React.MouseEvent<HTMLElement>) => {
         setSelected(null)
         UI_SetActiveWindow(null)
@@ -22,7 +24,7 @@ const Desktop = () => {
         setSelected(null)
     }
 
-    return <div className={'desktop'} onClick={onDesktopClick}>
+    return <div className={'desktop'} onClick={onDesktopClick} style={{'--color': background} as React.CSSProperties}>
         {(Object.keys(windows) as (keyof typeof windows)[]).map(v => {
             if(windows[v].showOnDesktop) return <DesktopIcon
                 type={'desktop'}

@@ -1,0 +1,31 @@
+.palette{
+   display: flex;
+   flex-direction: row;
+}
+
+.palette > *:nth-child(n){
+    margin-right: 4px;
+}
+
+.palette > *:last-child{
+    margin-right: 0;
+}
+
+.button98.color{
+    min-width: 20px;
+    min-height: 20px;
+    max-width: 20px;
+    max-height: 20px;
+    padding: 0;
+    box-shadow: inset -1px 0 0 0 grey, inset -1px 1px 0 0 #dfdfdf, inset -1px -1px 0 0 grey, inset 0 0 0 1px #dfdfdf;
+    border: 1px solid #000;
+}
+
+.button98.color:active{
+    min-width: 20px;
+    min-height: 20px;
+    max-width: 20px;
+    max-height: 20px;
+    padding: 0;
+    box-shadow: inset 0 0 0 1px grey;
+}
