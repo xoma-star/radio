@@ -36,5 +36,6 @@ export const UI_SetConnectionStatus = (p: 'online' | 'offline') => {
 }
 
 export const UI_SetBackground = (p: string) => {
+    localStorage.setItem('background', p)
     return (dispatch: Dispatch<UI_Action>) => dispatch({type: UI_ActionTypes.SET_BACKGROUND, payload: p})
 }

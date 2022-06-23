@@ -74,7 +74,7 @@ const defaultState: State = {
     layoutPos: {},
     warning: null,
     connectionStatus: 'offline',
-    background: '#008080'
+    background: localStorage.getItem('background') || '#008080'
 }
 
 export const UI_Reducer = (state: State = defaultState, action: UI_Action): State => {
