@@ -27,4 +27,8 @@ export default class PlaylistService{
     static async getCurated(): Promise<AxiosResponse<PlaylistSchema[]>>{
         return $api.get(PLAYLIST_DATA_LOCATION + 'curated')
     }
+
+    static async rename(playlistId: string, name: string, isPublic: boolean): Promise<AxiosResponse<PlaylistSchema>>{
+        return $api.post(PLAYLIST_DATA_LOCATION + 'rename', {playlistId, newName: name, isPublic})
+    }
 }

@@ -47,20 +47,24 @@ const usePlayer = () => {
     }
 
     const startTrack = () => {
-        setLoading(false)
-        startTimer()
-        setPlaying(true)
-        if ('mediaSession' in navigator) navigator.mediaSession.playbackState = "playing"
-        document.title = `${author} - ${name}`
-        trackRef.current.play()
+        try{
+            setLoading(false)
+            startTimer()
+            setPlaying(true)
+            if ('mediaSession' in navigator) navigator.mediaSession.playbackState = "playing"
+            document.title = `${author} - ${name}`
+            trackRef.current.play()
+        }catch{}
     }
 
     const stopTrack = () => {
-        setPlaying(false)
-        trackRef.current.pause()
-        document.title = `Serenity`
-        if ('mediaSession' in navigator) navigator.mediaSession.playbackState = "paused"
-        clearTimer()
+        try{
+            setPlaying(false)
+            trackRef.current.pause()
+            document.title = `Serenity`
+            if ('mediaSession' in navigator) navigator.mediaSession.playbackState = "paused"
+            clearTimer()
+        }catch{}
     }
 
     const onBarClick = (e: number) => {
@@ -100,29 +104,33 @@ const usePlayer = () => {
     }
 
     useEffect(() => {
-        setLoading(true)
-        if(path === '' || i < 0) return
-        trackRef.current.onloadedmetadata = onLoadedMetadata
-        trackRef.current.pause()
-        trackRef.current.load()
-        trackRef.current.onloadeddata = startTrack
-        trackRef.current.onplay = startTrack
-        trackRef.current.onpause = stopTrack
-        if ('mediaSession' in navigator) navigator.mediaSession.setActionHandler('previoustrack', prevTrack);
-        if ('mediaSession' in navigator) navigator.mediaSession.setActionHandler('nexttrack', nextTrack);
+       try{
+           setLoading(true)
+           if(path === '' || i < 0) return
+           trackRef.current.onloadedmetadata = onLoadedMetadata
+           trackRef.current.pause()
+           trackRef.current.load()
+           trackRef.current.onloadeddata = startTrack
+           trackRef.current.onplay = startTrack
+           trackRef.current.onpause = stopTrack
+           if ('mediaSession' in navigator) navigator.mediaSession.setActionHandler('previoustrack', prevTrack);
+           if ('mediaSession' in navigator) navigator.mediaSession.setActionHandler('nexttrack', nextTrack);
+       }catch{}
     },[path])
 
     useEffect(() => {
-        if ('mediaSession' in navigator) {
-            navigator.mediaSession.metadata = new MediaMetadata({
-                title: name || 'Unknown',
-                artist: author || 'Unknown',
-                artwork: [
-                    { src: cover as string || '', sizes: '256x256', type: 'image/png' },
-                    { src: cover as string || '', sizes: '512x512', type: 'image/png' }
-                ]
-            });
-        }
+        try{
+            if ('mediaSession' in navigator) {
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: name || 'Unknown',
+                    artist: author || 'Unknown',
+                    artwork: [
+                        { src: cover as string || '', sizes: '256x256', type: 'image/png' },
+                        { src: cover as string || '', sizes: '512x512', type: 'image/png' }
+                    ]
+                });
+            }
+        }catch{}
     }, [name, author, cover])
 
     useEffect(() => {return () => {

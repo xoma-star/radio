@@ -15,6 +15,7 @@ const Navigator = () => {
     return <div className={'navigator'}>
         <TracksScroll header={'Последние загрузки'} tracks={newTracks}/>
         <TracksScroll header={'Авторские плейлисты'} tracks={curatedPlaylists}/>
+        <TracksScroll header={'Плейлисты под настроение'} tracks={curatedPlaylists}/>
     </div>
 }
 

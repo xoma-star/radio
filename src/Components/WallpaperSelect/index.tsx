@@ -19,7 +19,7 @@ const WallpaperSelect = () => {
         <DesktopIcon onDoubleClick={() => UI_SetBackground(`url(${wallpaper_high_tide})`)} label={'Прилив'} icon={wallpaper_high_tide} type={'desktop'}/>
         <DesktopIcon onDoubleClick={() => UI_SetBackground(`url(${wallpaper_beach})`)} label={'Пляж'} icon={wallpaper_beach} type={'desktop'}/>
         <DesktopIcon onDoubleClick={() => UI_SetBackground(`url(${wallpaper_mgu})`)} label={'Это МГУ?'} icon={wallpaper_mgu} type={'desktop'}/>
-        <DesktopIcon onDoubleClick={() => UI_SetBackground(`url(${wallpaper_59})`)} label={'Неотвратимость'} icon={wallpaper_59} type={'desktop'}/>
+        <DesktopIcon onDoubleClick={() => UI_SetBackground(`url(${wallpaper_59})`)} label={'Одиночество'} icon={wallpaper_59} type={'desktop'}/>
         <DesktopIcon onDoubleClick={() => UI_SetBackground(`url(${wallpaper_zalopa})`)} label={'Неотвратимость'} icon={wallpaper_zalopa} type={'desktop'}/>
     </HorizontalScroll>
 }

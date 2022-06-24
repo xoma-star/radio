@@ -21,7 +21,7 @@ const Directory = () => {
         setToDisplay(playlists)
     }, [playlists])
     useEffect(() => {
-        UserGetPlaylists()
+        if(authorized) UserGetPlaylists()
     }, [authorized])
 
     const onIconClick = (e:  React.MouseEvent<HTMLElement>) => {

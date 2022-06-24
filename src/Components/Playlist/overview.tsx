@@ -13,6 +13,9 @@ import {UI_Windows} from "../../Redux/Reducers/ui";
 import {FILES_LOCATION} from "../../config";
 import {useTypedSelector} from "../../Hooks/useTypedSelector";
 import UserService from "../../http/Services/UserService";
+import Input from "../Common/Input";
+import Checkbox from "../Common/Checkbox";
+import Separator from "../Common/Separator";
 
 interface props{
     overview: PlaylistSchema
@@ -20,7 +23,10 @@ interface props{
 
 const PlaylistOverview = ({overview}: props) => {
     const [tracks, setTracks] = useState<TrackSchema[]>()
-    const {UI_OpenWindow, PlayerClearQueue, PlayerSetTrack, PlayerAddQueue, PlaylistSetOverview, UI_Warn, UI_CloseWindow, UserGetPlaylists} = useActions()
+    const [isEditing, setIsEditing] = useState(false)
+    const [name, setName] = useState(overview.name)
+    const [isPublic, setIsPublic] = useState(overview.isPublic)
+    const {UI_OpenWindow, PlayerClearQueue, PlayerSetTrack, PlayerAddQueue, PlaylistSetOverview, UI_Warn, UserGetPlaylists} = useActions()
     const {id} = useTypedSelector(s => s.player)
     const user = useTypedSelector(s => s.user)
     useEffect(() => {
@@ -66,7 +72,6 @@ const PlaylistOverview = ({overview}: props) => {
         if(!overview.id) return
         PlaylistService.delete(overview.id)
             .then(r => {
-                // UI_CloseWindow(UI_Windows.PLAYLIST)
                 PlaylistSetOverview(null)
                 UserGetPlaylists()
                 if(typeof r.data === "string")UI_Warn({type: 'success', text: 'Плейлист был удален из вашей библиотеки, но он останется у других пользователей.'})
@@ -77,6 +82,17 @@ const PlaylistOverview = ({overview}: props) => {
         if(!overview.id) return
         UserService.savePlaylist(overview.id)
             .then(() => UserGetPlaylists())
+    }
+
+    const updateData = () => {
+        if(overview.name !== name || overview.isPublic !== isPublic) {
+            PlaylistService.rename(overview.id, name, isPublic)
+                .then(r => {
+                    PlaylistSetOverview(r.data)
+                    setIsEditing(false)
+                })
+                .catch(() => setIsEditing(false))
+        }
     }
 
     return  <React.Fragment>
@@ -91,16 +107,25 @@ const PlaylistOverview = ({overview}: props) => {
                     PlayerClearQueue()
                     PlayerSetTrack(r)
                 }}
-                after={user.id === overview.owner && <Button onClick={removeFromPlaylist(r.id)} className={'button-control close'}/>}
+                after={user.id === overview.owner && isEditing && <Button onClick={removeFromPlaylist(r.id)} className={'button-control close'}/>}
                 selected={r.id === id}
                 before={<IconSmall src={FILES_LOCATION + r.cover}/>}
                 key={'playlist' + r.id}>{r.author} - {r.name}</Cell>)}
         </List>
+        {isEditing && <React.Fragment>
+            <Separator style={{margin: '8px 0'}}/>
+            <Input defaultValue={name} label={'Название'} style={{marginBottom: 8}} onChange={setName}/>
+            <Checkbox label={'Виден для всех'} defaultChecked={isPublic} style={{marginBottom: 8}} onChange={setIsPublic}/>
+        </React.Fragment>}
         <div style={{display: 'flex'}}>
             <Button onClick={shuffle}>Перемешать</Button>
             <Button onClick={addToQueue}>В очередь</Button>
             {(user.id === overview.owner || user.playlists.findIndex(s => s.id === overview.id) >= 0) && <Button onClick={deletePlaylist}>Удалить</Button>}
             {user.playlists.findIndex(s => s.id === overview.id) < 0 && <Button onClick={savePlaylist}>Сохранить</Button>}
+            {user.id === overview.owner && (
+                (!isEditing && <Button onClick={() => {setIsEditing(true)}}>Изменить</Button>)
+                || (isEditing && <Button onClick={updateData}>Сохранить</Button>)
+            )}
         </div>
     </React.Fragment>
 }

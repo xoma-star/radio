@@ -13,8 +13,9 @@ import icon_online from './conn_pcs_on_on.png'
 import icon_offline from './conn_pcs_no_network.png'
 import icon_files from './file_set-0.png'
 import icon_color from './color_profile-0.png'
+import icon_help from './help_book_cool-4.png'
 
 export {
     icon_dir, icon_loading, icon_channel, icon_cd, icon_success, icon_error, icon_credentials, icon_warn, icon_share, icon_dir_open,
-    icon_globe_click, icon_offline, icon_online, icon_files, icon_color
+    icon_globe_click, icon_offline, icon_online, icon_files, icon_color, icon_help
 }

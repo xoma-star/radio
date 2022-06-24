@@ -9,10 +9,11 @@ const Palette = () => {
         '#000000',
         '#ffffff',
         '#808000',
-        '#800080'
+        '#800080',
+        '#3b6ea5'
     ]
     return <div className={'palette'}>
-        {a.map(r => <Button onClick={() => UI_SetBackground(r)} className={'color'} style={{backgroundColor: r}}/>)}
+        {a.map(r => <Button key={`color${r}`} onClick={() => UI_SetBackground(r)} className={'color'} style={{backgroundColor: r}}/>)}
     </div>
 }
 
