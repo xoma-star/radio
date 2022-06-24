@@ -18,7 +18,7 @@ const Navigator = () => {
         <TracksScroll header={'Последние загрузки'} tracks={newTracks}/>
         <TracksScroll header={'Мне повезет'}
                       tracks={luckTracks}
-                      actions={[{label: 'Обновить', action: () => TrackService.getRandom(10).then(r => setLuckTracks(r.data))}]}/>
+                      actions={[{label: 'Мне повезет', action: () => TrackService.getRandom(10).then(r => setLuckTracks(r.data))}]}/>
         <TracksScroll header={'На чилле, на расслабоне'} tracks={curatedPlaylists}/>
     </div>
 }

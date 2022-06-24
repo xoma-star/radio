@@ -34,6 +34,11 @@ const PlaylistOverview = ({overview}: props) => {
             .then(r => setTracks(r.data))
     }, [overview.tracks])
 
+    useEffect(() => {
+        setName(overview.name)
+        setIsPublic(overview.isPublic)
+    }, [overview.name, overview.isPublic])
+
     const addToQueue = (e: React.MouseEvent) => {
         e.stopPropagation()
         tracks?.forEach(r => PlayerAddQueue(r))

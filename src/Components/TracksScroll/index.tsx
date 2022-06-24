@@ -52,7 +52,7 @@ const TracksScroll = ({header, tracks, actions}: props) => {
             {tracks && tracks.length < 1 && <img src={icon_loading} width={32} height={32} alt={'Loading...'}/>}
         </HorizontalScroll>
         {actions && actions?.length > 0 &&
-            <div style={{marginTop: 8, display: 'flex', justifyContent: 'flex-end'}}>
+            <div style={{marginTop: 8, display: 'flex', justifyContent: 'space-around'}}>
                 {actions.map(r => <Button key={r.label + 'action'} onClick={r.action}>{r.label}</Button>)}
             </div>}
     </div>
