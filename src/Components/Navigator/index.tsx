@@ -8,14 +8,18 @@ import PlaylistService from "../../http/Services/PlaylistService";
 const Navigator = () => {
     const [newTracks, setNewTracks] = useState<TrackSchema[]>([])
     const [curatedPlaylists, setCurated] = useState<PlaylistSchema[]>([])
+    const [luckTracks, setLuckTracks] = useState<TrackSchema[]>([])
     useEffect(() => {
         TrackService.getLatest().then(r => setNewTracks(r.data))
         PlaylistService.getCurated().then(r => setCurated(r.data))
+        TrackService.getRandom(10).then(r => setLuckTracks(r.data))
     }, [])
     return <div className={'navigator'}>
         <TracksScroll header={'Последние загрузки'} tracks={newTracks}/>
-        <TracksScroll header={'Авторские плейлисты'} tracks={curatedPlaylists}/>
-        <TracksScroll header={'Плейлисты под настроение'} tracks={curatedPlaylists}/>
+        <TracksScroll header={'Мне повезет'}
+                      tracks={luckTracks}
+                      actions={[{label: 'Обновить', action: () => TrackService.getRandom(10).then(r => setLuckTracks(r.data))}]}/>
+        <TracksScroll header={'На чилле, на расслабоне'} tracks={curatedPlaylists}/>
     </div>
 }
 

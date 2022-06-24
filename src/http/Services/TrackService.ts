@@ -19,7 +19,9 @@ export default class TrackService{
         return $api.post(TRACK_DATA_LOCATION + 'add', data)
     }
     static async getMultiple(tracks: string[]): Promise<AxiosResponse<TrackSchema[]>>{
-        const data = {tracks}
         return $api.get(TRACK_DATA_LOCATION + 'getMultiple', {params: {tracks: tracks.join(',')}})
+    }
+    static async getRandom(count: number): Promise<AxiosResponse<TrackSchema[]>>{
+        return $api.get(TRACK_DATA_LOCATION + 'random', {params: {count}})
     }
 }

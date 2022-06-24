@@ -1,7 +1,5 @@
 import usePlayer from "./usePlayer";
 import React, {useEffect, useState} from "react";
-import PlaylistSchema from "../Schemas/playlist.schema";
-import UserService from "../http/Services/UserService";
 import PlaylistService from "../http/Services/PlaylistService";
 import {useTypedSelector} from "./useTypedSelector";
 import {useActions} from "./useActions";
@@ -10,10 +8,9 @@ import {UI_Windows} from "../Redux/Reducers/ui";
 const usePlayerAddToPlaylist = () => {
     const {id} = usePlayer()
     const {overview} = useTypedSelector(s => s.playlist)
-    const {authorized} = useTypedSelector(s => s.user)
-    const [playlists, setPlaylists] = useState<PlaylistSchema[]>([])
+    const {authorized, playlists} = useTypedSelector(s => s.user)
     const [showPlaylists, setShowPlaylists] = useState<boolean>(false)
-    const {UI_Warn, PlaylistSetOverview, UI_OpenWindow} = useActions()
+    const {UI_Warn, PlaylistSetOverview, UI_OpenWindow, UserGetPlaylists} = useActions()
     useEffect(() => {
         setShowPlaylists(false)
     }, [id])
@@ -26,11 +23,7 @@ const usePlayerAddToPlaylist = () => {
             return
         }
         setShowPlaylists(true)
-        UserService.getUserPlaylists()
-            .then(r => {
-                setPlaylists(r.data)
-            })
-            .catch(() => setShowPlaylists(false))
+        if(playlists.length < 1) UserGetPlaylists()
     }
 
     const closeButtonClickHandler = () => setShowPlaylists(false)

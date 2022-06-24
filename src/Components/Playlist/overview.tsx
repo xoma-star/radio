@@ -92,7 +92,7 @@ const PlaylistOverview = ({overview}: props) => {
                     setIsEditing(false)
                 })
                 .catch(() => setIsEditing(false))
-        }
+        }else setIsEditing(false)
     }
 
     return  <React.Fragment>

@@ -8,13 +8,15 @@ import {useActions} from "../../Hooks/useActions";
 import {icon_dir, icon_loading} from "../../Images/Icons";
 import TrackSchema from "../../Schemas/track.schema";
 import PlaylistSchema from "../../Schemas/playlist.schema";
+import Button from "../Common/Button";
 
 interface props{
     header?: string,
-    tracks?: TrackSchema[] | PlaylistSchema[]
+    tracks?: TrackSchema[] | PlaylistSchema[],
+    actions?: {label: string, action: () => void}[]
 }
 
-const TracksScroll = ({header, tracks}: props) => {
+const TracksScroll = ({header, tracks, actions}: props) => {
     const {UI_OpenWindow, PlayerSetTrack, PlayerClearQueue, PlaylistSetOverview} = useActions()
     const onIconDoubleClick = (e: TrackSchema | PlaylistSchema) => {
         if('cover' in e){
@@ -49,6 +51,10 @@ const TracksScroll = ({header, tracks}: props) => {
             }
             {tracks && tracks.length < 1 && <img src={icon_loading} width={32} height={32} alt={'Loading...'}/>}
         </HorizontalScroll>
+        {actions && actions?.length > 0 &&
+            <div style={{marginTop: 8, display: 'flex', justifyContent: 'flex-end'}}>
+                {actions.map(r => <Button key={r.label + 'action'} onClick={r.action}>{r.label}</Button>)}
+            </div>}
     </div>
 }
 
