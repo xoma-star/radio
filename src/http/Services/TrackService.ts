@@ -24,4 +24,10 @@ export default class TrackService{
     static async getRandom(count: number): Promise<AxiosResponse<TrackSchema[]>>{
         return $api.get(TRACK_DATA_LOCATION + 'random', {params: {count}})
     }
+    static async getMostListened(): Promise<AxiosResponse<TrackSchema[]>>{
+        return $api.get(TRACK_DATA_LOCATION + 'mostListened')
+    }
+    static async addListen(id: string): Promise<AxiosResponse<void>>{
+        return $api.get(TRACK_DATA_LOCATION + 'addListen', {params: {id}})
+    }
 }

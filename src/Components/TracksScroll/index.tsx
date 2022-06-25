@@ -37,7 +37,7 @@ const TracksScroll = ({header, tracks, actions}: props) => {
     return <div>
         <Title style={{marginBottom: 8}}>{header}</Title>
         <HorizontalScroll>
-            {tracks?.map(v => <DesktopIcon
+            {tracks && tracks.map(v => <DesktopIcon
                 key={'navigator' + v.id}
                 draggable
                 type={'track'}

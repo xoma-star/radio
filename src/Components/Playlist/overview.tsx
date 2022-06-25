@@ -125,8 +125,8 @@ const PlaylistOverview = ({overview}: props) => {
         <div style={{display: 'flex'}}>
             <Button onClick={shuffle}>Перемешать</Button>
             <Button onClick={addToQueue}>В очередь</Button>
-            {(user.id === overview.owner || user.playlists.findIndex(s => s.id === overview.id) >= 0) && <Button onClick={deletePlaylist}>Удалить</Button>}
-            {user.playlists.findIndex(s => s.id === overview.id) < 0 && <Button onClick={savePlaylist}>Сохранить</Button>}
+            {(user.playlists.findIndex(s => s.id === overview.id) >= 0) && <Button onClick={deletePlaylist}>Удалить</Button>}
+            {user.playlists.findIndex(s => s.id === overview.id) < 0 && <Button onClick={savePlaylist}>Сохранить в библиотеку</Button>}
             {user.id === overview.owner && (
                 (!isEditing && <Button onClick={() => {setIsEditing(true)}}>Изменить</Button>)
                 || (isEditing && <Button onClick={updateData}>Сохранить</Button>)

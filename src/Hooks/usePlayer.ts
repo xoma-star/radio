@@ -3,6 +3,8 @@ import {useActions} from "./useActions";
 import React, {useEffect, useRef, useState} from "react";
 import * as workerTimers from 'worker-timers'
 import {UI_Windows} from "../Redux/Reducers/ui";
+import axios from "axios";
+import {TRACK_DATA_LOCATION} from "../config";
 
 const usePlayer = () => {
     const {
@@ -107,14 +109,17 @@ const usePlayer = () => {
        try{
            setLoading(true)
            if(path === '' || i < 0) return
-           trackRef.current.onloadedmetadata = onLoadedMetadata
+           trackRef.current.onloadedmetadata = () => {
+               onLoadedMetadata()
+               if(id) axios.get(TRACK_DATA_LOCATION + 'addListen', {params: {id}}).catch(() => {})
+           }
            trackRef.current.pause()
            trackRef.current.load()
            trackRef.current.onloadeddata = startTrack
            trackRef.current.onplay = startTrack
            trackRef.current.onpause = stopTrack
-           if ('mediaSession' in navigator) navigator.mediaSession.setActionHandler('previoustrack', prevTrack);
-           if ('mediaSession' in navigator) navigator.mediaSession.setActionHandler('nexttrack', nextTrack);
+           if ('mediaSession' in navigator) navigator.mediaSession.setActionHandler('previoustrack', prevTrack)
+           if ('mediaSession' in navigator) navigator.mediaSession.setActionHandler('nexttrack', nextTrack)
        }catch{}
     },[path])
 
