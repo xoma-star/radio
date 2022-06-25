@@ -50,10 +50,13 @@ export const Logout = () => {
 export const CheckAuth = () => {
     return async (dispatch: Dispatch<UserAction>) => {
         try {
-            const res = await axios.get<AuthResponse>(AUTH_LOCATION + 'refresh', {withCredentials: true})
-            localStorage.setItem('accessToken', res.data.accessToken)
-            dispatch({type: UserActionTypes.SET_AUTHORIZED, payload: true})
-            dispatch({type: UserActionTypes.SET_ID, payload: res.data.id})
+            axios.get<AuthResponse>(AUTH_LOCATION + 'refresh', {withCredentials: true})
+                .then(res => {
+                    localStorage.setItem('accessToken', res.data.accessToken)
+                    dispatch({type: UserActionTypes.SET_AUTHORIZED, payload: true})
+                    dispatch({type: UserActionTypes.SET_ID, payload: res.data.id})
+                })
+                .catch()
         }catch (e) {
             dispatch({type: UserActionTypes.SET_AUTHORIZED, payload: false})
             dispatch({type: UserActionTypes.SET_ID, payload: null})

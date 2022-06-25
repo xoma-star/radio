@@ -77,7 +77,7 @@ const PlaylistOverview = ({overview}: props) => {
         if(!overview.id) return
         PlaylistService.delete(overview.id)
             .then(r => {
-                PlaylistSetOverview(null)
+                // PlaylistSetOverview(null)
                 UserGetPlaylists()
                 if(typeof r.data === "string")UI_Warn({type: 'success', text: 'Плейлист был удален из вашей библиотеки, но он останется у других пользователей.'})
             })

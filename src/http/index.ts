@@ -19,9 +19,7 @@ $api.interceptors.response.use((config) => config, async (error) => {
             const res = await $api.get<AuthResponse>(AUTH_LOCATION + 'refresh', {withCredentials: true})
             localStorage.setItem('accessToken', res.data.accessToken)
             return $api.request(error.config)
-        }catch (e: any) {
-
-        }
+        }catch (e: any) {}
     }
     store.dispatch({type: UI_ActionTypes.SET_WARNING, payload: error?.response?.data?.message})
     store.dispatch({type: UI_ActionTypes.OPEN_WINDOW, payload: UI_Windows.WARNING})
