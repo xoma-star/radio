@@ -2,66 +2,49 @@ import React from "react";
 import './FileUpload.css'
 import {icon_error, icon_loading, icon_success} from "../../Images/Icons";
 import Button from "../Common/Button";
-import Input from "../Common/Input";
 import useUploader from "../../Hooks/useUploader";
-import Form from "../Common/Form";
 import {useTypedSelector} from "../../Hooks/useTypedSelector";
 import Unauthorized from "../Unauthorized";
+import List from "../Common/List";
+import Cell from "../Common/Cell";
+import IconSmall from "../Icons/IconSmall";
 
 const FileUpload = () => {
     const {
-        name,
-        setName,
-        author,
-        cover,
-        setAuthor,
-        loadStatus,
         inputRef,
-        coverRef,
         changeHandler,
         sendToServer,
         clickHandler,
-        audio
+        files
     } = useUploader()
 
     const {authorized} = useTypedSelector(s => s.user)
 
     return <div className={'upload-form'}>
         {authorized && <React.Fragment>
-            <div className={'cover-wrapper'}>
-                <div className={'cover selected'} style={{'--cover': `url(${cover})`} as React.CSSProperties}/>
-                <Button
-                    disabled={!audio || loadStatus === 1 || loadStatus === 2}
-                    onClick={() => coverRef.current?.click()}
-                >Изменить</Button>
-                <input
-                    onChange={(e) => changeHandler(e, true)}
-                    ref={coverRef}
-                    type={'file'}
-                    style={{display: 'none'}}
-                    multiple={false}
-                    accept={'image/*'}
-                />
-            </div>
-            <div className={'track-data-wrapper'}>
-                <Form>
-                    <Input disabled={!audio || [1,2].indexOf(loadStatus) >= 0} label={'Название'} onChange={setName} className={'bold'} defaultValue={name}/>
-                    <Input disabled={!audio || [1,2].indexOf(loadStatus) >= 0} label={'Автор'} onChange={setAuthor} defaultValue={author}/>
-                </Form>
-                {loadStatus === 1 && <img src={icon_loading} width={32} height={32} alt={'Loading...'}/>}
-                {loadStatus === 2 && <img src={icon_success} width={32} height={32} alt={'Success'}/>}
-                {loadStatus === 3 && <img src={icon_error} width={32} height={32} alt={'Error'}/>}
-                <div className={'track-data-controls'}>
-                    <Button disabled={loadStatus === 1} onClick={clickHandler}>Выбрать файл</Button>
-                    <Button onClick={sendToServer} disabled={!audio || name.length < 1 || author.length < 1 || [1,2].indexOf(loadStatus) >= 0}>Загрузить</Button>
-                </div>
+            <List style={{maxHeight: '50vh'}}>
+                {files.map(file =>
+                    <Cell key={file.name + file.author}
+                          before={<IconSmall src={file.cover as string}/>}
+                          after={
+                                (file.uploadStatus === 1 && <IconSmall src={icon_loading}/>) ||
+                                (file.uploadStatus === 2 && <IconSmall src={icon_success}/>) ||
+                                (file.uploadStatus === 3 && <IconSmall src={icon_error}/>)
+                          }
+                    >
+                        {`${file.author} - ${file.name}`}
+                    </Cell>)}
+            </List>
+            <div className={'track-data-controls'}>
+                <Button disabled={files.filter(x => x.uploadStatus === 1).length > 0} onClick={clickHandler}>Выбрать файл</Button>
+                <Button onClick={sendToServer} disabled={files.length < 1 || files.filter(x => x.uploadStatus === 1).length > 0}>Загрузить</Button>
             </div>
             <input
                 ref={inputRef}
                 type={'file'}
                 style={{display: 'none'}}
-                multiple={false}
-                accept={'audio/*'}
+                multiple={true}
+                accept={'audio/x-m4a'}
                 onChange={changeHandler}
             />
         </React.Fragment>}

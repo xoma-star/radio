@@ -1,78 +1,77 @@
-import {ChangeEvent, useEffect, useRef, useState} from "react";
-import {getRandomCover} from "../Images/CoverSamples";
+import {ChangeEvent, useRef, useState} from "react";
 import {useActions} from "./useActions";
-import toDataUrl from "../Functions/toDataUrl";
 import TrackService from "../http/Services/TrackService";
 import {Buffer} from 'buffer'
 
 const useUploader = () => {
-    const [cover, setCover] = useState<string | ArrayBuffer | null | Blob>()
-    const [name, setName] = useState('')
-    const [author, setAuthor] = useState('')
-    const [audio, setAudio] = useState<File>()
-    const [loadStatus, setLoadStatus] = useState(0) //0 - не отправлял 1 - отправлено 2 - успешно 3 - неудачно
-
-    useEffect(() => toDataUrl(getRandomCover(), (e) => setCover(e)), [])
-
+    const [files, setFiles] = useState<{
+        name: string,
+        author: string,
+        cover: string | ArrayBuffer | null | Blob,
+        audio: File,
+        uploadStatus: number
+    }[]>([])
     const {UI_Warn} = useActions()
-
     const inputRef = useRef<HTMLInputElement>(null)
-    const coverRef = useRef<HTMLInputElement>(null)
+
     const clickHandler = () => inputRef.current?.click()
-    const changeHandler = async (event: ChangeEvent, isImage?: boolean) => {
+    const changeHandler = async (event: ChangeEvent) => {
         const input = event.target as HTMLInputElement;
         if (!input.files?.length) return
-        const file = input.files[0];
-        try {
-            if(isImage){
-                let reader = new FileReader();
-                reader.onloadend = () => setCover(reader.result)
-                reader.readAsDataURL(file)
-            }
-            else{
-                setLoadStatus(0)
+        setFiles([])
+        Array.from(input.files).forEach((file) => {
+            try{
                 window.jsmediatags.read(file, {
                     onSuccess: (d) => {
+                        let a = {cover: '',
+                            name: d.tags.title || 'Unknown',
+                            author: d.tags.artist || 'Unknow artist',
+                            audio: file, uploadStatus: 0}
                         if(typeof d.tags?.picture?.data !== 'undefined'){
                             const u8 = new Uint8Array(d.tags?.picture?.data)
-                            setCover(`data:image/jpeg;base64,${Buffer.from(u8).toString('base64')}`)
+                            a.cover = `data:image/jpeg;base64,${Buffer.from(u8).toString('base64')}`
                         }
-                        else toDataUrl(getRandomCover(), (e) => setCover(e))
-                        if(typeof d.tags.title !== 'undefined') setName(d.tags.title as string)
-                        else UI_Warn('Не удалось распознать файл. Пожалуйста, введите название вручную.')
-                        if(typeof d.tags.artist !== 'undefined') setAuthor(d.tags.artist as string)
-                        else UI_Warn('Не удалось распознать файл. Пожалуйста, введите автора вручную.')
-                        setAudio(file)
+                        setFiles(r => [...r, a])
                     }
                 })
+            }catch (e) {
+                UI_Warn('Ошибка при обработке файла')
             }
-        }catch (e) {
-            UI_Warn('Ошибка при обработке файла')
+        })
+    }
+
+    const sendToServer = async () => {
+        const onSuccess = (i: number) => {
+            let a = [...files]
+            a[i].uploadStatus = 2
+            setFiles(a)
+        }
+        const onError = (i: number) => {
+            let a = [...files]
+            a[i].uploadStatus = 3
+            setFiles(a)
+        }
+        const onStart = (i: number) => {
+            let a = [...files]
+            a[i].uploadStatus = 1
+            setFiles(a)
+        }
+        for(const file of files.filter(x => x.uploadStatus !== 2)) {
+            const i = files.findIndex(x => x.name === file.name && x.author === file.author)
+            try{
+                onStart(i)
+                await TrackService.uploadTrack(file.name, file.author, file.cover as string, file.audio as File)
+                onSuccess(i)
+            }catch (e) {onError(i)}
         }
     }
 
-    const sendToServer = () => {
-        setLoadStatus(1)
-        const onSuccess = () => setLoadStatus(2)
-        const onError = () => setLoadStatus(3)
-        TrackService.uploadTrack(name, author, cover as string, audio as File)
-            .then(() => onSuccess())
-            .catch(() => onError() )
-    }
-
     return {
-        cover,
-        name,
-        author,
-        loadStatus,
-        setName,
-        setAuthor,
         changeHandler,
-        coverRef,
         sendToServer,
         clickHandler,
         inputRef,
-        audio
+        files
     }
 }
 

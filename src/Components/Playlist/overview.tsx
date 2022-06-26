@@ -57,13 +57,24 @@ const PlaylistOverview = ({overview}: props) => {
 
     const removeFromPlaylist = (trackId: string) => (e: React.MouseEvent) => {
         e.stopPropagation()
-        if(user.id !== overview.owner ) return
+        if(user.id !== overview.owner) {
+            UI_Warn('Недостаточно прав')
+            return
+        }
         PlaylistService.removeTrack(trackId, overview.id)
             .then(r => PlaylistSetOverview(r.data))
     }
 
     const onDrop = (e: React.DragEvent) => {
         if(!overview.id) return
+        if(!user.authorized){
+            UI_Warn('Войдите в аккаунт, чтобы продолжить')
+            return
+        }
+        if(user.id !== overview.owner){
+            UI_Warn('Недостаточно прав')
+            return
+        }
         const trackId = e.dataTransfer.getData('text/plain')
         if(!trackId) return
         PlaylistService.add(trackId, overview.id)
@@ -73,23 +84,38 @@ const PlaylistOverview = ({overview}: props) => {
             })
     }
 
-    const deletePlaylist = () => {
+    const deletePlaylist = (e: React.MouseEvent) => {
+        e.stopPropagation()
         if(!overview.id) return
+        if(!user.authorized){
+            UI_Warn('Войдите в аккаунт, чтобы продолжить')
+            return
+        }
         PlaylistService.delete(overview.id)
             .then(r => {
-                // PlaylistSetOverview(null)
                 UserGetPlaylists()
                 if(typeof r.data === "string")UI_Warn({type: 'success', text: 'Плейлист был удален из вашей библиотеки, но он останется у других пользователей.'})
             })
     }
 
-    const savePlaylist = () => {
+    const savePlaylist = (e: React.MouseEvent) => {
+        e.stopPropagation()
         if(!overview.id) return
+        if(!user.authorized){
+            UI_Warn('Войдите в аккаунт, чтобы продолжить')
+            return
+        }
         UserService.savePlaylist(overview.id)
             .then(() => UserGetPlaylists())
     }
 
-    const updateData = () => {
+    const updateData = (e: React.MouseEvent) => {
+        e.stopPropagation()
+        if(overview.owner !== user.id) {
+            UI_Warn('Недостаточно прав')
+            setIsEditing(false)
+            return
+        }
         if(overview.name !== name || overview.isPublic !== isPublic) {
             PlaylistService.rename(overview.id, name, isPublic)
                 .then(r => {

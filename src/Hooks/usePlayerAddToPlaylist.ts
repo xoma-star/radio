@@ -3,14 +3,13 @@ import React, {useEffect, useState} from "react";
 import PlaylistService from "../http/Services/PlaylistService";
 import {useTypedSelector} from "./useTypedSelector";
 import {useActions} from "./useActions";
-import {UI_Windows} from "../Redux/Reducers/ui";
 
 const usePlayerAddToPlaylist = () => {
     const {id} = usePlayer()
     const {overview} = useTypedSelector(s => s.playlist)
     const {authorized, playlists} = useTypedSelector(s => s.user)
     const [showPlaylists, setShowPlaylists] = useState<boolean>(false)
-    const {UI_Warn, PlaylistSetOverview, UI_OpenWindow, UserGetPlaylists} = useActions()
+    const {UI_Warn, PlaylistSetOverview, UserGetPlaylists} = useActions()
     useEffect(() => {
         setShowPlaylists(false)
     }, [id])
@@ -18,7 +17,6 @@ const usePlayerAddToPlaylist = () => {
     const addToPlaylistButtonClickHandler = (e: React.MouseEvent) => {
         e.stopPropagation()
         if(!authorized){
-            UI_OpenWindow(UI_Windows.LOGIN)
             UI_Warn('Войдите в аккаунт, чтобы продолжить')
             return
         }
