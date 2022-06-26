@@ -20,7 +20,7 @@ const useAppInit = () => {
             UI_SetConnectionStatus('online')
             UI_Warn({type: 'success', text: 'Соединение с сетью восстановлено.'})
         }
-        console.log('%cНашел баг? Сообщи о нем на obama.com', 'color: white; background: #008080; font-size: 1.5em;' , 'https://obama.com')
+        console.log('%cНашел баг? Сообщи о нем xoma_star@vk.com', 'color: white; background: #008080; font-size: 1.5em;' )
         bridge.send('VKWebAppInit')
     }, [])
 }

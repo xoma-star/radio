@@ -20,7 +20,8 @@ export enum UI_Windows{
     PLAYLIST = 'PLAYLIST',
     QUEUE = 'QUEUE',
     APPEARANCE = 'APPEARANCE',
-    HELP = 'HELP'
+    HELP = 'HELP',
+    ABOUT = 'ABOUT'
 }
 
 interface State{

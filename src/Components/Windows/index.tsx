@@ -13,6 +13,7 @@ import TracksQueue from "../Queue";
 import Appearance from "../Appearance";
 import {useTypedSelector} from "../../Hooks/useTypedSelector";
 import Help from "../Help";
+import About from "../About";
 
 const Windows = () => {
     const {opened} = useTypedSelector(s => s.ui)
@@ -54,6 +55,9 @@ const Windows = () => {
         </Window>}
         {opened.indexOf(UI_Windows.HELP) >= 0 && <Window id={UI_Windows.HELP}>
             <Help/>
+        </Window>}
+        {opened.indexOf(UI_Windows.ABOUT) >= 0 && <Window id={UI_Windows.ABOUT}>
+            <About/>
         </Window>}
     </React.Fragment>
 }

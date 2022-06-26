@@ -6,13 +6,13 @@ import {
     icon_credentials,
     icon_warn,
     icon_globe_click,
-    icon_dir_open, icon_files, icon_color, icon_help
+    icon_dir_open, icon_files, icon_color, icon_help, icon_logo
 } from '../Images/Icons'
 
 const windows = {
     [UI_Windows.MUSIC_PLAYER]: {
         icon: icon_cd,
-        name: 'Слушать',
+        name: 'Проигрыватель',
         showOnDesktop: true
     },
     [UI_Windows.MUSIC_FOLDER]: {
@@ -59,6 +59,11 @@ const windows = {
         icon: icon_help,
         name: 'Помощь',
         showOnDesktop: true
+    },
+    [UI_Windows.ABOUT]: {
+        icon: icon_logo,
+        name: 'О приложении',
+        showOnDesktop: false
     }
 }
 

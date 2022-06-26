@@ -6,7 +6,7 @@ import windows from "../../Constants/windows";
 import Button from "../Common/Button";
 import {useEffect, useState} from "react";
 import IconSmall from "../Icons/IconSmall";
-import {icon_offline, icon_online} from "../../Images/Icons";
+import {icon_logo, icon_offline, icon_online} from "../../Images/Icons";
 
 
 const Taskbar = () => {
@@ -14,7 +14,7 @@ const Taskbar = () => {
     const {opened, minimized, activeWindow, connectionStatus} = useTypedSelector(s => s.ui)
     const {name} = useTypedSelector(s => s.player)
     const {overview} = useTypedSelector(s => s.playlist)
-    const {UI_SetActiveWindow, UI_MinimizeWindow} = useActions()
+    const {UI_SetActiveWindow, UI_MinimizeWindow, UI_OpenWindow} = useActions()
     const handler = (v: UI_Windows) => {
         if(v === activeWindow) {
             UI_SetActiveWindow(null)
@@ -37,13 +37,14 @@ const Taskbar = () => {
     }
 
     useEffect(() => {
+        setTime(getTime())
         const id = setInterval(() => setTime(getTime()), 3000)
         return () => clearInterval(id)
     }, [])
 
     return <div className={'taskbar'}>
-        <Button className="start-button toggle">
-            <img alt={'start'} src="https://98.js.org/images/start.png"/><b>Пуск</b>
+        <Button className="start-button toggle" onClick={() => UI_OpenWindow(UI_Windows.ABOUT)}>
+            <IconSmall src={icon_logo}/><b>Пуск</b>
         </Button>
         <div className={'taskbar-divider'}/>
         <div className="tasks">

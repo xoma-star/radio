@@ -148,7 +148,7 @@ const PlaylistOverview = ({overview}: props) => {
             <Input defaultValue={name} label={'Название'} style={{marginBottom: 8}} onChange={setName}/>
             <Checkbox label={'Виден для всех'} defaultChecked={isPublic} style={{marginBottom: 8}} onChange={setIsPublic}/>
         </React.Fragment>}
-        <div style={{display: 'flex'}}>
+        <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
             <Button onClick={shuffle}>Перемешать</Button>
             <Button onClick={addToQueue}>В очередь</Button>
             {(user.playlists.findIndex(s => s.id === overview.id) >= 0) && <Button onClick={deletePlaylist}>Удалить</Button>}
