@@ -5,6 +5,7 @@ import TracksScroll from "../TracksScroll";
 import TrackSchema from "../../Schemas/track.schema";
 import PlaylistSchema from "../../Schemas/playlist.schema";
 import PlaylistService from "../../http/Services/PlaylistService";
+import {firebaseLogEvent} from "../../Firebase";
 const Navigator = () => {
     const [newTracks, setNewTracks] = useState<TrackSchema[]>([])
     const [curatedPlaylists, setCurated] = useState<PlaylistSchema[]>([])
@@ -15,6 +16,7 @@ const Navigator = () => {
         PlaylistService.getRandom(10).then(r => setCurated(r.data))
         TrackService.getRandom(10).then(r => setLuckTracks(r.data))
         TrackService.getMostListened().then(r => setPopular(r.data))
+        firebaseLogEvent('opened:navigator')
     }, [])
     return <div className={'navigator'}>
         <TracksScroll header={'Последние загрузки'} tracks={newTracks}/>

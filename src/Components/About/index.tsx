@@ -4,9 +4,11 @@ import './About.css'
 import List from "../Common/List";
 import Cell from "../Common/Cell";
 import Button from "../Common/Button";
-import React from "react";
+import React, {useEffect} from "react";
+import {firebaseLogEvent} from "../../Firebase";
 
 const About = () => {
+    useEffect(() => firebaseLogEvent('opened:about'), [])
     const userAgreement = () => {
         const w = window.open('', '_blank')
         w?.document.write('<h1>Пользовательское Соглашение</h1><br/>' +

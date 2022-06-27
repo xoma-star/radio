@@ -3,7 +3,7 @@ import {UI_Windows} from "../../Redux/Reducers/ui";
 import Input from "../Common/Input";
 import {useActions} from "../../Hooks/useActions";
 import {useState} from "react";
-
+import {firebaseLogEvent} from '../../Firebase'
 
 const Login = ()  => {
     const [name, setName] = useState('')
@@ -13,6 +13,7 @@ const Login = ()  => {
 
     const onSuccess = () => {
         UI_CloseWindow(UI_Windows.LOGIN)
+        firebaseLogEvent('login')
         UI_Warn({type: "success", text: 'С возвращением!'})
     }
     const onError = () => {
