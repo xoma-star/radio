@@ -30,8 +30,8 @@ const TracksScroll = ({header, tracks, actions}: props) => {
         }
     }
 
-    const onDragStart = (id: string) => (e: React.DragEvent) => {
-        e.dataTransfer.setData('text/plain', id)
+    const onDragStart = (id: string, type: string) => (e: React.DragEvent) => {
+        e.dataTransfer.setData('text/plain', JSON.stringify({id, type}))
     }
 
     return <div>
@@ -46,7 +46,7 @@ const TracksScroll = ({header, tracks, actions}: props) => {
                 onDoubleClick={() => onIconDoubleClick(v)}
                 id={v.id}
                 icon={'cover' in v ? (FILES_LOCATION + v.cover) : icon_dir}
-                onDragStart={onDragStart(v.id)}
+                onDragStart={onDragStart(v.id, 'cover' in v ? 'track' : 'playlist')}
             />)
             }
             {tracks && tracks.length < 1 && <img src={icon_loading} width={32} height={32} alt={'Loading...'}/>}

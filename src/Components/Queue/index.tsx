@@ -19,7 +19,8 @@ const TracksQueue = () => {
                 if(!(e.target instanceof HTMLElement)) return
                 if(!e?.dataTransfer?.getData('text/plain')) return
                 if(typeof e?.dataTransfer?.getData('text/plain') !== "string") return
-                PlayerAddQueue(e.dataTransfer.getData('text/plain'))
+                const {id, type} = JSON.parse(e.dataTransfer.getData('text/plain'))
+                if(type === 'track') PlayerAddQueue(id)
             }}
             onDragOver={e => {
                 e.preventDefault()

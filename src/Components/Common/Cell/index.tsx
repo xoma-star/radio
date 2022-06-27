@@ -18,7 +18,7 @@ const Cell = ({before, style, className, children, onClick, selected, onDoubleCl
         if(onClick) onClick(e)
     }
     return <div
-        draggable={true}
+        draggable={false}
         onClick={clickHandler}
         onDoubleClick={onDoubleClick}
         style={style}

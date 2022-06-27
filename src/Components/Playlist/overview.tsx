@@ -79,9 +79,10 @@ const PlaylistOverview = ({overview}: props) => {
             UI_Warn('Недостаточно прав')
             return
         }
-        const trackId = e.dataTransfer.getData('text/plain')
-        if(!trackId) return
-        PlaylistService.add(trackId, overview.id)
+        const {id, type} = JSON.parse(e.dataTransfer.getData('text/plain'))
+        if(type !== 'track') return
+        if(!id) return
+        PlaylistService.add(id, overview.id)
             .then(r => {
                 UI_OpenWindow(UI_Windows.PLAYLIST)
                 PlaylistSetOverview(r.data)

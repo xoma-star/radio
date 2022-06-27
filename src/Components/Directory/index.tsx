@@ -35,8 +35,9 @@ const Directory = () => {
     }
     const onFolderClick = (_:  React.MouseEvent<HTMLElement>) => setSelected(null)
     const onDrop = (playlistId: string) => (e: React.DragEvent) => {
-        const trackId = e.dataTransfer.getData('text/plain')
-        PlaylistService.add(trackId, playlistId)
+        const {id, type} = JSON.parse(e.dataTransfer.getData('text/plain'))
+        if(type !== 'track') return
+        PlaylistService.add(id, playlistId)
             .then(r => {
                 UI_OpenWindow(UI_Windows.PLAYLIST)
                 PlaylistSetOverview(r.data)
