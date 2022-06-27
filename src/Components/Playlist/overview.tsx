@@ -79,14 +79,16 @@ const PlaylistOverview = ({overview}: props) => {
             UI_Warn('Недостаточно прав')
             return
         }
-        const {id, type} = JSON.parse(e.dataTransfer.getData('text/plain'))
-        if(type !== 'track') return
-        if(!id) return
-        PlaylistService.add(id, overview.id)
-            .then(r => {
-                UI_OpenWindow(UI_Windows.PLAYLIST)
-                PlaylistSetOverview(r.data)
-            })
+        try{
+            const {id, type} = JSON.parse(e.dataTransfer.getData('text/plain'))
+            if(type !== 'track') return
+            if(!id) return
+            PlaylistService.add(id, overview.id)
+                .then(r => {
+                    UI_OpenWindow(UI_Windows.PLAYLIST)
+                    PlaylistSetOverview(r.data)
+                })
+        }catch{}
     }
 
     const deletePlaylist = (e: React.MouseEvent) => {
