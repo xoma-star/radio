@@ -5,14 +5,14 @@ import {useTypedSelector} from "./useTypedSelector";
 import {useActions} from "./useActions";
 
 const usePlayerAddToPlaylist = () => {
-    const {id} = usePlayer()
+    const player = usePlayer()
     const {overview} = useTypedSelector(s => s.playlist)
-    const {authorized, playlists} = useTypedSelector(s => s.user)
+    const {authorized, playlists, id} = useTypedSelector(s => s.user)
     const [showPlaylists, setShowPlaylists] = useState<boolean>(false)
     const {UI_Warn, PlaylistSetOverview, UserGetPlaylists} = useActions()
     useEffect(() => {
         setShowPlaylists(false)
-    }, [id])
+    }, [player.id])
     //
     const addToPlaylistButtonClickHandler = (e: React.MouseEvent) => {
         e.stopPropagation()
@@ -27,11 +27,11 @@ const usePlayerAddToPlaylist = () => {
     const closeButtonClickHandler = () => setShowPlaylists(false)
 
     const onCellDoubleClick = (playlistId: string) => () => {
-        if(typeof id === 'undefined' || typeof playlistId === 'undefined'){
+        if(typeof player.id === 'undefined' || typeof playlistId === 'undefined'){
             UI_Warn('Неизвестная ошибка')
             return
         }
-        PlaylistService.add(id, playlistId)
+        PlaylistService.add(player.id, playlistId)
             .then(r => {
                 if(overview !== 'create' && overview?.id === playlistId) PlaylistSetOverview(r.data)
                 UI_Warn({type: 'success', text: `Добавлено в плейлист ${r.data.name}`})
@@ -41,7 +41,7 @@ const usePlayerAddToPlaylist = () => {
 
     return {
         addToPlaylistButtonClickHandler,
-        playlists,
+        playlists: playlists.filter(x => x.owner === id),
         showPlaylists,
         closeButtonClickHandler,
         onCellDoubleClick

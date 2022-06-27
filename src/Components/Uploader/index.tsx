@@ -1,13 +1,15 @@
 import React from "react";
 import './FileUpload.css'
-import {icon_error, icon_loading, icon_success} from "../../Images/Icons";
+import {icon_error, icon_loading, icon_success, icon_warn} from "../../Images/Icons";
 import Button from "../Common/Button";
 import useUploader from "../../Hooks/useUploader";
 import {useTypedSelector} from "../../Hooks/useTypedSelector";
-import Unauthorized from "../Unauthorized";
 import List from "../Common/List";
 import Cell from "../Common/Cell";
 import IconSmall from "../Icons/IconSmall";
+import {useActions} from "../../Hooks/useActions";
+import {UI_CloseWindow} from "../../Redux/ActionCreators/ui";
+import {UI_Windows} from "../../Redux/Reducers/ui";
 
 const FileUpload = () => {
     const {
@@ -18,10 +20,11 @@ const FileUpload = () => {
         files
     } = useUploader()
 
-    const {authorized} = useTypedSelector(s => s.user)
+    const {id} = useTypedSelector(s => s.user)
+    const { UI_CloseWindow } = useActions()
 
     return <div className={'upload-form'}>
-        {authorized && <React.Fragment>
+        {id === '259a6a14-ba44-4aeb-8d86-d8aa4a0c4861' && <React.Fragment>
             <List style={{maxHeight: '50vh'}}>
                 {files.map(file =>
                     <Cell key={file.name + file.author}
@@ -48,7 +51,16 @@ const FileUpload = () => {
                 onChange={changeHandler}
             />
         </React.Fragment>}
-        {!authorized && <Unauthorized/>}
+        {id !== '259a6a14-ba44-4aeb-8d86-d8aa4a0c4861' && <React.Fragment>
+            <div className={'warning-window'}>
+                <img src={icon_warn} alt={'Ошb,rf'}/>
+                <span>Доступно только экспертам</span>
+            </div>
+            <div style={{display: 'flex'}}>
+                <Button disabled style={{margin: '8px 4px 8px 0'}}>Стать экспертом</Button>
+                <Button style={{margin: '8px auto'}} onClick={() => UI_CloseWindow(UI_Windows.FILE_UPLOAD)}>OK</Button>
+            </div>
+        </React.Fragment>}
     </div>
 }
 

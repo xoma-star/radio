@@ -31,4 +31,8 @@ export default class PlaylistService{
     static async rename(playlistId: string, name: string, isPublic: boolean): Promise<AxiosResponse<PlaylistSchema>>{
         return $api.post(PLAYLIST_DATA_LOCATION + 'rename', {playlistId, newName: name, isPublic})
     }
+
+    static async getRandom(count: number): Promise<AxiosResponse<PlaylistSchema[]>>{
+        return $api.get(PLAYLIST_DATA_LOCATION + 'random?count=' + count)
+    }
 }

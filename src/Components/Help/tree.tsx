@@ -22,21 +22,25 @@ const HelpTree = ({onClick}: props) => {
         </TreeItem>
         <TreeItem label={'Плейлисты'} expandable>
             <Tree>
-                <TreeItem label={'Создание плейлистов'}/>
-                <TreeItem label={'Добавление в библиотеку'}/>
+                <TreeItem label={'Создание плейлистов'} onClick={() => onClick && onClick('playlist:create')}/>
+                <TreeItem label={'Редактирование плейлиста'} onClick={() => onClick && onClick('playlist:edit')}/>
+                <TreeItem label={'Добавление в библиотеку'} onClick={() => onClick && onClick('playlist:save')}/>
                 <TreeItem label={'Взаимодействие с треками'} expandable expandedDefault>
                     <Tree>
-                        <TreeItem label={'Добавление треков'}/>
-                        <TreeItem label={'Удаление треков'}/>
+                        <TreeItem label={'Добавление треков'} onClick={() => onClick && onClick('playlist:addTrack')}/>
+                        <TreeItem label={'Удаление треков'} onClick={() => onClick && onClick('playlist:removeTrack')}/>
                     </Tree>
                 </TreeItem>
-                <TreeItem label={'Удаление плейлистов'}/>
+                <TreeItem label={'Удаление плейлистов'} onClick={() => onClick && onClick('playlist:remove')}/>
             </Tree>
         </TreeItem>
         <TreeItem label={'Треки'} expandable>
             <Tree>
-                <TreeItem label={'Загрузка треков'}/>
+                <TreeItem label={'Загрузка треков'} onClick={() => onClick && onClick('track:upload')}/>
             </Tree>
+        </TreeItem>
+        <TreeItem label={'Управление на мобильных устройствах'} onClick={() => onClick && onClick('mobile')}>
+
         </TreeItem>
     </Tree>
 }

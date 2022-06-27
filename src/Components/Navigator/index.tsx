@@ -12,7 +12,7 @@ const Navigator = () => {
     const [popular, setPopular] = useState<TrackSchema[]>([])
     useEffect(() => {
         TrackService.getLatest().then(r => setNewTracks(r.data))
-        PlaylistService.getCurated().then(r => setCurated(r.data))
+        PlaylistService.getRandom(10).then(r => setCurated(r.data))
         TrackService.getRandom(10).then(r => setLuckTracks(r.data))
         TrackService.getMostListened().then(r => setPopular(r.data))
     }, [])
@@ -21,7 +21,9 @@ const Navigator = () => {
         <TracksScroll header={'Мне повезет'}
                       tracks={luckTracks}
                       actions={[{label: 'Мне повезет', action: () => TrackService.getRandom(10).then(r => setLuckTracks(r.data))}]}/>
-        <TracksScroll header={'На чилле, на расслабоне'} tracks={curatedPlaylists}/>
+        <TracksScroll header={'Пользовательские плейлисты'}
+                      tracks={curatedPlaylists}
+                      actions={[{label: 'Обновить', action: () => PlaylistService.getRandom(10).then(r => setCurated(r.data))}]}/>
         <TracksScroll header={'Прослушивают чаще всего'} tracks={popular}/>
     </div>
 }

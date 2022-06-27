@@ -35,6 +35,10 @@ const PlaylistOverview = ({overview}: props) => {
     }, [overview.tracks])
 
     useEffect(() => {
+        if(user.playlists.length === 0) UserGetPlaylists()
+    }, [user])
+
+    useEffect(() => {
         setName(overview.name)
         setIsPublic(overview.isPublic)
     }, [overview.name, overview.isPublic])
