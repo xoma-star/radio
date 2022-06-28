@@ -1,4 +1,4 @@
-import {icon_logo} from "../../Images/Icons";
+import {logo_192} from "../../Images/Icons";
 import Title from "../Common/Title";
 import './About.css'
 import List from "../Common/List";
@@ -192,7 +192,7 @@ const About = () => {
     }
 
     return <div className={'about-wrapper'}>
-        <img src={icon_logo}/>
+        <img draggable={false} src={logo_192}/>
         <div className={'white-area'}>
             <Title>Serenity</Title>
         </div>

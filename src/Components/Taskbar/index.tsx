@@ -6,7 +6,7 @@ import windows from "../../Constants/windows";
 import Button from "../Common/Button";
 import {useEffect, useState} from "react";
 import IconSmall from "../Icons/IconSmall";
-import {icon_logo, icon_offline, icon_online} from "../../Images/Icons";
+import {logo_16, icon_offline, icon_online} from "../../Images/Icons";
 
 
 const Taskbar = () => {
@@ -44,7 +44,7 @@ const Taskbar = () => {
 
     return <div className={'taskbar'}>
         <Button className="start-button toggle" onClick={() => UI_OpenWindow(UI_Windows.ABOUT)}>
-            <IconSmall src={icon_logo}/><b>Пуск</b>
+            <IconSmall src={logo_16} rounded/><b>Пуск</b>
         </Button>
         <div className={'taskbar-divider'}/>
         <div className="tasks">

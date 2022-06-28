@@ -6,7 +6,7 @@ import {
     icon_credentials,
     icon_warn,
     icon_globe_click,
-    icon_dir_open, icon_files, icon_color, icon_help, icon_logo
+    icon_dir_open, icon_files, icon_color, icon_help, logo_16
 } from '../Images/Icons'
 
 const windows = {
@@ -61,7 +61,7 @@ const windows = {
         showOnDesktop: true
     },
     [UI_Windows.ABOUT]: {
-        icon: icon_logo,
+        icon: logo_16,
         name: 'О приложении',
         showOnDesktop: false
     }
