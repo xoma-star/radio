@@ -52,7 +52,7 @@ const Login = ()  => {
 
     return <Form
         controlsDisabled={pending}
-        onSubmit={submit}
+        onSubmit={!isVKClient ? submit : undefined}
         onCancel={() => UI_CloseWindow(UI_Windows.LOGIN)}>
         {!isVKClient && <React.Fragment>
             <Input disabled={pending} label={'Имя пользователя'} onChange={setName} autocomplete={'username'}/>

@@ -20,7 +20,8 @@ const usePlayerAddToPlaylist = () => {
             UI_Warn('Войдите в аккаунт, чтобы продолжить')
             return
         }
-        setShowPlaylists(true)
+        if(!playlists.length) UI_Warn('Нет доступных плейлистов. Создайте первый в библиотеке')
+        else setShowPlaylists(true)
     }
 
     useEffect(() => {
