@@ -9,12 +9,7 @@
 }
 
 .player-wrapper .cover, .upload-form .cover{
-    /*background-attachment: fixed;*/
     background-color: teal !important;
-    /*background-position: 50%;*/
-    /*background-repeat: no-repeat;*/
-    /*background-size: cover;*/
-    /*background-image: var(--cover);*/
 }
 
 .player-wrapper .cover .loading-icon{
@@ -57,6 +52,7 @@
     text-align: center;
     font-size: 14px;
     padding: 5px;
+    min-height: 34px;
 }
 
 .track-name{

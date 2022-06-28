@@ -16,6 +16,7 @@ import UserService from "../../http/Services/UserService";
 import Input from "../Common/Input";
 import Checkbox from "../Common/Checkbox";
 import Separator from "../Common/Separator";
+import {icon_warn} from "../../Images/Icons";
 
 interface props{
     overview: PlaylistSchema
@@ -149,6 +150,7 @@ const PlaylistOverview = ({overview}: props) => {
                 selected={r.id === id}
                 before={<IconSmall src={FILES_LOCATION + r.cover}/>}
                 key={'playlist' + r.id}>{r.author} - {r.name}</Cell>)}
+            {tracks?.length === 0 && <Cell before={<IconSmall src={icon_warn}/>}>Нет треков в плейлисте</Cell>}
         </List>
         {isEditing && <React.Fragment>
             <Separator style={{margin: '8px 0'}}/>

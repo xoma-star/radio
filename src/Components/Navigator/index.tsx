@@ -25,7 +25,7 @@ const Navigator = () => {
                       actions={[{label: 'Мне повезет', action: () => TrackService.getRandom(10).then(r => setLuckTracks(r.data))}]}/>
         <TracksScroll header={'Пользовательские плейлисты'}
                       tracks={curatedPlaylists}
-                      actions={[{label: 'Обновить', action: () => PlaylistService.getRandom(10).then(r => setCurated(r.data))}]}/>
+                      actions={[{label: 'Другие', action: () => PlaylistService.getRandom(10).then(r => setCurated(r.data))}]}/>
         <TracksScroll header={'Прослушивают чаще всего'} tracks={popular}/>
     </div>
 }

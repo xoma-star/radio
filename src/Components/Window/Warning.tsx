@@ -20,7 +20,7 @@ const WarningWindow = () => {
     return <React.Fragment>
         <div className={'warning-window'}>
             <img src={icon} alt={'Ошb,rf'}/>
-            <span>{warning?.text}</span>
+            <div style={{textAlign: "center", width: "100%"}}>{warning?.text}</div>
         </div>
         <Button style={{margin: '8px auto'}} onClick={() => UI_Warn(null)}>OK</Button>
     </React.Fragment>

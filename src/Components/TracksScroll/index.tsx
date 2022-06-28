@@ -49,7 +49,7 @@ const TracksScroll = ({header, tracks, actions}: props) => {
                 onDragStart={onDragStart(v.id, 'cover' in v ? 'track' : 'playlist')}
             />)
             }
-            {tracks && tracks.length < 1 && <img src={icon_loading} width={32} height={32} alt={'Loading...'}/>}
+            {tracks && tracks.length < 1 && <img style={{margin: 'auto'}} src={icon_loading} width={32} height={32} alt={'Loading...'}/>}
         </HorizontalScroll>
         {actions && actions?.length > 0 &&
             <div style={{marginTop: 8, display: 'flex', justifyContent: 'space-around'}}>
