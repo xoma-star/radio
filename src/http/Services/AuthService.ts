@@ -13,7 +13,7 @@ export default class AuthService{
     }
 
     static async loginVK(email: string, sign: string): Promise<AxiosResponse<AuthResponse>>{
-        return $api.post(AUTH_LOCATION + 'vk')
+        return $api.post(AUTH_LOCATION + 'vk', {email, sign})
     }
 
     static async logout(): Promise<void>{
