@@ -35,7 +35,7 @@ const PlaylistOverview = ({overview}: props) => {
     }, [overview.tracks])
 
     useEffect(() => {
-        if(user.playlists.length === 0) UserGetPlaylists()
+        if(user.playlists.length === 0 && user.authorized) UserGetPlaylists()
     }, [user])
 
     useEffect(() => {
