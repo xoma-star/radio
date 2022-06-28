@@ -38,6 +38,7 @@ const Login = ()  => {
     }
 
     const VK = async () => {
+        setPending(true)
         LoginVK((pass) => {
             if(pass){
                 UI_Warn({type: "success", text: 'Вы первый раз заходите через ВК, так что '+
