@@ -21,8 +21,11 @@ const usePlayerAddToPlaylist = () => {
             return
         }
         setShowPlaylists(true)
-        if(playlists.length < 1) UserGetPlaylists()
     }
+
+    useEffect(() => {
+        if(authorized) UserGetPlaylists()
+    }, [authorized])
 
     const closeButtonClickHandler = () => setShowPlaylists(false)
 

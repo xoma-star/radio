@@ -1,6 +1,7 @@
 .form-wrapper{
     display: flex;
     flex-direction: row;
+    width: 100%;
 }
 .form-art{
     height: 183px;
@@ -20,6 +21,7 @@
 .form{
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 .form .form-header{

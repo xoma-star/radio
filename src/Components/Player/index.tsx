@@ -47,7 +47,7 @@ const Player = () => {
 
     return <div className={'player-wrapper'}>
         <div className={`cover selected${loading && id ? ' tinted' : ''}`}>
-            <img src={cover} crossOrigin={'use-credentials'}/>
+            <img src={cover} crossOrigin={'use-credentials'} draggable={false}/>
             <img alt={'Loading...'} src={icon_loading} width={32} height={32} className={'loading-icon'}/>
         </div>
         <div className={'track-data selected'}>

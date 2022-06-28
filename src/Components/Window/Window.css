@@ -13,6 +13,12 @@
     border-style: solid;
 }
 
+@media(max-width: 400px){
+    .window{
+        width: calc(100vw - 4px);
+    }
+}
+
 .draggable-wrapper{
     display: flex;
     width: calc(100% - 60px);

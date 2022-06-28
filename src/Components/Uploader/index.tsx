@@ -56,9 +56,9 @@ const FileUpload = () => {
                 <img src={icon_warn} alt={'Ошb,rf'}/>
                 <span>Доступно только экспертам</span>
             </div>
-            <div style={{display: 'flex'}}>
-                <Button disabled style={{margin: '8px 4px 8px 0'}}>Стать экспертом</Button>
-                <Button style={{margin: '8px auto'}} onClick={() => UI_CloseWindow(UI_Windows.FILE_UPLOAD)}>OK</Button>
+            <div style={{display: 'flex', justifyContent: 'space-evenly'}}>
+                <Button disabled style={{margin: '8px 0'}}>Стать экспертом</Button>
+                <Button style={{margin: '8px 0'}} onClick={() => UI_CloseWindow(UI_Windows.FILE_UPLOAD)}>OK</Button>
             </div>
         </React.Fragment>}
     </div>

@@ -10,7 +10,7 @@ const useWindow = (id: UI_Windows) => {
     const {UI_SetActiveWindow} = useActions()
     const [pos, setPos] = useState({
         x: window.innerWidth > 400 ? window.innerWidth / 4 + 30 * opened.length : 2,
-        y: window.innerWidth > 400 ? window.innerHeight / 4 + 30 * opened.length : 80
+        y: window.innerWidth > 400 ? window.innerHeight / 4 + 30 * opened.length : 80 + 15 * opened.length
     })
     const [isDragging, setIsDragging] = useState(false)
     const style = {...display, '--to': `${opened.indexOf(id) * (window.innerWidth > 400 ? 210 : 31)}px`} as unknown as React.CSSProperties
