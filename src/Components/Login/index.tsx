@@ -32,7 +32,7 @@ const Login = ()  => {
     }
 
     const VK = async () => {
-        console.log(bridge.send('VKWebAppGetEmail'))
+        console.log(await bridge.send('VKWebAppGetEmail'))
     }
 
     return <Form
