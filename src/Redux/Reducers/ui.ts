@@ -5,7 +5,8 @@ export enum UI_ActionTypes{
     SET_ACTIVE_WINDOW = 'SET_ACTIVE_WINDOW',
     SET_WARNING = 'SET_WARNING',
     SET_CONNECTION_STATUS = 'SET_CONNECTION_STATUS',
-    SET_BACKGROUND = 'SET_BACKGROUND'
+    SET_BACKGROUND = 'SET_BACKGROUND',
+    SET_VK_CLIENT = 'SET_VK_CLIENT'
 }
 
 export type warnMessage = null | {text: string, type: 'success' | 'warning' | 'error'}
@@ -31,12 +32,18 @@ interface State{
     activeWindow: UI_Windows | null,
     warning: warnMessage,
     connectionStatus: 'online' | 'offline',
-    background: string
+    background: string,
+    isVKClient: boolean
 }
 
 interface UI_Window{
     type: UI_ActionTypes.OPEN_WINDOW | UI_ActionTypes.CLOSE_WINDOW,
     payload: UI_Windows
+}
+
+interface UI_VK{
+    type: UI_ActionTypes.SET_VK_CLIENT,
+    payload: boolean
 }
 
 interface UI_Active{
@@ -67,7 +74,7 @@ interface UI_Background{
     payload: string
 }
 
-export type UI_Action = UI_Window | UI_Active | UI_Minimize | UI_Warn | UI_Connection | UI_Background
+export type UI_Action = UI_Window | UI_Active | UI_Minimize | UI_Warn | UI_Connection | UI_Background | UI_VK
 
 const defaultState: State = {
     opened: [],
@@ -76,7 +83,8 @@ const defaultState: State = {
     layoutPos: {},
     warning: null,
     connectionStatus: 'offline',
-    background: localStorage.getItem('background') || '#008080'
+    background: localStorage.getItem('background') || '#008080',
+    isVKClient: false
 }
 
 export const UI_Reducer = (state: State = defaultState, action: UI_Action): State => {
@@ -120,6 +128,7 @@ export const UI_Reducer = (state: State = defaultState, action: UI_Action): Stat
             return {...state, warning: g}
         case UI_ActionTypes.SET_CONNECTION_STATUS: return {...state, connectionStatus: action.payload}
         case UI_ActionTypes.SET_BACKGROUND: return {...state, background: action.payload}
+        case UI_ActionTypes.SET_VK_CLIENT: return {...state, isVKClient: action.payload}
         default: return state
     }
 }

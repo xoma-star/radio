@@ -39,3 +39,7 @@ export const UI_SetBackground = (p: string) => {
     localStorage.setItem('background', p)
     return (dispatch: Dispatch<UI_Action>) => dispatch({type: UI_ActionTypes.SET_BACKGROUND, payload: p})
 }
+
+export const UI_SetVKClient = (p: boolean) => {
+    return (dispatch: Dispatch<UI_Action>) => dispatch({type: UI_ActionTypes.SET_VK_CLIENT, payload: p})
+}

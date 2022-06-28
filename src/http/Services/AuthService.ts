@@ -12,6 +12,10 @@ export default class AuthService{
         return $api.post<AuthResponse>(AUTH_LOCATION + 'signup', {name, email, password})
     }
 
+    static async loginVK(email: string, sign: string): Promise<AxiosResponse<AuthResponse>>{
+        return $api.post(AUTH_LOCATION + 'vk')
+    }
+
     static async logout(): Promise<void>{
         return $api.get(AUTH_LOCATION + 'logout')
     }
