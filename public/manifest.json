@@ -1,6 +1,6 @@
 {
-  "short_name": "Serenity",
-  "name": "Radio Serenity",
+  "short_name": "serenity",
+  "name": "serenity - музыкальный сервис",
   "icons": [
     {
       "src": "favicon.ico",
@@ -19,8 +19,10 @@
     }
   ],
   "start_url": ".",
-  "display": "standalone",
+  "display": "fullscreen",
   "theme_color": "#000000",
-  "background_color": "#008080",
-  "orientation": "portrait"
+  "background_color": "#000000",
+  "orientation": "portrait",
+  "author": "xoma_star",
+  "description": "Музыкальный сервис, ориентированный на Vaporwave & Chillhop жанры"
 }
