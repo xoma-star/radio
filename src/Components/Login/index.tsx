@@ -40,13 +40,13 @@ const Login = ()  => {
     const VK = async () => {
         setPending(true)
         LoginVK((pass) => {
+            UI_CloseWindow(UI_Windows.LOGIN)
             if(pass){
                 UI_Warn({type: "success", text: 'Вы первый раз заходите через ВК, так что '+
                         'вы автоматически зарегистрировались на основном сайте. Вы все так же можете пользоваться '+
                         'приложением внутри ВК, но если вам нужно будет использовать учетную запись на сайте, используйте в качестве логина почту, '+
                         'а в качестве пароля - '+pass})
             }else UI_Warn({type: "success", text: 'С возвращением!'})
-            UI_CloseWindow(UI_Windows.LOGIN)
         }, onError)
     }
 
