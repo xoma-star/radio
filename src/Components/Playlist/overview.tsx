@@ -158,8 +158,8 @@ const PlaylistOverview = ({overview}: props) => {
             <Checkbox label={'Виден для всех'} defaultChecked={isPublic} style={{marginBottom: 8}} onChange={setIsPublic}/>
         </React.Fragment>}
         <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
-            <Button onClick={shuffle}>Перемешать</Button>
-            <Button onClick={addToQueue}>В очередь</Button>
+            <Button onClick={shuffle} disabled={tracks?.length === 0}>Перемешать</Button>
+            <Button onClick={addToQueue} disabled={tracks?.length === 0}>В очередь</Button>
             {(user.playlists.findIndex(s => s.id === overview.id) >= 0) && <Button onClick={deletePlaylist}>Удалить</Button>}
             {user.playlists.findIndex(s => s.id === overview.id) < 0 && <Button onClick={savePlaylist}>Сохранить в библиотеку</Button>}
             {user.id === overview.owner && (
