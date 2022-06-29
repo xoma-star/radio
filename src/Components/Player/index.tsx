@@ -89,7 +89,7 @@ const Player = () => {
                 {playlists.length < 1 && <img alt={'Загрузка'} src={icon_loading}/>}
                 {playlists.map(r =>
                     <Cell
-                        onDoubleClick={onCellDoubleClick(r.id)}
+                        onClick={onCellDoubleClick(r.id)}
                         before={<IconSmall src={icon_dir}/>}
                         key={r.id}>
                         {r.name}

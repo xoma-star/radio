@@ -14,7 +14,7 @@ interface props{
 
 const Input = ({defaultValue = '', onChange, className, type = 'text', label, disabled = false, autocomplete, style}: props) => {
     const [value, setValue] = useState(defaultValue)
-    useEffect(() => {if(onChange) onChange(value as string)}, [value])
+    useEffect(() => {if(onChange) onChange(value?.trim().slice(0, 30) as string)}, [value])
     useEffect(() => setValue(defaultValue), [defaultValue])
     return <div className={'input-wrap'} style={style}>
         {label && <label className={'input-label'}><u>{label[0]}</u>{label.substring(1, label.length)}:</label>}
@@ -25,6 +25,7 @@ const Input = ({defaultValue = '', onChange, className, type = 'text', label, di
             onChange={e => setValue(e.currentTarget.value)}
             value={value}
             autoComplete={autocomplete}
+            maxLength={30}
         />
     </div>
 }
