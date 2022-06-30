@@ -7,7 +7,9 @@ interface State{
     author?: string,
     name?: string,
     id?: string,
-    queue: TrackSchema[]
+    random?: number,
+    queue: TrackSchema[],
+    autoplay: boolean,
 }
 
 export enum PlayerActionTypes{
@@ -15,11 +17,13 @@ export enum PlayerActionTypes{
     SET_TRACK = 'SET_TRACK',
     ADD_QUEUE = 'ADD_QUEUE',
     CLEAR_QUEUE = 'CLEAR_QUEUE',
-    REMOVE_FROM_QUEUE = 'REMOVE_FROM_QUEUE'
+    REMOVE_FROM_QUEUE = 'REMOVE_FROM_QUEUE',
+    SET_AUTOPLAY = 'SET_AUTOPLAY',
 }
 
 const defaultState: State = {
-    queue: []
+    queue: [],
+    autoplay: true
 }
 
 
@@ -35,28 +39,34 @@ interface SetTrackAction{
 
 interface RemoveFromQueueAction{
     type: PlayerActionTypes.REMOVE_FROM_QUEUE,
-    payload: string
+    payload: {id: string, random: number}
 }
 
 interface ClearQueue{
     type: PlayerActionTypes.CLEAR_QUEUE
 }
 
-export type PlayerAction = SetAudioAction | SetTrackAction | ClearQueue | RemoveFromQueueAction
+interface AutoPlay{
+    type: PlayerActionTypes.SET_AUTOPLAY,
+    payload: boolean
+}
+
+export type PlayerAction = SetAudioAction | SetTrackAction | ClearQueue | RemoveFromQueueAction | AutoPlay
 
 export const PlayerReducer = (state: State = defaultState, action: PlayerAction): State => {
+    let a, b
     switch (action.type){
         case PlayerActionTypes.SET_TRACK:
-            let c = {
+            a = {
                 ...action.payload,
                 path: action.payload.path.indexOf('http') < 0 ? FILES_LOCATION + action.payload.path : action.payload.path,
                 cover: action.payload.cover.indexOf('http') < 0 ? FILES_LOCATION + action.payload.cover : action.payload.cover
             }
-            return {...state, ...c, queue: (state.queue.length === 0 ? [c] : state.queue)}
+            return {...state, ...a, queue: (state.queue.length === 0 ? [a] : state.queue)}
         case PlayerActionTypes.ADD_QUEUE: {
-            let a = {...state}
-            if(state.queue.findIndex(x => x.id ===action.payload.id) >= 0) return state
-            const b = {
+            a = {...state}
+            // if(state.queue.findIndex(x => x.id ===action.payload.id) >= 0) return state
+            b = {
                 ...action.payload,
                 path: FILES_LOCATION + action.payload.path,
                 cover: FILES_LOCATION + action.payload.cover
@@ -68,12 +78,13 @@ export const PlayerReducer = (state: State = defaultState, action: PlayerAction)
             a.queue = [...a.queue, b]
             return a
         }
-        case PlayerActionTypes.CLEAR_QUEUE: return {...state, queue: [], path: undefined, id: undefined, cover: undefined, name: undefined, author: undefined}
+        case PlayerActionTypes.CLEAR_QUEUE: return {...state, queue: [], path: undefined, id: undefined, cover: undefined, name: undefined, author: undefined, random: undefined}
         case PlayerActionTypes.REMOVE_FROM_QUEUE:
-            let d = [...state.queue]
-            const i = d.findIndex(x => x.id === action.payload)
-            d.splice(i, 1)
-            return {...state, queue: d}
+            a = [...state.queue]
+            b = a.findIndex(x => x.id === action.payload.id && x.random === action.payload.random)
+            a.splice(b, 1)
+            return {...state, queue: a}
+        case PlayerActionTypes.SET_AUTOPLAY: return {...state, autoplay: action.payload}
         default: return state
     }
 }

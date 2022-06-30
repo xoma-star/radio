@@ -6,5 +6,5 @@ export default interface TrackSchema{
     readonly path: string
     readonly uploadTime: number
     readonly author: string
-    readonly ts: number
+    random: number
 }

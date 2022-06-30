@@ -5,6 +5,7 @@ import * as workerTimers from 'worker-timers'
 import {UI_Windows} from "../Redux/Reducers/ui";
 import axios from "axios";
 import {TRACK_DATA_LOCATION} from "../config";
+import TrackService from "../http/Services/TrackService";
 
 const usePlayer = () => {
     const {
@@ -14,6 +15,8 @@ const usePlayer = () => {
         cover,
         name,
         queue,
+        autoplay,
+        random
     } = useTypedSelector(s => s.player)
     const trackRef = useRef<HTMLAudioElement>(new Audio())
     const intervalRef = useRef<any>()
@@ -22,9 +25,10 @@ const usePlayer = () => {
     const [played, setPlayed] = useState(0)
     const [playing, setPlaying] = useState(false)
     const [loading, setLoading] = useState(true)
-    const {PlayerSetTrack, UI_OpenWindow} = useActions()
+    const {PlayerSetTrack, UI_OpenWindow, PlayerAddQueue} = useActions()
     const onLoadedMetadata = () => setDuration(trackRef.current.duration)
-    const i = queue.findIndex(x => x.id === id)
+    const i = queue.findIndex(x => x.id === id && x.random === random)
+    console.log(i, random, queue[0].random)
     const canPlayNext = i < queue.length - 1
     const canPlayPrev = i > 0
 
@@ -124,6 +128,12 @@ const usePlayer = () => {
     },[path])
 
     useEffect(() => {
+        if(i === queue.length - 1 && autoplay && queue.length > 0){
+            TrackService.getRandom(1).then(res => PlayerAddQueue(res.data[0]))
+        }
+    }, [autoplay, i])
+
+    useEffect(() => {
         try{
             if ('mediaSession' in navigator) {
                 navigator.mediaSession.metadata = new MediaMetadata({
@@ -138,7 +148,7 @@ const usePlayer = () => {
         }catch{}
     }, [name, author, cover])
 
-    useEffect(() => {return () => {
+    useEffect(() => { return () => {
         clearTimer()
         if('mediaSession' in navigator) {
             navigator.mediaSession.metadata = new MediaMetadata(undefined)

@@ -5,8 +5,6 @@ import './index.css';
 import {Provider} from "react-redux";
 import {store} from "./Redux";
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-import reportWebVitals from './reportWebVitals';
-import {analytics, logEvent} from './Firebase'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -17,5 +15,5 @@ root.render(
   </Provider>
 );
 
-reportWebVitals((a) => logEvent(analytics, 'web-vitals', a));
+// reportWebVitals((a) => logEvent(analytics, 'web-vitals', a));
 serviceWorkerRegistration.register()

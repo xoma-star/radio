@@ -4,8 +4,7 @@ import PlaylistService from "../http/Services/PlaylistService";
 import {useTypedSelector} from "./useTypedSelector";
 import {useActions} from "./useActions";
 
-const usePlayerAddToPlaylist = () => {
-    const player = usePlayer()
+const usePlayerAddToPlaylist = (player: ReturnType<typeof usePlayer>) => {
     const {overview} = useTypedSelector(s => s.playlist)
     const {authorized, playlists, id} = useTypedSelector(s => s.user)
     const [showPlaylists, setShowPlaylists] = useState<boolean>(false)
@@ -13,7 +12,7 @@ const usePlayerAddToPlaylist = () => {
     useEffect(() => {
         setShowPlaylists(false)
     }, [player.id])
-    //
+
     const addToPlaylistButtonClickHandler = (e: React.MouseEvent) => {
         e.stopPropagation()
         if(!authorized){

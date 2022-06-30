@@ -12,6 +12,7 @@ import Title from "../Common/Title";
 import IconSmall from "../Icons/IconSmall";
 
 const Player = () => {
+    const p = usePlayer()
     const {
         trackRef,
         played,
@@ -35,7 +36,7 @@ const Player = () => {
         canPlayPrev,
         loading,
         openQueue
-    } = usePlayer()
+    } = p
 
     const {
         addToPlaylistButtonClickHandler,
@@ -43,7 +44,7 @@ const Player = () => {
         showPlaylists,
         closeButtonClickHandler,
         onCellDoubleClick
-    } = usePlayerAddToPlaylist()
+    } = usePlayerAddToPlaylist(p)
 
     return <div className={'player-wrapper'}>
         <div className={`cover selected${loading && id ? ' tinted' : ''}`}>

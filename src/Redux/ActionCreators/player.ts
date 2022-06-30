@@ -7,9 +7,11 @@ import TrackSchema from "../../Schemas/track.schema";
 export const PlayerSetTrack = (id: string | TrackSchema) => {
     return (dispatch: Dispatch<PlayerAction>) => {
         if(typeof id === 'string') $api.get(TRACK_DATA_LOCATION + id)
-            .then(r => dispatch({type: PlayerActionTypes.SET_TRACK, payload: {...r.data, ts: new Date().getTime()}}))
+            .then(r => dispatch({type: PlayerActionTypes.SET_TRACK, payload: {...r.data, random: Math.random()}}))
         else {
-            dispatch({type: PlayerActionTypes.SET_TRACK, payload: {...id, ts: new Date().getTime()}})
+            const a = {...id}
+            if(!('random' in a)) a.random = Math.random()
+            dispatch({type: PlayerActionTypes.SET_TRACK, payload: a})
         }
     }
 }
@@ -17,8 +19,12 @@ export const PlayerSetTrack = (id: string | TrackSchema) => {
 export const PlayerAddQueue = (id: string | TrackSchema) => {
     return (dispatch: Dispatch<PlayerAction>) => {
         if(typeof id === 'string') $api.get(TRACK_DATA_LOCATION + id)
-            .then(r => dispatch({type: PlayerActionTypes.ADD_QUEUE, payload: {...r.data, ts: new Date().getTime()}}))
-        else dispatch({type: PlayerActionTypes.ADD_QUEUE, payload: {...id, ts: new Date().getTime()}})
+            .then(r => dispatch({type: PlayerActionTypes.ADD_QUEUE, payload: {...r.data, random: Math.random()}}))
+        else {
+            const a = {...id}
+            if(!('random' in a)) a.random = Math.random()
+            dispatch({type: PlayerActionTypes.ADD_QUEUE, payload: a})
+        }
     }
 }
 
@@ -28,8 +34,14 @@ export const PlayerClearQueue = () => {
     }
 }
 
-export const PlayerRemoveFromQueue = (p: string) => {
+export const PlayerRemoveFromQueue = (id: string, random: number) => {
     return (dispatch: Dispatch<PlayerAction>) => {
-        dispatch({type: PlayerActionTypes.REMOVE_FROM_QUEUE, payload: p})
+        dispatch({type: PlayerActionTypes.REMOVE_FROM_QUEUE, payload: {id, random}})
+    }
+}
+
+export const PlayerSetAutoPlay = (p: boolean) => {
+    return (dispatch: Dispatch<PlayerAction>) => {
+        dispatch({type: PlayerActionTypes.SET_AUTOPLAY, payload: p})
     }
 }
