@@ -15,5 +15,4 @@ root.render(
   </Provider>
 );
 
-// reportWebVitals((a) => logEvent(analytics, 'web-vitals', a));
 serviceWorkerRegistration.register()
