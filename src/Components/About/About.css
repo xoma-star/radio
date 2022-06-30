@@ -7,6 +7,7 @@
 .about-wrapper > img{
     width: 200px;
     height: 200px;
+    margin: 0 auto;
 }
 
 .about-wrapper .white-area{

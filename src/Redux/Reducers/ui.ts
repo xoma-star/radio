@@ -88,44 +88,44 @@ const defaultState: State = {
 }
 
 export const UI_Reducer = (state: State = defaultState, action: UI_Action): State => {
+    let a, b, c, d
     switch (action.type){
         case UI_ActionTypes.OPEN_WINDOW:
-            let e
-            if(state.opened.indexOf(action.payload) < 0) e = {...state, opened: [...state.opened, action.payload]}
-            else e = {...state}
-            e.minimized[action.payload] = false
-            e.activeWindow = action.payload
+            if(state.opened.indexOf(action.payload) < 0) a = {...state, opened: [...state.opened, action.payload]}
+            else a = {...state}
+            a.minimized[action.payload] = false
+            a.activeWindow = action.payload
             let f = Math.max(...Object.values(state.layoutPos)) + 1
-            e.layoutPos[action.payload] = f > 0 ? f : 0
-            return e
+            a.layoutPos[action.payload] = f > 0 ? f : 0
+            return a
         case UI_ActionTypes.MINIMIZE_WINDOW:
-            let a = {...state.minimized}
+            a = {...state.minimized}
             if(typeof action.payload.force !== 'undefined') a[action.payload.p] = action.payload.force
             else a[action.payload.p] = !a[action.payload.p]
             return {...state, minimized: a}
         case UI_ActionTypes.CLOSE_WINDOW:
-            let i = state.opened.indexOf(action.payload)
-            if(i < 0) return state
-            let b = [...state.opened]
-            let c = {...state.minimized}
-            let h = {...state.layoutPos}
+            d = state.opened.indexOf(action.payload)
+            if(d < 0) return state
+            b = [...state.opened]
+            c = {...state.minimized}
+            a = {...state.layoutPos}
             delete c[action.payload]
-            delete h[action.payload]
-            b.splice(i,1)
-            return {...state, opened: b, minimized: c, layoutPos: h, activeWindow: null}
+            delete a[action.payload]
+            b.splice(d, 1)
+            return {...state, opened: b, minimized: c, layoutPos: a, activeWindow: null}
         case UI_ActionTypes.SET_ACTIVE_WINDOW:
-            let d = {...state.layoutPos}
-            if(action.payload !== null) d[action.payload] = Math.max(...Object.values(state.layoutPos)) + 1
+            a = {...state.layoutPos}
+            if(action.payload !== null) a[action.payload] = Math.max(...Object.values(state.layoutPos)) + 1
             return {...state,
             activeWindow: action.payload,
-            layoutPos: d}
+            layoutPos: a}
         case UI_ActionTypes.SET_WARNING:
             if(action.payload === null) return {...state, warning: null}
             if(typeof action.payload === 'string') return {...state, warning: {type: "warning", text: action.payload}}
-            const g = {...action.payload}
-            if(!g.type) g.type = 'warning'
-            if(!g.text) g.text = 'Неизвестная ошибка'
-            return {...state, warning: g}
+            a = {...action.payload}
+            if(!a.type) a.type = 'warning'
+            if(!a.text) a.text = 'Неизвестная ошибка'
+            return {...state, warning: a}
         case UI_ActionTypes.SET_CONNECTION_STATUS: return {...state, connectionStatus: action.payload}
         case UI_ActionTypes.SET_BACKGROUND: return {...state, background: action.payload}
         case UI_ActionTypes.SET_VK_CLIENT: return {...state, isVKClient: action.payload}
