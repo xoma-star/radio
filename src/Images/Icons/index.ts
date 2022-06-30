@@ -17,8 +17,9 @@ import icon_help from './help_book_cool-4.png'
 import logo_192 from './192x192.png'
 import logo_16 from './16x16.png'
 import logo_512 from './512x512.png'
+import icon_dir_empty from './directory_open_cool-3.png'
 
 export {
     icon_dir, icon_loading, icon_channel, icon_cd, icon_success, icon_error, icon_credentials, icon_warn, icon_share, icon_dir_open,
-    icon_globe_click, icon_offline, icon_online, icon_files, icon_color, icon_help, logo_192, logo_16, logo_512
+    icon_globe_click, icon_offline, icon_online, icon_files, icon_color, icon_help, logo_192, logo_16, logo_512, icon_dir_empty
 }

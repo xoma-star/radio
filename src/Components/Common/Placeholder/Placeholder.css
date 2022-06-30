@@ -4,8 +4,9 @@
     align-items: center;
     padding: 8px;
     justify-content: center;
-    width: 100%;
-    max-width: 300px;
+    /*width: 100%;*/
+    /*max-width: 300px;*/
+    width: calc(100% - 16px);
     text-align: center;
 }
 
