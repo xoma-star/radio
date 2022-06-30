@@ -13,9 +13,9 @@ const Navigator = () => {
     const [popular, setPopular] = useState<TrackSchema[]>([])
     useEffect(() => {
         TrackService.getLatest().then(r => setNewTracks(r.data))
-        PlaylistService.getRandom(10).then(r => setCurated(r.data))
-        TrackService.getRandom(10).then(r => setLuckTracks(r.data))
-        TrackService.getMostListened().then(r => setPopular(r.data))
+        setTimeout(() => PlaylistService.getRandom(10).then(r => setCurated(r.data)), 100)
+        setTimeout(() => TrackService.getRandom(10).then(r => setLuckTracks(r.data)), 200)
+        setTimeout(() => TrackService.getMostListened().then(r => setPopular(r.data)), 300)
         firebaseLogEvent('opened:navigator')
     }, [])
     return <div className={'navigator'}>
