@@ -5,6 +5,8 @@ import Signup from "../Signup";
 import Button from "../Common/Button";
 import {useTypedSelector} from "../../Hooks/useTypedSelector";
 import {useActions} from "../../Hooks/useActions";
+import {icon_success} from "../../Images/Icons";
+import Placeholder from "../Common/Placeholder";
 
 const Auth = () => {
     const [login, setLogin] = useState(true)
@@ -15,10 +17,11 @@ const Auth = () => {
         {login ? <Login/> : <Signup/>}
         {!isVKClient && <Button style={{marginTop: -23}} onClick={() => setLogin(s => !s)}>{login ? 'Регистрация' : 'Войти'}</Button>}
     </React.Fragment>:
-    <React.Fragment>
-        <span>Вы вошли в аккаунт. Вам доступно больше функций.</span>
-        <Button style={{margin: '8px auto 0'}} onClick={Logout}>Выйти</Button>
-    </React.Fragment>
+        <Placeholder
+            src={icon_success}
+            description={'Вы вошли в аккаунт. Теперь вам доступно больше функций.'}
+            actions={<Button onClick={Logout}>Выйти</Button>}
+        />
 }
 
 export default Auth

@@ -9,6 +9,7 @@ import {icon_dir, icon_loading} from "../../Images/Icons";
 import TrackSchema from "../../Schemas/track.schema";
 import PlaylistSchema from "../../Schemas/playlist.schema";
 import Button from "../Common/Button";
+import Placeholder from "../Common/Placeholder";
 
 interface props{
     header?: string,
@@ -49,7 +50,7 @@ const TracksScroll = ({header, tracks, actions}: props) => {
                 onDragStart={onDragStart(v.id, 'cover' in v ? 'track' : 'playlist')}
             />)
             }
-            {tracks && tracks.length < 1 && <img style={{margin: 'auto'}} src={icon_loading} width={32} height={32} alt={'Loading...'}/>}
+            {tracks && tracks.length < 1 && <Placeholder src={icon_loading}/>}
         </HorizontalScroll>
         {actions && actions?.length > 0 &&
             <div style={{marginTop: 8, display: 'flex', justifyContent: 'space-around'}}>

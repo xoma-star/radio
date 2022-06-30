@@ -10,6 +10,7 @@ import IconSmall from "../Icons/IconSmall";
 import {useActions} from "../../Hooks/useActions";
 import {UI_CloseWindow} from "../../Redux/ActionCreators/ui";
 import {UI_Windows} from "../../Redux/Reducers/ui";
+import Placeholder from "../Common/Placeholder";
 
 const FileUpload = () => {
     const {
@@ -52,14 +53,23 @@ const FileUpload = () => {
             />
         </React.Fragment>}
         {id !== '259a6a14-ba44-4aeb-8d86-d8aa4a0c4861' && <React.Fragment>
-            <div className={'warning-window'}>
-                <img src={icon_warn} alt={'Ошb,rf'}/>
-                <span>Доступно только экспертам</span>
-            </div>
-            <div style={{display: 'flex', justifyContent: 'space-evenly'}}>
-                <Button disabled style={{margin: '8px 0'}}>Стать экспертом</Button>
-                <Button style={{margin: '8px 0'}} onClick={() => UI_CloseWindow(UI_Windows.FILE_UPLOAD)}>OK</Button>
-            </div>
+            <Placeholder
+                src={icon_warn}
+                header={'Доступно экспертам'}
+                actions={<React.Fragment>
+                    <Button disabled>Стать экспертом</Button>
+                    <Button onClick={() => UI_CloseWindow(UI_Windows.FILE_UPLOAD)}>Закрыть</Button>
+                </React.Fragment>}
+                description={'Загружать треки могут не все: это сделано, чтобы поддерживать чистоту и качество контента.'}
+            />
+            {/*<div className={'warning-window'}>*/}
+            {/*    <img src={icon_warn} alt={'Ошb,rf'}/>*/}
+            {/*    <span>Доступно только экспертам</span>*/}
+            {/*</div>*/}
+            {/*<div style={{display: 'flex', justifyContent: 'space-evenly'}}>*/}
+            {/*    <Button disabled style={{margin: '8px 0'}}>Стать экспертом</Button>*/}
+            {/*    <Button style={{margin: '8px 0'}} onClick={() => UI_CloseWindow(UI_Windows.FILE_UPLOAD)}>OK</Button>*/}
+            {/*</div>*/}
         </React.Fragment>}
     </div>
 }

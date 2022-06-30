@@ -1,0 +1,32 @@
+.placeholder{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px;
+    justify-content: center;
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+}
+
+.placeholder > *{
+    margin-bottom: 16px;
+}
+.placeholder > *:last-child{
+    margin-bottom: 0;
+}
+
+.placeholder > .actions{
+    display: flex;
+}
+.placeholder > .actions > *{
+    margin-right: 8px;
+}
+.placeholder > .actions > *:last-child{
+    margin-right: 0;
+}
+
+.placeholder.fullScreen{
+    width: 30vw;
+    height: 30vw;
+}

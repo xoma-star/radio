@@ -7,6 +7,7 @@ import Button from "../Common/Button";
 import React, {useEffect} from "react";
 import {firebaseLogEvent} from "../../Firebase";
 
+
 const About = () => {
     useEffect(() => firebaseLogEvent('opened:about'), [])
     const userAgreement = () => {

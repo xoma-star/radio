@@ -8,7 +8,7 @@
     background: var(--Hilight) !important;
     color: var(--TitleText);
 }
-.folder{
+.folder-view{
     background-color: var(--Window);
 }
 .folder .selection-effect{

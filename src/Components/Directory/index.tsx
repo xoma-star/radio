@@ -48,40 +48,38 @@ const Directory = () => {
 
     return <div className={'folder'} onClick={onFolderClick}>
             <div className={'panel'}></div>
-            <div className={'folder-view'}>
-                {authorized && <React.Fragment>
-                    <DesktopIcon
-                        type={'playlist'}
-                        label={`Новый плейлист`}
-                        icon={icon_share}
-                        isOnDesktop={false}
-                        onClick={onIconClick}
-                        id={'create'}
-                        selected={selected === 'create'}
-                        onDoubleClick={() => onIconDoubleClick('create')}
-                    />
-                    {toDisplay.map(v => <DesktopIcon
-                        key={v.id}
-                        onDragOver={e => {
-                            e.preventDefault()
-                            e.dataTransfer.dropEffect = "copy"
-                        }}
-                        type={'playlist'}
-                        onDrop={onDrop(v.id)}
-                        label={v.name}
-                        icon={  overview !== 'create' &&
-                                overview?.id === v.id &&
-                                !minimized[UI_Windows.PLAYLIST] &&
-                                opened.indexOf(UI_Windows.PLAYLIST) >= 0 ? icon_dir_open : icon_dir}
-                        isOnDesktop={false}
-                        onClick={onIconClick}
-                        id={v.id}
-                        selected={selected === v.id}
-                        onDoubleClick={() => onIconDoubleClick(v.id)}
-                    />)}
-                </React.Fragment>}
-                {!authorized && <Unauthorized/>}
-            </div>
+            {authorized && <div className={'folder-view'}>
+                <DesktopIcon
+                    type={'playlist'}
+                    label={`Новый плейлист`}
+                    icon={icon_share}
+                    isOnDesktop={false}
+                    onClick={onIconClick}
+                    id={'create'}
+                    selected={selected === 'create'}
+                    onDoubleClick={() => onIconDoubleClick('create')}
+                />
+                {toDisplay.map(v => <DesktopIcon
+                    key={v.id}
+                    onDragOver={e => {
+                        e.preventDefault()
+                        e.dataTransfer.dropEffect = "copy"
+                    }}
+                    type={'playlist'}
+                    onDrop={onDrop(v.id)}
+                    label={v.name}
+                    icon={  overview !== 'create' &&
+                            overview?.id === v.id &&
+                            !minimized[UI_Windows.PLAYLIST] &&
+                            opened.indexOf(UI_Windows.PLAYLIST) >= 0 ? icon_dir_open : icon_dir}
+                    isOnDesktop={false}
+                    onClick={onIconClick}
+                    id={v.id}
+                    selected={selected === v.id}
+                    onDoubleClick={() => onIconDoubleClick(v.id)}
+                />)}
+            </div>}
+            {!authorized && <Unauthorized/>}
         </div>
 }
 

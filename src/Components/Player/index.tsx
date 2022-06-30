@@ -86,7 +86,6 @@ const Player = () => {
         {showPlaylists && <React.Fragment>
             <Title style={{margin: '8px 0'}}>Выберите плейлист</Title>
             <List>
-                {playlists.length < 1 && <img alt={'Загрузка'} src={icon_loading}/>}
                 {playlists.map(r =>
                     <Cell
                         onClick={onCellDoubleClick(r.id)}

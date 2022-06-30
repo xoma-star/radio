@@ -1,19 +1,21 @@
-import React from "react"
+import React, {lazy, Suspense} from "react"
 import {UI_Windows} from "../../Redux/Reducers/ui";
 import Window from "../Window";
 import Directory from "../Directory";
 import windows from "../../Constants/windows";
 import Player from "../Player";
-import FileUpload from "../Uploader";
 import Auth from "../Auth";
 import WarningWindow from "../Window/Warning";
 import Navigator from "../Navigator";
 import Playlist from "../Playlist";
 import TracksQueue from "../Queue";
-import Appearance from "../Appearance";
 import {useTypedSelector} from "../../Hooks/useTypedSelector";
 import Help from "../Help";
-import About from "../About";
+import {icon_loading} from "../../Images/Icons";
+import Placeholder from "../Common/Placeholder";
+const About = lazy(() => import("../About"))
+const Appearance = lazy(() => import("../Appearance"))
+const FileUpload = lazy(() => import("../Uploader"))
 
 const Windows = () => {
     const {opened} = useTypedSelector(s => s.ui)
@@ -32,9 +34,11 @@ const Windows = () => {
             }
             classNameAdd={'player'}
         ><Player/></Window>}
-        {opened.indexOf(UI_Windows.FILE_UPLOAD) >= 0 && <Window
-            id={UI_Windows.FILE_UPLOAD}
-        ><FileUpload/></Window>}
+        {opened.indexOf(UI_Windows.FILE_UPLOAD) >= 0 && <Window id={UI_Windows.FILE_UPLOAD}>
+            <Suspense fallback={<Placeholder src={icon_loading} header={'Загрузка'}/>}>
+                <FileUpload/>
+            </Suspense>
+        </Window>}
         {opened.indexOf(UI_Windows.LOGIN) >= 0 && <Window classNameAdd={'login'} id={UI_Windows.LOGIN}>
             <Auth/>
         </Window>}
@@ -51,13 +55,17 @@ const Windows = () => {
             <TracksQueue/>
         </Window>}
         {opened.indexOf(UI_Windows.APPEARANCE) >= 0 && <Window id={UI_Windows.APPEARANCE}>
-            <Appearance/>
+            <Suspense fallback={<Placeholder src={icon_loading} header={'Загрузка'}/>}>
+                <Appearance/>
+            </Suspense>
         </Window>}
         {opened.indexOf(UI_Windows.HELP) >= 0 && <Window id={UI_Windows.HELP}>
             <Help/>
         </Window>}
         {opened.indexOf(UI_Windows.ABOUT) >= 0 && <Window id={UI_Windows.ABOUT}>
-            <About/>
+            <Suspense fallback={<Placeholder src={icon_loading} header={'Загрузка'}/>}>
+                <About/>
+            </Suspense>
         </Window>}
     </React.Fragment>
 }
