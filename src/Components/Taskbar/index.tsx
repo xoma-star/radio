@@ -44,7 +44,7 @@ const Taskbar = () => {
 
     return <div className={'taskbar'}>
         <Button className="start-button toggle" onClick={() => UI_OpenWindow(UI_Windows.ABOUT)}>
-            <IconSmall src={logo_16} rounded/><b>Пуск</b>
+            <IconSmall src={logo_16} rounded/><b>Serenity</b>
         </Button>
         <div className={'taskbar-divider'}/>
         <div className="tasks">

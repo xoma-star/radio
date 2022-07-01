@@ -13,7 +13,7 @@ const useWindow = (id: UI_Windows) => {
         y: window.innerWidth > 400 ? 60 + 30 * opened.length : 80 + 15 * opened.length
     })
     const [isDragging, setIsDragging] = useState(false)
-    const style = {...display, '--to': `${opened.indexOf(id) * (window.innerWidth > 400 ? 210 : 31)}px`} as unknown as React.CSSProperties
+    const style = {...display, '--to': `${80 + opened.indexOf(id) * (window.innerWidth > 400 ? 210 : 31)}px`} as unknown as React.CSSProperties
     style.zIndex = layoutPos[id]
 
     useEffect(() => {

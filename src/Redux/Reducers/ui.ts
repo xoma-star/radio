@@ -12,18 +12,22 @@ export enum UI_ActionTypes{
 export type warnMessage = null | {text: string, type: 'success' | 'warning' | 'error'}
 
 export enum UI_Windows{
-    MUSIC_FOLDER = 'MUSIC_FOLDER',
-    MUSIC_PLAYER = 'MUSIC_PLAYER',
-    FILE_UPLOAD = 'FILE_UPLOAD',
-    LOGIN = 'LOGIN',
+    MUSIC_FOLDER = 'library',
+    MUSIC_PLAYER = 'player',
+    FILE_UPLOAD = 'upload',
+    LOGIN = 'auth',
     WARNING = 'WARNING',
-    NAVIGATOR = 'NAVIGATOR',
-    PLAYLIST = 'PLAYLIST',
-    QUEUE = 'QUEUE',
-    APPEARANCE = 'APPEARANCE',
-    HELP = 'HELP',
-    ABOUT = 'ABOUT'
+    NAVIGATOR = 'navigator',
+    PLAYLIST = 'playlist',
+    QUEUE = 'queue',
+    APPEARANCE = 'appearance',
+    HELP = 'help',
+    ABOUT = 'about'
 }
+
+const ignoreWebHistory = [
+    UI_Windows.WARNING
+]
 
 interface State{
     opened: UI_Windows[],
@@ -38,7 +42,7 @@ interface State{
 
 interface UI_Window{
     type: UI_ActionTypes.OPEN_WINDOW | UI_ActionTypes.CLOSE_WINDOW,
-    payload: UI_Windows
+    payload: {window: UI_Windows, history: boolean}
 }
 
 interface UI_VK{
@@ -48,7 +52,10 @@ interface UI_VK{
 
 interface UI_Active{
     type: UI_ActionTypes.SET_ACTIVE_WINDOW,
-    payload: UI_Windows | null
+    payload: {
+        window: UI_Windows | null,
+        history: boolean
+    }
 }
 
 interface UI_Minimize{
@@ -91,12 +98,14 @@ export const UI_Reducer = (state: State = defaultState, action: UI_Action): Stat
     let a, b, c, d
     switch (action.type){
         case UI_ActionTypes.OPEN_WINDOW:
-            if(state.opened.indexOf(action.payload) < 0) a = {...state, opened: [...state.opened, action.payload]}
+            if(state.opened.indexOf(action.payload.window) < 0) a = {...state, opened: [...state.opened, action.payload.window]}
             else a = {...state}
-            a.minimized[action.payload] = false
-            a.activeWindow = action.payload
+            a.minimized[action.payload.window] = false
+            a.activeWindow = action.payload.window
             let f = Math.max(...Object.values(state.layoutPos)) + 1
-            a.layoutPos[action.payload] = f > 0 ? f : 0
+            a.layoutPos[action.payload.window] = f > 0 ? f : 0
+            if(action.payload.history && ignoreWebHistory.indexOf(action.payload.window) < 0)
+                window.history.pushState({window: action.payload.window}, '', `/${action.payload.window}`)
             return a
         case UI_ActionTypes.MINIMIZE_WINDOW:
             a = {...state.minimized}
@@ -104,21 +113,31 @@ export const UI_Reducer = (state: State = defaultState, action: UI_Action): Stat
             else a[action.payload.p] = !a[action.payload.p]
             return {...state, minimized: a}
         case UI_ActionTypes.CLOSE_WINDOW:
-            d = state.opened.indexOf(action.payload)
+            d = state.opened.indexOf(action.payload.window)
             if(d < 0) return state
             b = [...state.opened]
             c = {...state.minimized}
             a = {...state.layoutPos}
-            delete c[action.payload]
-            delete a[action.payload]
+            delete c[action.payload.window]
+            delete a[action.payload.window]
             b.splice(d, 1)
+            if(state.activeWindow){
+                console.log('jops')
+                window.history.replaceState({window: null}, '', `/`)
+            }
             return {...state, opened: b, minimized: c, layoutPos: a, activeWindow: null}
         case UI_ActionTypes.SET_ACTIVE_WINDOW:
             a = {...state.layoutPos}
-            if(action.payload !== null) a[action.payload] = Math.max(...Object.values(state.layoutPos)) + 1
+            if(action.payload.window !== null) {
+                a[action.payload.window] = Math.max(...Object.values(state.layoutPos)) + 1
+                if(action.payload.history && ignoreWebHistory.indexOf(action.payload.window) < 0 && action.payload.window !== state.activeWindow)
+                    window.history.pushState({window: action.payload.window}, '', `/${action.payload.window}`)
+            }
+            else if(action.payload.history) window.history.pushState({window: null}, '', `/`)
             return {...state,
-            activeWindow: action.payload,
-            layoutPos: a}
+                activeWindow: action.payload.window,
+                layoutPos: a
+            }
         case UI_ActionTypes.SET_WARNING:
             if(action.payload === null) return {...state, warning: null}
             if(typeof action.payload === 'string') return {...state, warning: {type: "warning", text: action.payload}}

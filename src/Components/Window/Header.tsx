@@ -22,13 +22,13 @@ const WindowHeader = ({icon, header, id}: props) => {
         <div className={'controls'}>
             <Button onClick={(e) => {
                 e.stopPropagation()
-                UI_MinimizeWindow(id)
                 UI_SetActiveWindow(null)
+                UI_MinimizeWindow(id)
             }} className={'button-control minimize'}/>
             <Button onClick={(e) => {
                 e.stopPropagation()
-                UI_CloseWindow(id)
                 UI_SetActiveWindow(null)
+                UI_CloseWindow(id)
             }} className={'button-control close'}/>
         </div>
     </div>

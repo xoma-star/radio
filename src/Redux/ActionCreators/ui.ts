@@ -2,9 +2,9 @@ import {Dispatch} from "react";
 import {UI_Action, UI_ActionTypes, UI_Windows, warnMessage} from "../Reducers/ui";
 
 
-export const UI_OpenWindow = (p: UI_Windows) => {
+export const UI_OpenWindow = (p: UI_Windows, h: boolean = true) => {
     return (dispatch: Dispatch<UI_Action>) => {
-        dispatch({type: UI_ActionTypes.OPEN_WINDOW, payload: p})
+        dispatch({type: UI_ActionTypes.OPEN_WINDOW, payload: {window: p, history: h}})
     }
 }
 export const UI_MinimizeWindow = (p: UI_Windows, force?: boolean) => {
@@ -12,22 +12,22 @@ export const UI_MinimizeWindow = (p: UI_Windows, force?: boolean) => {
         dispatch({type: UI_ActionTypes.MINIMIZE_WINDOW, payload: {p: p, force: force}})
     }
 }
-export const UI_CloseWindow = (p: UI_Windows) => {
+export const UI_CloseWindow = (p: UI_Windows, h: boolean = true) => {
     return (dispatch: Dispatch<UI_Action>) => {
-        dispatch({type: UI_ActionTypes.CLOSE_WINDOW, payload: p})
+        dispatch({type: UI_ActionTypes.CLOSE_WINDOW, payload: {window: p, history: h}})
     }
 }
-export const UI_SetActiveWindow = (p: UI_Windows | null) => {
+export const UI_SetActiveWindow = (p: UI_Windows | null, h: boolean = true) => {
     return (dispatch: Dispatch<UI_Action>) => {
-        dispatch({type: UI_ActionTypes.SET_ACTIVE_WINDOW, payload: p})
+        dispatch({type: UI_ActionTypes.SET_ACTIVE_WINDOW, payload: {window: p, history: h}})
     }
 }
 
 export const UI_Warn = (p: warnMessage | null | string) => {
     return (dispatch: Dispatch<UI_Action>) => {
         dispatch({type: UI_ActionTypes.SET_WARNING, payload: p})
-        if(p === null) dispatch({type: UI_ActionTypes.CLOSE_WINDOW, payload: UI_Windows.WARNING})
-        else dispatch({type: UI_ActionTypes.OPEN_WINDOW, payload: UI_Windows.WARNING})
+        if(p === null) dispatch({type: UI_ActionTypes.CLOSE_WINDOW, payload: {window: UI_Windows.WARNING, history: false}})
+        else dispatch({type: UI_ActionTypes.OPEN_WINDOW, payload: {window: UI_Windows.WARNING, history: false}})
     }
 }
 
