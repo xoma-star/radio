@@ -46,7 +46,6 @@ const usePlayer = () => {
                 playbackRate: trackRef.current.playbackRate || 1,
                 position: trackRef.current.currentTime || 0
             })
-            trackRef.current.onended = nextTrack
             setPlayed(trackRef.current.currentTime)
         }, 300)
     }
@@ -58,6 +57,7 @@ const usePlayer = () => {
             setPlaying(true)
             if ('mediaSession' in navigator) navigator.mediaSession.playbackState = "playing"
             document.title = `${author} - ${name}`
+            trackRef.current.onended = nextTrack
             trackRef.current.play()
         }catch{}
     }
@@ -116,21 +116,25 @@ const usePlayer = () => {
                onLoadedMetadata()
                if(id) axios.get(TRACK_DATA_LOCATION + 'addListen', {params: {id}}).catch(() => {})
            }
-           trackRef.current.pause()
-           trackRef.current.load()
            trackRef.current.onloadeddata = startTrack
            trackRef.current.onplay = startTrack
            trackRef.current.onpause = stopTrack
+           trackRef.current.pause()
+           trackRef.current.load()
            if ('mediaSession' in navigator) navigator.mediaSession.setActionHandler('previoustrack', prevTrack)
            if ('mediaSession' in navigator) navigator.mediaSession.setActionHandler('nexttrack', nextTrack)
        }catch{}
-    },[path, i, queue])
+    },[path, i])
 
     useEffect(() => {
         if(i === queue.length - 1 && autoplay && queue.length > 0){
-            TrackService.getRandom(1).then(res => PlayerAddQueue(res.data[0]))
+            TrackService.getRandom(1).then(res => {
+                PlayerAddQueue(res.data[0])
+            })
         }
     }, [autoplay, i])
+
+    useEffect(() => {trackRef.current.onended = nextTrack}, [queue, i])
 
     useEffect(() => {
         try{
