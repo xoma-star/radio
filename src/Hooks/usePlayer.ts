@@ -28,7 +28,6 @@ const usePlayer = () => {
     const {PlayerSetTrack, UI_OpenWindow, PlayerAddQueue} = useActions()
     const onLoadedMetadata = () => setDuration(trackRef.current.duration)
     const i = queue.findIndex(x => x.id === id && x.random === random)
-    console.log(i, random, queue[0].random)
     const canPlayNext = i < queue.length - 1
     const canPlayPrev = i > 0
 
@@ -125,7 +124,7 @@ const usePlayer = () => {
            if ('mediaSession' in navigator) navigator.mediaSession.setActionHandler('previoustrack', prevTrack)
            if ('mediaSession' in navigator) navigator.mediaSession.setActionHandler('nexttrack', nextTrack)
        }catch{}
-    },[path])
+    },[path, i, queue])
 
     useEffect(() => {
         if(i === queue.length - 1 && autoplay && queue.length > 0){
