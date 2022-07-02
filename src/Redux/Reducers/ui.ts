@@ -122,7 +122,6 @@ export const UI_Reducer = (state: State = defaultState, action: UI_Action): Stat
             delete a[action.payload.window]
             b.splice(d, 1)
             if(state.activeWindow){
-                console.log('jops')
                 window.history.replaceState({window: null}, '', `/`)
             }
             return {...state, opened: b, minimized: c, layoutPos: a, activeWindow: null}
@@ -130,6 +129,7 @@ export const UI_Reducer = (state: State = defaultState, action: UI_Action): Stat
             a = {...state.layoutPos}
             if(action.payload.window !== null) {
                 a[action.payload.window] = Math.max(...Object.values(state.layoutPos)) + 1
+                console.log(action.payload.window, state.activeWindow)
                 if(action.payload.history && ignoreWebHistory.indexOf(action.payload.window) < 0 && action.payload.window !== state.activeWindow)
                     window.history.pushState({window: action.payload.window}, '', `/${action.payload.window}`)
             }

@@ -127,6 +127,14 @@ const usePlayer = () => {
     },[path, i])
 
     useEffect(() => {
+        if(window.location.pathname.split('/')[1] === UI_Windows.MUSIC_PLAYER) {
+            if(!id) return
+            window.history
+                .replaceState({window: UI_Windows.MUSIC_PLAYER}, '', `/${UI_Windows.MUSIC_PLAYER}/${id}`)
+        }
+    }, [id])
+
+    useEffect(() => {
         if(i === queue.length - 1 && autoplay && queue.length > 0){
             TrackService.getRandom(1).then(res => {
                 PlayerAddQueue(res.data[0])
