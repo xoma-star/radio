@@ -132,7 +132,7 @@ const usePlayer = () => {
             window.history
                 .replaceState({window: UI_Windows.MUSIC_PLAYER}, '', `/${UI_Windows.MUSIC_PLAYER}/${id}`)
         }
-    }, [id])
+    }, [window.location.pathname])
 
     useEffect(() => {
         if(i === queue.length - 1 && autoplay && queue.length > 0){
