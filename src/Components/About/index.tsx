@@ -183,7 +183,7 @@ const About = () => {
             "14.3. Актуальная версия Политики в свободном доступе расположена в сети Интернет по адресу https://serenity.xoma-star.space.")
     }
     const contact = () => {
-        const link = "mailto:xoma_star@vk.com"
+        const link = "mailto:xoma_star@proton.me"
         window.open(link, '_blank')
     }
     const support = () => {

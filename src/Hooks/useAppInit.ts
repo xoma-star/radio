@@ -21,7 +21,7 @@ const useAppInit = () => {
             UI_Warn({type: 'success', text: 'Соединение с сетью восстановлено.'})
         }
 
-        console.log('%cНашел баг? Сообщи о нем xoma_star@vk.com', 'color: white; background: #008080; font-size: 1.5em;' )
+        console.log('%cНашел баг? Сообщи о нем xoma_star@proton.me', 'color: white; background: #008080; font-size: 1.5em;' )
         bridge.send('VKWebAppInit').then(() => UI_SetVKClient(true))
     }, [])
 }
