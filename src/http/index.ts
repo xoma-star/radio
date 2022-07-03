@@ -21,7 +21,7 @@ $api.interceptors.response.use((config) => config, async (error) => {
             return $api.request(error.config)
         }catch (e: any) {}
     }
-    store.dispatch({type: UI_ActionTypes.SET_WARNING, payload: error?.response?.data?.message})
+    store.dispatch({type: UI_ActionTypes.SET_WARNING, payload: error.response?.data?.message})
     store.dispatch({type: UI_ActionTypes.OPEN_WINDOW, payload: {window: UI_Windows.WARNING, history: false}})
     throw error
 })

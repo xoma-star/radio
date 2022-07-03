@@ -5,14 +5,13 @@ import axios from "axios";
 import {AUTH_LOCATION} from "../../config";
 import {AuthResponse} from "../../http/Response/AuthResponse";
 import UserService from "../../http/Services/UserService";
-import {UI_Action, UI_ActionTypes, UI_Windows} from "../Reducers/ui";
 import bridge from "@vkontakte/vk-bridge";
 
 export const Login = (name: string, password: string, onSuccess: () => void, onError: (e: string) => void) => {
     return async (dispatch: Dispatch<UserAction>) => {
         try {
             const res = await AuthService.login(name, password)
-            localStorage.setItem('accessToken', res?.data?.accessToken)
+            localStorage.setItem('accessToken', res.data.accessToken)
             dispatch({type: UserActionTypes.SET_AUTHORIZED, payload: true})
             dispatch({type: UserActionTypes.SET_ID, payload: res.data.id})
             onSuccess()
