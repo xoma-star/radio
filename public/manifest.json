@@ -33,6 +33,22 @@
       "purpose": "any"
     }
   ],
+  "shortcuts": [
+    {
+      "name": "Навигатор",
+      "short_name": "Навигатор",
+      "description": "Открыть навигатор",
+      "url": "/navigator?utm_source=pwa",
+      "icons": [{ "src": "/shortcuts/navigator.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Библиотека",
+      "short_name": "Библиотека",
+      "description": "Открыть библиотеку",
+      "url": "/library?utm_source=pwa",
+      "icons": [{ "src": "/shortcuts/library.png", "sizes": "96x96" }]
+    }
+  ],
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
