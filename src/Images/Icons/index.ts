@@ -14,9 +14,9 @@ import icon_offline from './conn_pcs_no_network.png'
 import icon_files from './file_set-0.png'
 import icon_color from './color_profile-0.png'
 import icon_help from './help_book_cool-4.png'
-import logo_192 from './192x192.png'
-import logo_16 from './16x16.png'
-import logo_512 from './512x512.png'
+import logo_192 from './logo-192.png'
+import logo_16 from './logo-64.png'
+import logo_512 from './logo-512.png'
 import icon_dir_empty from './directory_open_cool-3.png'
 
 export {
