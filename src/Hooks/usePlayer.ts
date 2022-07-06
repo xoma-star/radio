@@ -142,7 +142,7 @@ const usePlayer = () => {
         }
     }, [autoplay, i, path, queue])
 
-    useEffect(() => {trackRef.current.onended = nextTrack}, [queue, i])
+    useEffect(() => {trackRef.current.onended = nextTrack}, [nextTrack])
 
     useEffect(() => {
         try{
