@@ -25,6 +25,7 @@ const usePlayer = () => {
     const [played, setPlayed] = useState(0)
     const [playing, setPlaying] = useState(false)
     const [loading, setLoading] = useState(true)
+    const [volume, setVolume] = useState(1)
     const {PlayerSetTrack, UI_OpenWindow, PlayerAddQueue} = useActions()
     const onLoadedMetadata = () => setDuration(trackRef.current.duration)
     const i = queue.findIndex(x => x.id === id && x.random === random)
@@ -89,6 +90,9 @@ const usePlayer = () => {
         trackRef.current.currentTime = duration * e / 100
         startTimer()
     }
+
+    const volumeHandler = (e: number) => setVolume(e / 100)
+    useEffect(() => {trackRef.current.volume = volume}, [volume])
 
     const nextTrack = () => {
         if(!canPlayNext){
@@ -192,7 +196,8 @@ const usePlayer = () => {
         openQueue: (e: React.MouseEvent) => {
             e.stopPropagation()
             UI_OpenWindow(UI_Windows.QUEUE)
-        }
+        },
+        volumeHandler
     }
 }
 

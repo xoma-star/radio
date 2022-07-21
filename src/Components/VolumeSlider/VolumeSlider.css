@@ -1,0 +1,36 @@
+@media (max-width: 400px) {
+    .volumeSlider{
+        display: none;
+    }
+}
+
+.volumeSlider{
+    -webkit-appearance: none;
+    width: 100%;
+    border: 1px solid;
+    border-color: var(--ButtonShadow) var(--ButtonHilight) var(--ButtonHilight) var(--ButtonShadow);
+    height: 2px;
+    z-index: 1;
+    background: linear-gradient(to right, #000 0%, #000 var(--fill), var(--ButtonFace) var(--fill), var(--ButtonFace) 100%);
+    margin-top: 8px;
+    margin-left: 8px;
+}
+
+.volumeSlider::-webkit-slider-thumb{
+    -webkit-appearance: none;
+    appearance: none;
+    width: 10px;
+    height: 20px;
+    border: 2px solid;
+    border-color: var(--ButtonLight) var(--ButtonShadow) var(--ButtonShadow) var(--ButtonLight);
+    background-color: var(--ButtonFace);
+    cursor: pointer;
+}
+
+.volumeSlider::-webkit-slider-runnable-track  {
+    -webkit-appearance: none;
+}
+
+.volumeSlider::-ms-fill-lower {
+    background: #000;
+}

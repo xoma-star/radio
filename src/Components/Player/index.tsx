@@ -10,6 +10,7 @@ import List from "../Common/List";
 import Cell from "../Common/Cell";
 import Title from "../Common/Title";
 import IconSmall from "../Icons/IconSmall";
+import VolumeSlider from "../VolumeSlider";
 
 const Player = () => {
     const p = usePlayer()
@@ -35,7 +36,8 @@ const Player = () => {
         canPlayNext,
         canPlayPrev,
         loading,
-        openQueue
+        openQueue,
+        volumeHandler
     } = p
 
     const {
@@ -77,6 +79,7 @@ const Player = () => {
                 <Button disabled={!playing} onClick={stopTrack}>Stop</Button>
                 <Button disabled={playing || typeof id === 'undefined'} onClick={startTrack}>Start</Button>
                 <Button disabled={!canPlayNext} onClick={nextTrack}>Next</Button>
+                <VolumeSlider volumeHandler={volumeHandler}/>
             </div>
             <div className={'track-controls'}>
                 <Button disabled={!id} onClick={addToPlaylistButtonClickHandler}>Добавить в плейлист</Button>
