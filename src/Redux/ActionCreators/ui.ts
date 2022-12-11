@@ -43,3 +43,7 @@ export const UI_SetBackground = (p: string) => {
 export const UI_SetVKClient = (p: boolean) => {
     return (dispatch: Dispatch<UI_Action>) => dispatch({type: UI_ActionTypes.SET_VK_CLIENT, payload: p})
 }
+
+export const UI_SetSnowing = (p: boolean) => {
+    return (dispatch: Dispatch<UI_Action>) => dispatch({type: UI_ActionTypes.SET_SNOWING, payload: p})
+}

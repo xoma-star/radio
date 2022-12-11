@@ -6,7 +6,8 @@ export enum UI_ActionTypes{
     SET_WARNING = 'SET_WARNING',
     SET_CONNECTION_STATUS = 'SET_CONNECTION_STATUS',
     SET_BACKGROUND = 'SET_BACKGROUND',
-    SET_VK_CLIENT = 'SET_VK_CLIENT'
+    SET_VK_CLIENT = 'SET_VK_CLIENT',
+    SET_SNOWING = 'SET_SNOWING'
 }
 
 export type warnMessage = null | {text: string, type: 'success' | 'warning' | 'error'}
@@ -37,7 +38,8 @@ interface State{
     warning: warnMessage,
     connectionStatus: 'online' | 'offline',
     background: string,
-    isVKClient: boolean
+    isVKClient: boolean,
+    isSnowing: boolean
 }
 
 interface UI_Window{
@@ -81,7 +83,12 @@ interface UI_Background{
     payload: string
 }
 
-export type UI_Action = UI_Window | UI_Active | UI_Minimize | UI_Warn | UI_Connection | UI_Background | UI_VK
+interface UI_SetSnowing{
+    type: UI_ActionTypes.SET_SNOWING,
+    payload: boolean
+}
+
+export type UI_Action = UI_Window | UI_Active | UI_Minimize | UI_Warn | UI_Connection | UI_Background | UI_VK | UI_SetSnowing
 
 const defaultState: State = {
     opened: [],
@@ -91,7 +98,8 @@ const defaultState: State = {
     warning: null,
     connectionStatus: 'offline',
     background: localStorage.getItem('background') || '#008080',
-    isVKClient: false
+    isVKClient: false,
+    isSnowing: !!localStorage.getItem('isSnowing')
 }
 
 export const UI_Reducer = (state: State = defaultState, action: UI_Action): State => {
@@ -104,8 +112,7 @@ export const UI_Reducer = (state: State = defaultState, action: UI_Action): Stat
             a.activeWindow = action.payload.window
             let f = Math.max(...Object.values(state.layoutPos)) + 1
             a.layoutPos[action.payload.window] = f > 0 ? f : 0
-            if(action.payload.history && ignoreWebHistory.indexOf(action.payload.window) < 0)
-                window.history.pushState({window: action.payload.window}, '', `/${action.payload.window}`)
+            if(action.payload.history && ignoreWebHistory.indexOf(action.payload.window) < 0) window.history.pushState({window: action.payload.window}, '', `/${action.payload.window}`)
             return a
         case UI_ActionTypes.MINIMIZE_WINDOW:
             a = {...state.minimized}
@@ -121,9 +128,7 @@ export const UI_Reducer = (state: State = defaultState, action: UI_Action): Stat
             delete c[action.payload.window]
             delete a[action.payload.window]
             b.splice(d, 1)
-            if(state.activeWindow){
-                window.history.replaceState({window: null}, '', `/`)
-            }
+            if(state.activeWindow)window.history.replaceState({window: null}, '', `/`)
             return {...state, opened: b, minimized: c, layoutPos: a, activeWindow: null}
         case UI_ActionTypes.SET_ACTIVE_WINDOW:
             a = {...state.layoutPos}
@@ -147,6 +152,9 @@ export const UI_Reducer = (state: State = defaultState, action: UI_Action): Stat
         case UI_ActionTypes.SET_CONNECTION_STATUS: return {...state, connectionStatus: action.payload}
         case UI_ActionTypes.SET_BACKGROUND: return {...state, background: action.payload}
         case UI_ActionTypes.SET_VK_CLIENT: return {...state, isVKClient: action.payload}
+        case UI_ActionTypes.SET_SNOWING:
+            localStorage.setItem('isSnowing', action.payload.toString())
+            return {...state, isSnowing: action.payload}
         default: return state
     }
 }
