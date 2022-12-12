@@ -5,6 +5,7 @@ import {UI_Windows} from "../../Redux/Reducers/ui";
 import {useActions} from "../../Hooks/useActions";
 import windows from "../../Constants/windows";
 import {useTypedSelector} from "../../Hooks/useTypedSelector";
+import {icon_network} from "../../Images/Icons";
 
 const Desktop = () => {
     const [selected, setSelected] = useState<string | null | undefined>(null)
@@ -37,6 +38,15 @@ const Desktop = () => {
                 onDoubleClick={onIconDoubleClick}
             />
         })}
+        <DesktopIcon
+            type={'desktop'}
+            label={'Лучший VPN'}
+            icon={icon_network}
+            onClick={onIconClick}
+            id={'vpn'}
+            selected={selected === 'vpn'}
+            onDoubleClick={() => window.open('https://vpn.xoma-star.space', '_blank')}
+        />
     </div>
 }
 

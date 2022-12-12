@@ -59,7 +59,7 @@ const usePlayer = () => {
             if ('mediaSession' in navigator) navigator.mediaSession.playbackState = "playing"
             document.title = `${author} - ${name}`
             trackRef.current.onended = nextTrack
-            trackRef.current.play()
+            trackRef.current.play().catch(() => stopTrack())
         }catch{}
     }
 
