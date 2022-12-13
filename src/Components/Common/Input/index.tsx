@@ -9,10 +9,11 @@ interface props{
     label?: string,
     disabled?: boolean,
     autocomplete?: 'username' | 'new-password' | 'email' | 'name' | 'current-password',
-    style?: React.CSSProperties
+    style?: React.CSSProperties,
+    placeholder?: string
 }
 
-const Input = ({defaultValue = '', onChange, className, type = 'text', label, disabled = false, autocomplete, style}: props) => {
+const Input = ({defaultValue = '', onChange, className, type = 'text', label, disabled = false, autocomplete, style, placeholder}: props) => {
     const [value, setValue] = useState(defaultValue)
     useEffect(() => {if(onChange) onChange(value?.trim().slice(0, 30) as string)}, [value])
     useEffect(() => setValue(defaultValue), [defaultValue])
@@ -26,6 +27,7 @@ const Input = ({defaultValue = '', onChange, className, type = 'text', label, di
             value={value}
             autoComplete={autocomplete}
             maxLength={30}
+            placeholder={placeholder || ''}
         />
     </div>
 }

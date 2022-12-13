@@ -13,6 +13,7 @@ import {useTypedSelector} from "../../Hooks/useTypedSelector";
 import Help from "../Help";
 import {icon_loading} from "../../Images/Icons";
 import Placeholder from "../Common/Placeholder";
+import Search from "../Search";
 const About = lazy(() => import("../About"))
 const Appearance = lazy(() => import("../Appearance"))
 const FileUpload = lazy(() => import("../Uploader"))
@@ -47,6 +48,9 @@ const Windows = () => {
         </Window>}
         {opened.indexOf(UI_Windows.NAVIGATOR) >= 0 && <Window id={UI_Windows.NAVIGATOR}>
             <Navigator/>
+        </Window>}
+        {opened.indexOf(UI_Windows.SEARCH) >= 0 && <Window id={UI_Windows.SEARCH}>
+            <Search/>
         </Window>}
         {opened.indexOf(UI_Windows.PLAYLIST) >= 0 && <Window id={UI_Windows.PLAYLIST}>
             <Playlist/>

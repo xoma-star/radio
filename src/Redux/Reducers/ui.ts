@@ -23,7 +23,8 @@ export enum UI_Windows{
     QUEUE = 'queue',
     APPEARANCE = 'appearance',
     HELP = 'help',
-    ABOUT = 'about'
+    ABOUT = 'about',
+    SEARCH = 'search'
 }
 
 const ignoreWebHistory = [

@@ -30,4 +30,7 @@ export default class TrackService{
     static async addListen(id: string): Promise<AxiosResponse<void>>{
         return $api.get(TRACK_DATA_LOCATION + 'addListen', {params: {id}})
     }
+    static async search(query: string): Promise<AxiosResponse<TrackSchema[]>>{
+        return $api.get(TRACK_DATA_LOCATION + 'search', {params: {query}})
+    }
 }

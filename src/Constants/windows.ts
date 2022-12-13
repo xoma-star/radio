@@ -6,7 +6,7 @@ import {
     icon_credentials,
     icon_warn,
     icon_globe_click,
-    icon_dir_open, icon_files, icon_color, icon_help, logo_16
+    icon_dir_open, icon_files, icon_color, icon_help, logo_16, icon_search
 } from '../Images/Icons'
 
 const windows = {
@@ -38,6 +38,11 @@ const windows = {
     [UI_Windows.NAVIGATOR]: {
         icon: icon_globe_click,
         name: 'Навигатор',
+        showOnDesktop: true
+    },
+    [UI_Windows.SEARCH]: {
+        icon: icon_search,
+        name: 'Поиск',
         showOnDesktop: true
     },
     [UI_Windows.PLAYLIST]: {
