@@ -100,7 +100,7 @@ const defaultState: State = {
     connectionStatus: 'offline',
     background: localStorage.getItem('background') || '#008080',
     isVKClient: false,
-    isSnowing: !!(localStorage.getItem('isSnowing') ?? true)
+    isSnowing: !!(localStorage.getItem('isSnowing') ?? false)
 }
 
 export const UI_Reducer = (state: State = defaultState, action: UI_Action): State => {
