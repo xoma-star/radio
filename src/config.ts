@@ -1,5 +1,5 @@
 // export const SERVER_LOCATION = process.env.NODE_ENV === 'development' ? 'http://192.168.1.24:5000/' : 'https://xoma-star.space/'
-export const SERVER_LOCATION = 'https://xoma-star.space/'
+export const SERVER_LOCATION = 'https://xoma-star.tk/'
 export const FILES_LOCATION = SERVER_LOCATION + 'media/'
 export const TRACK_DATA_LOCATION = SERVER_LOCATION + 'tracks/'
 export const PLAYLIST_DATA_LOCATION = SERVER_LOCATION + 'playlist/'

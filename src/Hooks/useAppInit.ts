@@ -6,7 +6,7 @@ const useAppInit = () => {
     const {CheckAuth, UI_SetConnectionStatus, UI_Warn, UI_SetVKClient} = useActions()
     useEffect(() => {
         if(localStorage.getItem('accessToken')) CheckAuth()
-        fetch('https://xoma-star.space')
+        fetch('https://xoma-star.tk')
             .then(() => UI_SetConnectionStatus('online'))
             .catch(() => {
                 UI_SetConnectionStatus('offline')
